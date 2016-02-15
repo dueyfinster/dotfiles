@@ -7,7 +7,7 @@ GIT_PROMPT_ONLY_IN_REPO=1
 #GIT_PROMPT_THEME="Custom"
 GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${Blue}\h${ResetColor}: ${Yellow}${PathShort}${ResetColor}"
 GIT_PROMPT_THEME=Solarized
-source $DOTFILES/vendor/bash-git-prompt/gitprompt.sh
+#source $DOTFILES/vendor/bash-git-prompt/gitprompt.sh
 
 # Add binaries into the path
 PATH=$DOTFILES/bin:$PATH
