@@ -4,7 +4,7 @@ DOTFILES="$(dirname "$DIR")"
 
 
 function link_file_list(){
-	find "$link_dir" -mindepth 1 -maxdepth 1 -printf "%P\n"
+	find "$link_dir" -mindepth 1 -maxdepth 1 -print "%P\n"
 }
 
 function link_files(){
