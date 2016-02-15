@@ -28,9 +28,17 @@ function file_list(){
 	fi	
 }
 
-function link_files(){
+function link(){
+    ln -sfn "$1" "$2"
+}
+
+function copy(){
+    cp "$1" "$2"
+}
+
+function mod_files(){
 	local dir="$DOTFILES/$1"
-	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "$2 $3" "$dir/$file" "$HOME/$file"; done
+	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "$1" "$dir/$file" "$HOME/$file"; done
 }
 
 function unlink_files(){
@@ -38,6 +46,7 @@ function unlink_files(){
 	file_list "$1" | while read -r file; do echo "Will unlink $file to home"; "$2" "$HOME/$file"; done
 }
 
-cmd="ln -sfn"
-link_files "link" $cmd
+mod_files "link"
+echo "will cat"
+cat ~/.gitconfig
 #unlink_files "link" "unlink"
