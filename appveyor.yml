@@ -1,0 +1,8 @@
+os: Windows Server 2012 R2
+init:
+# Carriage returns are bad
+  - git config --global core.autocrlf input
+# install:
+# not used
+build_script:
+  - C:\cygwin\bin\bash -lc "/cygdrive/c/projects/dotfiles/install/dotfiles.sh"
