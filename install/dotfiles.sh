@@ -2,9 +2,29 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOTFILES="$(dirname "$DIR")"
 
+# OS detection
+function is_osx() {
+  [[ "$OSTYPE" =~ ^darwin ]] || return 1
+}
+function is_ubuntu() {
+  [[ "$(cat /etc/issue 2> /dev/null)" =~ Ubuntu ]] || return 1
+}
+function is_win() { 
+  [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || return 1
+}
+
+function get_os() {
+  for os in osx ubuntu win; do
+    is_$os; [[ $? == ${1:-0} ]] && echo $os
+  done
+}
 
 function link_file_list(){
-	find "$link_dir" -mindepth 1 -maxdepth 1 -print "%P\n"
+	if is_osx; then
+		find . -print0 | xargs -0 stat -f '%i '
+	else
+		find "$link_dir" -mindepth 1 -maxdepth 1 -printf "%P\n"
+	fi	
 }
 
 function link_files(){
