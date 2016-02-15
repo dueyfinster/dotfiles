@@ -1,5 +1,5 @@
 # Where the magic happens.
-export DOTFILES=~/.dotfiles
+export DOTFILES=~/dotfiles
 export TERM="screen-256color"
 
  # Set config variables first
@@ -23,11 +23,6 @@ function src() {
       source "$file"
     done
   fi
-}
-
-# Run dotfiles script, then source.
-function dotfiles() {
-  $DOTFILES/bin/dotfiles "$@" && src
 }
 
 src

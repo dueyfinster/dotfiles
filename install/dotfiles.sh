@@ -47,7 +47,6 @@ function unlink_files(){
 }
 
 mod_files "link"
-echo "will cat"
-cat ~/.gitconfig
 mod_files "copy"
+source ~/.bashrc
 #unlink_files "link" "unlink"
