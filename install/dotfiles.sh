@@ -21,7 +21,7 @@ function get_os() {
 
 function link_file_list(){
 	if is_osx; then
-		find "$link_dir" -print0 | xargs -0 stat -f '%i '
+		find "$link_dir" -mindepth 1 -maxdepth 1 -print0
 	else
 		find "$link_dir" -mindepth 1 -maxdepth 1 -printf "%P\n"
 	fi	
