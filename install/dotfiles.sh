@@ -38,7 +38,7 @@ function copy(){
 
 function mod_files(){
 	local dir="$DOTFILES/$1"
-	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "$1" "$dir/$file" "$HOME/$file"; done
+	file_list "$dir" | while read -r file; do echo "Will $1 $dir/$file to $HOME/$file"; "$1" "$dir/$file" "$HOME/$file"; done
 }
 
 function unlink_files(){
@@ -49,4 +49,5 @@ function unlink_files(){
 mod_files "link"
 echo "will cat"
 cat ~/.gitconfig
+mod_files "copy"
 #unlink_files "link" "unlink"
