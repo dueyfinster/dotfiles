@@ -30,7 +30,7 @@ function file_list(){
 
 function link_files(){
 	local dir="$DOTFILES/$1"
-	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "$2" "$dir/$file" "$HOME/$file"; done
+	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "${@:2}" "$dir/$file" "$HOME/$file"; done
 }
 
 function unlink_files(){
@@ -38,5 +38,5 @@ function unlink_files(){
 	file_list "$1" | while read -r file; do echo "Will unlink $file to home"; "$2" "$HOME/$file"; done
 }
 
-link_files "link" "ln\ -sfn"
+link_files "link" "ln -sfn"
 #unlink_files "link" "unlink"
