@@ -20,23 +20,23 @@ function get_os() {
   done
 }
 
-function link_file_list(){
+function file_list(){
 	if is_osx; then
-		find "$link_dir" -type f -exec basename {} \;
+		find "$1" -type f -exec basename {} \;
 	else
-		find "$link_dir" -mindepth 1 -maxdepth 1 -printf "%P\n"
+		find "$1" -mindepth 1 -maxdepth 1 -printf "%P\n"
 	fi	
 }
 
 function link_files(){
-	local link_dir="$DOTFILES/link"
-	link_file_list | while read -r file; do echo "Will link $link_dir/$file to $HOME/$file"; ln -sfn "$link_dir/$file" "$HOME/$file"; done
+	local dir="$DOTFILES/$1"
+	file_list "$dir" | while read -r file; do echo "Will link $dir/$file to $HOME/$file"; "$2" "$dir/$file" "$HOME/$file"; done
 }
 
 function unlink_files(){
-	local link_dir="$DOTFILES/link"
-	link_file_list | while read -r file; do echo "Will unlink $file to home"; unlink "$HOME/$file"; done
+	local dir="$DOTFILES/$1"
+	file_list "$1" | while read -r file; do echo "Will unlink $file to home"; "$2" "$HOME/$file"; done
 }
 
-link_files
-#unlink_files
+link_files "link" "ln -sfn"
+#unlink_files "link" "unlink"
