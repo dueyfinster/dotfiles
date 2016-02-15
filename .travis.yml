@@ -1,6 +1,7 @@
 os:
   - linux
   - osx
+install: true
 before_script:
   - chmod +x install/dotfiles.sh
 script: ./install/dotfiles.sh
