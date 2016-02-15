@@ -14,9 +14,3 @@
 	ui = auto
 [grep]
 	patternType = perl
-[sendemail]
-	smtpserver = smtps-proxy.messagingengine.com
-	smtpserverport = 443
-	smtpencryption = ssl
-	smtpuser = neil@ngrogan.com
-	smtppass = GXVhuQWnlBFQRyFA
