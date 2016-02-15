@@ -38,5 +38,6 @@ function unlink_files(){
 	file_list "$1" | while read -r file; do echo "Will unlink $file to home"; "$2" "$HOME/$file"; done
 }
 
-link_files "link" "ln -sfn"
+cmd="ln -sfn"
+link_files "link" "$cmd"
 #unlink_files "link" "unlink"
