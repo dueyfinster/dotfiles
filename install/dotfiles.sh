@@ -46,6 +46,7 @@ function unlink_files(){
 	file_list "$1" | while read -r file; do echo "Will unlink $file to home"; "$2" "$HOME/$file"; done
 }
 
+link $DOTFILES ~/.dotfiles
 mod_files "link"
 mod_files "copy"
 source ~/.bashrc

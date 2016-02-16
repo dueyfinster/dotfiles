@@ -1,5 +1,5 @@
 # Where the magic happens.
-export DOTFILES=~/dotfiles
+export DOTFILES=~/.dotfiles
 export TERM="screen-256color"
 
  # Set config variables first
