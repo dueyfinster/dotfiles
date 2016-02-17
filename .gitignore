@@ -1,2 +1,4 @@
 .DS_Store
 caches/
+link/.gnupg/*.gpg
+link/.gnupg/random_seed
