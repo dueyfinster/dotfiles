@@ -10,7 +10,6 @@ mailboxes = "="
 
 # ================  SMTP  ====================
 set smtp_url = "smtps://$imap_user:$imap_pass@smtps-proxy.messagingengine.com:443"
-#set ssl_force_tls = yes # Require encrypted connection
 
 # ================  Composition  ====================
 set editor = "vim"
@@ -18,6 +17,4 @@ set edit_headers = yes  # See the headers when editing
 set charset = UTF-8     # value of $LANG; also fallback for send_charset
 # Sender, email address, and sign-off line must match
 unset use_domain        # because joe@localhost is just embarrassing
-set realname = "Neil Grogan"
-set from = "neil@ngrogan.com"
 set use_from = yes

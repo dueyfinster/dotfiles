@@ -1,7 +1,21 @@
 [![Build Status](https://travis-ci.org/dueyfinster/dotfiles.svg?branch=master)](https://travis-ci.org/dueyfinster/dotfiles)
-[![Build status](https://ci.appveyor.com/api/projects/status/i41me30yrox0iqoq?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/p8fx9mjvxmqd4dl3?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles-0iv0q)
 # dotfiles
+## Install
 
-Planned URl:
-``` bash -c "$(curl -fsSL https://j.mp/dfdot)" && source ~/.bashrc ```
+```sh
+bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
+```
+
+### Subdirectories
+
+* The `/backups` directory gets created when necessary. Any files in `~/` that would have been overwritten by files in `/copy` or `/link` get backed up there.
+* The `/bin` directory contains executable shell scripts (including the [dotfiles][dotfiles] script) and symlinks to executable shell scripts. This directory is added to the path.
+* The `/caches` directory contains cached files, used by some scripts or functions.
+* The `/conf` directory just exists. If a config file doesn't **need** to go in `~/`, reference it from the `/conf` directory.
+* The `/source` directory contains files that are sourced whenever a new shell is opened (in alphanumeric order, hence the funky names).
+* The `/vendor` directory contains third-party libraries.
+
+[dotfiles]: bin/dotfiles
 
