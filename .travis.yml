@@ -4,5 +4,5 @@ os:
   - osx
 install: true
 before_script:
-  - chmod +x install/dotfiles.sh
-script: ./install/dotfiles.sh
+  - chmod +x bin/dotfiles.sh
+script: ./bin/dotfiles.sh
