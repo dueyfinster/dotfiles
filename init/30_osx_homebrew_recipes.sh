@@ -13,7 +13,6 @@ recipes=(
   git
   git-extras
   irssi
-  pdftotext
   python3
   the_silver_searcher
   tmux
