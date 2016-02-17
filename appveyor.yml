@@ -5,4 +5,4 @@ init:
 # install:
 # not used
 build_script:
-  - C:\cygwin\bin\bash -lc "/cygdrive/c/projects/dotfiles/install/dotfiles.sh"
+  - C:\cygwin\bin\bash -lc "/cygdrive/c/projects/dotfiles/bin/dotfiles"
