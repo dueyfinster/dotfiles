@@ -20,13 +20,10 @@ brew cask info this-is-somewhat-annoying 2>/dev/null
 casks=(
   # Applications
   dropbox
-  macvim
   sonos
   transmission
-  #the-unarchiver
   vagrant
   virtualbox
-  vlc
 )
 
 # Install Homebrew casks.

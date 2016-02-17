@@ -13,7 +13,6 @@ recipes=(
   git
   git-extras
   irssi
-  macvim
   pdftotext
   python3
   the_silver_searcher
