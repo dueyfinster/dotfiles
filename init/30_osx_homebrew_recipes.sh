@@ -13,6 +13,7 @@ recipes=(
   git
   git-extras
   irssi
+  mutt
   python3
   the_silver_searcher
   tmux

@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 # Application shortcuts
 
-## todo.txt
-alias t='$DOTFILES/vendor/todo.txt_cli-2.10/todo.sh -d $DOTFILES/vendor/todo.txt_cli-2.10/todo.cfg'
-source $DOTFILES/vendor/todo.txt_cli-2.10/todo_completion
-complete -F _todo t
-
 alias vi='vim'
 alias tmux='tmux -2'
 alias hist='history'
