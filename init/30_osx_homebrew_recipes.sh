@@ -19,7 +19,6 @@ recipes=(
   the_silver_searcher
   tmux
   vim
-  node
   ruby
   rtorrent
   ssh-copy-id

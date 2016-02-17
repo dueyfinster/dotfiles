@@ -2,6 +2,6 @@
 mkdir -p $DOTFILES/caches/vim
 
 # Download Vim plugins.
-if [[ "$(type -P vim)" ]]; then
-  vim +PluginInstall +qall
-fi
+# if [[ "$(type -P vim)" ]]; then
+#  vim +PluginInstall +qall
+# fi

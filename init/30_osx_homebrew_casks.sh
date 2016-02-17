@@ -19,17 +19,9 @@ brew cask info this-is-somewhat-annoying 2>/dev/null
 # Homebrew casks
 casks=(
   # Applications
-  colloquy
-  crashplan
   dropbox
-  firefox
-  flash
-  google-chrome
-  hazel
-  iterm2
   macvim
   sonos
-  spotify
   transmission
   #the-unarchiver
   vagrant
