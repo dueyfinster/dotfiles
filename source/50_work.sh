@@ -5,7 +5,7 @@ COMP=`hostname`
 # Test if we're on a work machine
 if [[ "$COMP" != "elx"* ]]
 then
-  return 1
+  return 0
 fi
 
 export http_proxy="http://www-proxy.ericsson.se:8080/"
@@ -31,8 +31,8 @@ CLI_HOME="${OTHER_REPOS}/command-line-interface/CliApp"
 
 repo_folders=("$REPOS_HOME"/*)
 repo_folders+=("$OTHER_REPOS"/*)
-for dir in "${repo_folders[@]}"; 
-do 
+for dir in "${repo_folders[@]}";
+do
   FOLDER_NAME=$(basename $dir)
   alias "$FOLDER_NAME"="cd $dir"
 done
