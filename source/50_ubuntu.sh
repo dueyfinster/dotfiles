@@ -2,7 +2,7 @@
 is_ubuntu || return 1
 
 # Solarized colors for GNU Utilities
-eval `dircolors $DOTFILES/vendor/dircolors-solarized/dircolors.256dark`
+#eval `dircolors $DOTFILES/vendor/dircolors-solarized/dircolors.256dark`
 
 alias ls='ls -F --color=auto'
 alias l.='ls -d .* --color=auto' # show hidden files only
