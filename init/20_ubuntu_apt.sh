@@ -8,6 +8,7 @@ sudo apt-get -qq update
 # Install APT packages.
 packages=(
   build-essential
+  bash-completion
   fonts-mplus
   git-core
   silversearcher-ag

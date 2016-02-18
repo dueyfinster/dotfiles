@@ -9,11 +9,11 @@ if [[ is_osx ]]; then
   fi
 fi
 
-
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion                                                                                                                                                                
+if [[ is_ubuntu ]]; then
+  if [ -f /usr/share/bash-completion/completions/git ]; then
+      . /usr/share/bash-completion/completions/git
+  fi
 fi
-
 
 function_exists() {
     declare -f -F $1 > /dev/null
