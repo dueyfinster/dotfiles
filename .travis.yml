@@ -6,4 +6,4 @@ os:
 install: true
 before_script:
   - chmod +x bin/dotfiles
-script: ./bin/dotfiles
+script: travis_wait ./bin/dotfiles
