@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/dueyfinster/dotfiles.svg?branch=master)](https://travis-ci.org/dueyfinster/dotfiles)
+[![Circle
+CI](https://circleci.com/gh/dueyfinster/dotfiles/tree/master.svg?style=svg)](https://circleci.com/gh/dueyfinster/dotfiles/tree/master)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/p8fx9mjvxmqd4dl3?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles-0iv0q)
 # dotfiles
