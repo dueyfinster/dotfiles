@@ -3,7 +3,7 @@
 # See https://gist.github.com/mwhite/6887990
 
 
-if [[ is_osx ]]; then
+if [[ "$(type -P brew)" ]] && is_osx; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
   fi
