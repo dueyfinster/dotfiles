@@ -51,8 +51,18 @@ else
     RESET="\033[m"
 fi
 
+function ret_code(){
+  local exit_code="$?"
+  if [[ "$exit_code" -eq 0 ]]; then
+    printf ""
+    #printf "$GREEN✔$RESET "
+  else
+    echo "$RED✖ $exit_code$RESET "
+  fi
+}
+
 export TERM='screen-256color'
-RET_CODE="\[$MAGENTA\]\$?\[$RESET\]"
+#RET_CODE="\[$MAGENTA\]\$?\[$RESET\]"
 USER="\[$ORANGE\]\u\[$RESET\]"
 AT="\[$WHITE\]@\[$RESET\]"
 HOST="\[$YELLOW\]\h\[$RESET\]"
@@ -61,4 +71,7 @@ DIR="\[$GREEN\]\w\[$RESET\]"
 GIT="\[$WHITE\]\$(__git_ps1)\n\[$RESET\]"
 TIME="\[$WHITE\]\A\[$RESET\] "
 END="\[$WHITE\]\\$ \[$RESET\]"
-export PS1="$RET_CODE $USER$AT$HOST$COLON$DIR$GIT$TIME$END"
+
+
+
+export PS1="\$(ret_code)$USER$AT$HOST$COLON$DIR$GIT$TIME$END"
