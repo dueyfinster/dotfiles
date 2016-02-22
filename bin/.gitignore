@@ -1,0 +1,3 @@
+# Don't write sensitive config / data files
+*.json
+*.ini
