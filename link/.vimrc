@@ -1,8 +1,8 @@
-" __      ___                    
-" \ \    / (_)                   
-"  \ \  / / _ _ __ ___  _ __ ___ 
+" __      ___
+" \ \    / (_)
+"  \ \  / / _ _ __ ___  _ __ ___
 "   \ \/ / | | '_ ` _ \| '__/ __|
-"    \  /  | | | | | | | | | (__ 
+"    \  /  | | | | | | | | | (__
 "     \/   |_|_| |_| |_|_|  \___|
 	"
 
@@ -20,8 +20,8 @@ Plugin 'vimoutliner/vimoutliner'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'rking/ag.vim' " Find code
 Plugin 'scrooloose/nerdtree' " file browser
-Plugin 'taglist.vim' " Browsing source code easier 
-Plugin 'majutsushi/tagbar' " Viewing source tree easier 
+Plugin 'taglist.vim' " Browsing source code easier
+Plugin 'majutsushi/tagbar' " Viewing source tree easier
 Plugin 'bling/vim-airline' " Better status bar
 Plugin 'kien/ctrlp.vim' " Search through files, buffers etc
 Plugin 'tpope/vim-sensible' " Sensible defaults
@@ -30,7 +30,7 @@ Plugin 'tpope/vim-sleuth' " automatic spacing
 Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
 Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
 Plugin 'tpope/vim-fugitive' " Git support
-Plugin 'mbbill/undotree' " Undo tree 
+Plugin 'mbbill/undotree' " Undo tree
 Plugin 'Shougo/neocomplcache.vim' " Autocomplete
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -42,7 +42,7 @@ Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
 
 " Language Support
 Plugin 'vim-ruby/vim-ruby' " ruby lang support
-Plugin 'klen/python-mode' " Python lang support 
+Plugin 'klen/python-mode' " Python lang support
 
 " Syntax Highlighters
 Plugin 'mxw/vim-jsx'
@@ -119,7 +119,7 @@ vnoremap > >gv
 set listchars=tab:▸\ ,eol:¬
 
 " switch to last used buffer, map to CTRL-E
-:nmap <C-e> :e#<CR> 
+:nmap <C-e> :e#<CR>
 
 " next and previous buffers CTRL-P & CTRL-N
 :nmap <C-n> :bnext<CR>
@@ -131,7 +131,13 @@ vmap <C-c> "+yi
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
-set clipboard=unnamedplus
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
 
 " wrap lines
 :nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
@@ -149,10 +155,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Save as root 
+" Save as root
 cmap w!! w !sudo tee % > /dev/null
 
-" Exit Insert Mode with jj 
+" Exit Insert Mode with jj
 inoremap jj <Esc>
 
 " enforce purity
@@ -176,7 +182,7 @@ let g:airline#extensions#tabline#enabled = 1 " Show buffers at top
 " }}}
 
 " Turn on neocomplcache
-let g:neocomplcache_enable_at_startup = 1 
+let g:neocomplcache_enable_at_startup = 1
 
 
 " CTRL-P Settings {{{
