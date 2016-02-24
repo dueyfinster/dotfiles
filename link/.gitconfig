@@ -18,3 +18,5 @@
 	ui = auto
 [grep]
 	patternType = perl
+[credential]
+	helper = cache
