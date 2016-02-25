@@ -91,6 +91,7 @@ set backspace=indent
 set backspace+=eol
 set backspace+=start
 
+" vimrc editing shortcuts {{{
 " Edit vimrc with <leader> v
 nnoremap <leader>v :tabedit $MYVIMRC<CR>
 
@@ -98,7 +99,9 @@ nnoremap <leader>v :tabedit $MYVIMRC<CR>
 if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
+" }}}
 
+" Set Cache Settings {{{
 set directory=$HOME/.dotfiles/caches/ " Set the directory to store .swp files
 set tags=./tags;/
 
@@ -107,9 +110,11 @@ if has("persistent_undo")
  set undodir='$HOME/.dotfiles/caches/'
  set undofile
 endif
+" }}}
 
 " Remap ESC to be easier to type
-:inoremap kj <Esc>
+inoremap kj <Esc>
+inoremap jj <Esc>
 
 " Reselect block after indent
 vnoremap < <gv
@@ -126,7 +131,7 @@ set listchars=tab:▸\ ,eol:¬
 :nmap <C-n> :bnext<CR>
 :nmap <C-p> :bprev<CR>
 
-
+" Copy and Paste / Clipboard {{{
 " Set up copy and paste
 vmap <C-c> "+yi
 vmap <C-x> "+c
@@ -139,6 +144,7 @@ if has("clipboard")
     set clipboard+=unnamedplus
   endif
 endif
+" }}}
 
 " wrap lines
 :nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
@@ -159,8 +165,6 @@ nnoremap <C-H> <C-W><C-H>
 " Save as root
 cmap w!! w !sudo tee % > /dev/null
 
-" Exit Insert Mode with jj
-inoremap jj <Esc>
 
 " enforce purity
 "noremap  <Up> <Nop>
@@ -168,9 +172,7 @@ inoremap jj <Esc>
 "noremap  <Left> <Nop>
 "noremap  <Right> <Nop>
 
-
-"""""""""""""""""
-" PLUGIN SETTINGS
+" PLUGIN SETTINGS {{{
 """""""""""""""""
 
 " vim-airline {{{
@@ -277,3 +279,5 @@ hi link EasyMotionShade Comment
 " }}}
 "
 " vim:foldmethod=marker:foldlevel=0
+
+" }}}
