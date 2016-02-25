@@ -16,6 +16,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
+Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'rking/ag.vim' " Find code
