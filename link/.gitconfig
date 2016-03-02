@@ -10,6 +10,7 @@
 	reviewmaster = push origin HEAD:refs/for/master
 	s = status
 	p = push
+	ctags = !.git/hooks/ctags
 [push]
 	default = simple
 [pull]
@@ -20,3 +21,5 @@
 	patternType = perl
 [credential]
 	helper = cache
+[init]
+	templatedir = ~/.git_template
