@@ -8,6 +8,7 @@ is_osx || return 1
 recipes=(
   bash
   bash-completion
+  ctags
   coreutils
   findutils
   gcc

@@ -9,6 +9,7 @@ sudo apt-get -qq update
 packages=(
   build-essential
   bash-completion
+  exuberant-ctags
   fonts-mplus
   git-core
   silversearcher-ag
