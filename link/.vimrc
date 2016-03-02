@@ -17,14 +17,23 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'airblade/vim-rooter'
-Plugin 'vimoutliner/vimoutliner'
+Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
+
+" Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
 Plugin 'scrooloose/nerdtree' " file browser
+Plugin 'kien/ctrlp.vim' " Search through files, buffers etc
+" }}}
+
+" Source Code Browsing {{{
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
 Plugin 'taglist.vim' " Browsing source code easier
 Plugin 'majutsushi/tagbar' " Viewing source tree easier
+" }}}
+
 Plugin 'bling/vim-airline' " Better status bar
-Plugin 'kien/ctrlp.vim' " Search through files, buffers etc
 Plugin 'tpope/vim-sensible' " Sensible defaults
 Plugin 'tpope/vim-commentary' " Vim comments
 Plugin 'tpope/vim-sleuth' " automatic spacing
