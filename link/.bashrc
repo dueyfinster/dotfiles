@@ -26,3 +26,7 @@ function src() {
 }
 
 src
+
+if [ -f "$HOME"/.bash-sensible/sensible.bash ]; then
+  source "$HOME"/.bash-sensible/sensible.bash
+fi
