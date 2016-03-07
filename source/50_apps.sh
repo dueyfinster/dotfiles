@@ -52,15 +52,34 @@ ft() {
 }
 
 
-#### Shell & System ####
+### Clipboard {{{
+if is_ubuntu; then
+    alias copy='xclip -selection clipboard'
+    alias paste='xclip -selection clipboard -o'
+fi
+
+if is_osx; then
+    alias copy='pbcopy'
+    alias paste='pbpaste'
+fi
+
+
+if is_win; then
+    alias copy='/dev/clipboard'
+    alias paste='cat /dev/clipboard'
+fi
+# }}}
+
+# Shell & System {{{
 alias scriptcom='echo "!!" > $1' # Create a script of the last executed command (takes a filename.sh as argument)
 alias ds='du -ks *|sort -n' # Find the biggest in a folder
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30' # show most used commands
 alias sulast='sudo $(history -p !-1)' # add sudo to last command
 alias k9='kill -9'
 alias tm='ps -ef | grep'
+# }}}
 
-### Git Commands
+### Git Commands {{{
 if [[ "$(type -P brew)" ]] && is_osx; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
@@ -84,3 +103,4 @@ for al in `__git_aliases`; do
     complete_func=_git_$(__git_aliased_command $al)
     function_exists $complete_fnc && __git_complete g$al $complete_func
 done
+# }}}
