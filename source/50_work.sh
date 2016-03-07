@@ -11,23 +11,23 @@ fi
 export http_proxy="http://www-proxy.ericsson.se:8080/"
 export https_proxy="http://www-proxy.ericsson.se:8080/"
 export ftp_proxy="http://www-proxy.ericsson.se:8080/"
-export VERSANT_ROOT="/opt/versant/vjpa_server"
+#export VERSANT_ROOT="/opt/versant/vjpa_server"
 #export LINUX_BREW="$HOME/.linuxbrew/bin"
 #PATH="$LINUX_BREW:$PATH"
 PATH="$JAVA_HOME/bin:$PATH"
 
-OPENDJ_HOME="$HOME/repos/ap-parent/deployment/target/opendj"
-OPENDJ_BIN="$OPENDJ_HOME/bin"
+#OPENDJ_HOME="$HOME/repos/ap-parent/deployment/target/opendj"
+#OPENDJ_BIN="$OPENDJ_HOME/bin"
 
-JBOSS_HOME="$HOME/repos/ap-parent/deployment/target/jboss/jboss-eap-6.2.4"
-JBOSS_BIN="$JBOSS_HOME/bin"
+#JBOSS_HOME="$HOME/repos/ap-parent/deployment/target/jboss/jboss-eap-6.2.4"
+#JBOSS_BIN="$JBOSS_HOME/bin"
 
-VERSANT_HOME="/opt/versant/vjpa_server"
-VERSANT_BIN="$VERSANT_HOME/bin"
+#VERSANT_HOME="/opt/versant/vjpa_server"
+#VERSANT_BIN="$VERSANT_HOME/bin"
 
 REPOS_HOME="${HOME}/repos"
 OTHER_REPOS="${HOME}/other_repos"
-CLI_HOME="${OTHER_REPOS}/command-line-interface/CliApp"
+#CLI_HOME="${OTHER_REPOS}/command-line-interface/CliApp"
 
 repo_folders=("$REPOS_HOME"/*)
 repo_folders+=("$OTHER_REPOS"/*)
@@ -37,22 +37,6 @@ do
   alias "$FOLDER_NAME"="cd $dir"
 done
 
-opendj_start(){
-    cd $OPENDJ_BIN
-    chmod +x start-ds ldapmodify ../lib/_client-script.sh
-    ./start-ds
-    sleep 2
-    ./ldapmodify -a -p 1636 -Z -X -D "cn=directory manager" -w ldapadmin -f ../bat/APUsersAndRoles.ldif
-}
-
-jboss_start(){
-    export JAVA_OPTS="-XX:MaxPermSize=1G -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=`hostname -I | awk '{print $1}'`"  #  --Djgroups.bind_addr=127.0.0.1 -Djgroups.bind_addr=`hostname -I`
-    cd $JBOSS_BIN
-    chmod +x $JBOSS_BIN/start-enm-jboss.sh
-    ./start-enm-jboss.sh
-}
-
-alias ap="$HOME/dev/e/repos/ap-parent/deployment/cli/ap.sh"
 
 #
 # REPO Commands
@@ -85,17 +69,6 @@ copy_rpms(){
 # Test Commands
 
 alias tafregression="cd $REPOS_HOME/ap-macro-testware && mvn clean install -Dsnapshot.all -Dsuites=APERbsRegressionSuite.xml"
-
-versant_clean(){
-    cd $VERSANT_BIN
-    ./stopdb -f dps_integration
-    ./removedb -rmdir dps_integration
-    ./makedb dps_integration
-    ./createdb dps_integration
-    ./startdb dps_integration
-    ./dbuser -add -n versant -passwd shversant dps_integration
-}
-
 
 rebase_ap(){
     cd $REPOS_HOME
