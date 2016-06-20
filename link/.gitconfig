@@ -20,6 +20,6 @@
 [grep]
 	patternType = perl
 [credential]
-	helper = cache
+	helper = cache --timeout=3600
 [init]
 	templatedir = ~/.git_template
