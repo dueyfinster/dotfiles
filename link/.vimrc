@@ -9,6 +9,7 @@
 	" Vundle {{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
+source ~/.simplenoterc
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -19,6 +20,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'mrtazz/simplenote.vim'
 
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
@@ -41,7 +43,6 @@ Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
 Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
 Plugin 'tpope/vim-fugitive' " Git support
 Plugin 'mbbill/undotree' " Undo tree
-Plugin 'Shougo/neocomplcache.vim' " Autocomplete
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
@@ -62,6 +63,7 @@ Plugin 'potatoesmaster/i3-vim-syntax' " Provide syntax highlighting for i3 windo
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
+
 
 set mouse=a " Turn mouse support on
 set nrformats= " Treat all numbers as decimal

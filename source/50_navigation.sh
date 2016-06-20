@@ -2,19 +2,14 @@
 # Alias common directories and files
 
 # Common Locations
-alias desktop="cd ~/Desktop"
-alias dropbox="cd ~/Dropbox"
-alias dev="cd ~/Dropbox/dev"
-alias dotfiles="cd ~/Dropbox/dev/dotfiles"
-
-
-# UCD Repos
-UCD="$HOME/Dropbox/dev/ucd"
-alias ucd="cd $UCD"
-alias proj="cd $UCD/blackteam"
+export ho="$HOME"
+export dof="$HOME/.dotfiles"
+export repos="$HOME/repos"
+export CDPATH=".:$HOME/repos:$HOME/repos/ap"
+export documents="$HOME/Documents"
+export dropbox="$HOME/Dropbox"
 
 alias c='clear'
-alias ho='cd $HOME'
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
