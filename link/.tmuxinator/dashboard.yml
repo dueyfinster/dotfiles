@@ -41,3 +41,9 @@ windows:
       root: ~/repos/ap
       panes:
         -
+  - dotfiles:
+      root: ~/.dotfiles
+      layout: even-vertical
+      panes:
+        -
+        - vim

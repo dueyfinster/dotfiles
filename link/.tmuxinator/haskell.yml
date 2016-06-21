@@ -28,8 +28,8 @@ root: ~/repos/haskell
 # post: tmux -CC attach -t haskell
 
 windows:
-  - editor:
-      layout: even-vertical
+  - haskell:
+      layout: 770f,80x23,0,0[80x6,0,0,3,80x16,0,7,4]
       panes:
         - ./run-docker.sh
         - vim
