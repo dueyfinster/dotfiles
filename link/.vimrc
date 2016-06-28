@@ -67,6 +67,11 @@ set encoding=utf-8
 set nu
 set omnifunc=syntaxcomplete#Complete " Turn on autocomplete
 set showcmd " display incomplete commands
+" Don't make backups at all
+set nobackup
+set nowritebackup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 " Solarized Colorscheme {{{
 "set background=dark
@@ -116,6 +121,10 @@ if has("persistent_undo")
  set undofile
 endif
 " }}}
+
+" Move to last edited line if buffer reopened
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
 
 " Remap ESC to be easier to type
 inoremap kj <Esc>
