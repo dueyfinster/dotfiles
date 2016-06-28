@@ -9,7 +9,6 @@
 	" Vundle {{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
-source ~/.simplenoterc
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -20,7 +19,6 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'mrtazz/simplenote.vim'
 
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
@@ -35,7 +33,7 @@ Plugin 'taglist.vim' " Browsing source code easier
 Plugin 'majutsushi/tagbar' " Viewing source tree easier
 " }}}
 
-Plugin 'bling/vim-airline' " Better status bar
+"Plugin 'bling/vim-airline' " Better status bar
 Plugin 'tpope/vim-sensible' " Sensible defaults
 Plugin 'tpope/vim-commentary' " Vim comments
 Plugin 'tpope/vim-sleuth' " automatic spacing
@@ -54,10 +52,6 @@ Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
 " Language Support
 Plugin 'vim-ruby/vim-ruby' " ruby lang support
 Plugin 'klen/python-mode' " Python lang support
-
-" Syntax Highlighters
-Plugin 'mxw/vim-jsx'
-Plugin 'potatoesmaster/i3-vim-syntax' " Provide syntax highlighting for i3 window manager
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -214,18 +208,6 @@ nnoremap <Leader>u :UndotreeToggle<cr>
 
 " }}}
 
-" NERDTree {{{
-
-" Show NERDTree
-:nmap <Leader>e :NERDTreeToggle<CR>
-
-" Show Current NERDTree file
-:nmap \n :NERDTreeFind<CR>
-
-" Close NERDTree if only window left
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" }}}
-
 nnoremap <F5> <esc>:w<enter>:!%:p<enter>
 inoremap <F5> <esc>:w<enter>:!%:p<enter>
 
@@ -263,32 +245,3 @@ let g:snips_github="dueyfinster"
 let g:snips_email="neil@ngrogan.com"
 " }}}
 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" Bi-directional find motion
-" " Jump to anywhere you want with minimal keystrokes, with just one key
-" binding.
-" " `s{char}{label}`
-nmap s <Plug>(easymotion-s)
-" " or
-" " `s{char}{char}{label}`
-" " Need one more keystroke, but on average, it may be more comfortable.
-" nmap s <Plug>(easymotion-s2)
-"
-" " Turn on case insensitive feature
-" let g:EasyMotion_smartcase = 1
-"
-" " JK motions: Line motions
-" map <Leader>j <Plug>(easymotion-j)
-" map <Leader>k <Plug>(easymotion-k)
-
-" EasyMotion Colours {{{
-hi link EasyMotionTarget Search
-hi link EasyMotionTarget2First Search
-hi link EasyMotionTarget2Second Search
-hi link EasyMotionShade Comment
-" }}}
-"
-" vim:foldmethod=marker:foldlevel=0
-
-" }}}
