@@ -1,0 +1,10 @@
+#!/usr/bin/expect
+ 
+  
+set timeout 60
+
+spawn ssh home
+    
+expect "*$ " { send "tmuxinator haskell\r" }
+
+interact

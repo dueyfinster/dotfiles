@@ -40,7 +40,6 @@ Plugin 'tpope/vim-sleuth' " automatic spacing
 Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
 Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
 Plugin 'tpope/vim-fugitive' " Git support
-Plugin 'mbbill/undotree' " Undo tree
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
@@ -117,8 +116,10 @@ set tags=./tags;/
 
 " Store persistent undo
 if has("persistent_undo")
- set undodir='$HOME/.dotfiles/caches/'
  set undofile
+ set undodir=$HOME/.dotfiles/caches
+ set undolevels=1000         " How many undos
+ set undoreload=10000        " number of lines to save for undo
 endif
 " }}}
 
@@ -180,27 +181,14 @@ nnoremap <C-H> <C-W><C-H>
 cmap w!! w !sudo tee % > /dev/null
 
 
-" enforce purity
-"noremap  <Up> <Nop>
-"noremap  <Down> <Nop>
-"noremap  <Left> <Nop>
-"noremap  <Right> <Nop>
+" enforce purity for arrow keys
+noremap  <Up> <Nop>
+noremap  <Down> <Nop>
+noremap  <Left> <Nop>
+noremap  <Right> <Nop>
 
 " PLUGIN SETTINGS {{{
 """""""""""""""""
-
-" vim-airline {{{
-"
-let g:airline#extensions#tabline#enabled = 1 " Show buffers at top
-" Change Tab Style
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"let g:airline_powerline_fonts = 1
-" }}}
-
-" Turn on neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-
 
 " CTRL-P Settings {{{
 
