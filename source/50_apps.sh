@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Application shortcuts
-
+budget_file="$HOME/.hledger.journal"
+alias ledger="ledger -f $budget_file"
+alias budget="ledger -p \"this month\" --budget --monthly balance ^expenses"
 alias vi='vim'
 alias tmux='tmux -2'
 alias hist='history'
@@ -128,7 +130,7 @@ function d(){
 # A collection of server and network commands {{{
 alias httpserv="python -m SimpleHTTPServer" # Serve current directory as a webpage
 alias exip='curl ifconfig.me'
-alias downweb='wget --random-wait -r -p -e robots=off -U mozilla $1' # download an entire website (takes url as argument) 
+alias downweb='wget --random-wait -r -p -e robots=off -U mozilla $1' # download an entire website (takes url as argument)
 
 function anybar { echo -n $1 | nc -4u -w0 localhost ${2:-1738}; }
 
