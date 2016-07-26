@@ -1,0 +1,4 @@
+# From http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# Incremental searching with Up and Down is configured in .inputrc
+"\e[A": history-search-backward
+"\e[B": history-search-forward

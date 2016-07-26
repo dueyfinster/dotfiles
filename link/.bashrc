@@ -2,11 +2,7 @@
 export DOTFILES=~/.dotfiles
 export TERM="screen-256color"
 
-if [ -f "$HOME"/.bash-sensible/sensible.bash ]; then
-  source "$HOME"/.bash-sensible/sensible.bash
-fi
-
- # Set config variables first
+# Set config variables first
 GIT_PROMPT_ONLY_IN_REPO=1
 #GIT_PROMPT_THEME="Custom"
 GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${Blue}\h${ResetColor}: ${Yellow}${PathShort}${ResetColor}"
