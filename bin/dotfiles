@@ -219,7 +219,7 @@ function link_test() {
 }
 function link_do() {
   e_success "Linking ~/$1."
-  ln -sf ${2#$HOME/} ~/
+  ln -sf ${2#$HOME/} ~/.${1}
 }
 
 # Copy, link, init, etc.
