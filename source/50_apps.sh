@@ -4,6 +4,7 @@ budget_file="$HOME/.hledger.journal"
 alias ledger="ledger -f $budget_file"
 alias budget="ledger -p \"this month\" --budget --monthly balance ^expenses"
 alias bal="ledger bal ^Assets:Checking"
+alias vb="vim $budget_file"
 alias vi='vim'
 alias tmux='tmux -2'
 alias hist='history'
