@@ -189,6 +189,9 @@ noremap  <Right> <Nop>
 
 " PLUGIN SETTINGS {{{
 """""""""""""""""
+" NERDTREE Settings {{{
+map <Leader>e :NERDTreeToggle<CR>
+" }}}
 
 " CTRL-P Settings {{{
 
