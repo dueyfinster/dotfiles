@@ -124,6 +124,13 @@ alias dritrm='docker run -it --rm'
 alias dpsa='docker ps -a'
 alias din='docker inspect'
 
+alias dc="docker-compose"
+alias dck="docker-compose kill"
+alias dcr="docker-compose rm"
+alias dcrf="docker-compose rm -f"
+
+alias dm="docker-machine"
+
 function d(){
   docker "$@"
 }
