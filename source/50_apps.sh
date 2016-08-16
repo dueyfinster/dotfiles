@@ -125,6 +125,8 @@ alias dpsa='docker ps -a'
 alias din='docker inspect'
 
 alias dc="docker-compose"
+alias dcu="docker-compose up -d"
+alias dcl="docker-compose logs"
 alias dck="docker-compose kill"
 alias dcr="docker-compose rm"
 alias dcrf="docker-compose rm -f"
