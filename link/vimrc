@@ -191,6 +191,7 @@ noremap  <Right> <Nop>
 """""""""""""""""
 " NERDTREE Settings {{{
 map <Leader>e :NERDTreeToggle<CR>
+nmap <Leader>n :NERDTreeFind<CR>
 " }}}
 
 " CTRL-P Settings {{{
