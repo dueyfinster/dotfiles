@@ -17,7 +17,7 @@ Host tv-atlas
     Port 22
 
 Host tv-odin
-    Hostname 159.107.164.158
+    Hostname 159.107.164.101
     IdentityFile ~/.ssh/id_ericsson_tv
     Port 22
 

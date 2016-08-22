@@ -51,6 +51,7 @@ Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
 Plugin 'vim-ruby/vim-ruby' " ruby lang support
 Plugin 'klen/python-mode' " Python lang support
 Plugin 'leafgarland/typescript-vim' " typescript support
+Plugin 'kchmck/vim-coffee-script' " Coffeescript support
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
