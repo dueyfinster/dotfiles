@@ -18,6 +18,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'benmills/vimux' " Interact with tmux in vim
 
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
