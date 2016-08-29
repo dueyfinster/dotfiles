@@ -200,6 +200,8 @@ nmap <Leader>n :NERDTreeFind<CR>
 " CTRL-P Settings
 :let g:ctrlp_map = '<Leader>t'
 :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" Search open buffers with ctrlp
+nnoremap <Leader>r :CtrlPBuffer<cr>
 " :let g:ctrlp_match_window_bottom = 0
 " :let g:ctrlp_match_window_reversed = 0
 :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
