@@ -22,7 +22,7 @@ Plugin 'editorconfig/editorconfig-vim'
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
 Plugin 'scrooloose/nerdtree' " file browser
-Plugin 'kien/ctrlp.vim' " Search through files, buffers etc
+Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
 " }}}
 
 " Source Code Browsing {{{
