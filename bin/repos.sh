@@ -1,6 +1,6 @@
 #!/bin/bash
 source ${HOME}/.dotfiles/bin/dotfiles "source"
-REPOS_HOME="$HOME/repos"
+REPOS_HOME="$HOME/repos/cms"
 
 array=("$REPOS_HOME"/*)
 for dir in "${array[@]}";
