@@ -8,10 +8,10 @@ GIT_PROMPT_ONLY_IN_REPO=1
 GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${Blue}\h${ResetColor}: ${Yellow}${PathShort}${ResetColor}"
 GIT_PROMPT_THEME=Solarized
 #source $DOTFILES/vendor/bash-git-prompt/gitprompt.sh
+export TMUXIFIER_LAYOUT_PATH="$HOME/.dotfiles/link/tmux-layouts"
 
 # Add binaries into the path
-PATH=$DOTFILES/bin:$PATH
-export PATH
+export PATH="$DOTFILES/bin:$HOME/.tmuxifier/bin:$PATH"
 
 # Source all files in "source"
 function src() {

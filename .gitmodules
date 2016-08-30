@@ -4,3 +4,6 @@
 [submodule "link/vim/bundle/Vundle.vim"]
 	path = link/vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "link/tmuxifier"]
+	path = link/tmuxifier
+	url = https://github.com/jimeh/tmuxifier.git
