@@ -81,6 +81,7 @@ alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 
 alias sulast='sudo $(history -p !-1)' # add sudo to last command
 alias k9='kill -9'
 alias tms='ps -ef | grep'
+alias tmu="tmuxifier"
 # }}}
 
 ### Git Commands {{{
