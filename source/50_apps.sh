@@ -80,7 +80,7 @@ alias ds='du -ks *|sort -n' # Find the biggest in a folder
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30' # show most used commands
 alias sulast='sudo $(history -p !-1)' # add sudo to last command
 alias k9='kill -9'
-alias tm='ps -ef | grep'
+alias tms='ps -ef | grep'
 # }}}
 
 ### Git Commands {{{

@@ -103,8 +103,8 @@ set backspace+=eol
 set backspace+=start
 
 " vimrc editing shortcuts {{{
-" Edit vimrc with <leader> v
-nnoremap <leader>v :tabedit $MYVIMRC<CR>
+" Edit vimrc with <leader> vv
+nnoremap <leader>vv :tabedit $MYVIMRC<CR>
 
 " Source the vimrc file after saving it
 if has("autocmd")
@@ -248,5 +248,34 @@ let g:UltiSnipsEditSplit="vertical"
 let g:snips_author="Neil Grogan"
 let g:snips_github="dueyfinster"
 let g:snips_email="neil@ngrogan.com"
+" }}}
+
+
+let g:rooter_patterns = ['Rakefile', 'pom.xml', '.git/', 'Gemfile', 'package.json']
+
+function! RunInProjectDir(cmd)
+  let root_dir = FindRootDirectory()
+  VimuxRunCommand("cd ".root_dir)
+  VimuxRunCommand(a:cmd)
+endfunction
+
+" Vimux Settings {{{
+
+" Run the current project build
+map <Leader>rn :call RunInProjectDir("npm run")<CR>
+map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
+map <Leader>rd :call RunInProjectDir("./run-docker.sh")<CR>
+
+" Inspect runner pane map
+map <Leader>vi :VimuxInspectRunner<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+" Zoom the tmux runner page
+map <Leader>vz :VimuxZoomRunner<CR>
+" Clear the tmux history of the runner pane
+map <Leader>vc :VimuxClearRunnerHistory<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>vq :VimuxCloseRunner<CR>
+
 " }}}
 
