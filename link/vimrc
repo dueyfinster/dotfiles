@@ -59,6 +59,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
 
+" Map leader key
+let mapleader = ","
 
 set mouse=a " Turn mouse support on
 set nrformats= " Treat all numbers as decimal
@@ -80,11 +82,10 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 "let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "let g:solarized_visibility="high"
-"let g:molokai_original = 1
-"let g:rehash256 = 1
-colorscheme molokai
-set t_Co=256
+colorscheme solarized
 set background=dark
+map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+set t_Co=256
 "highlight Normal ctermbg=NONE
 "highlight nonText ctermbg=NONE
 " }}}
@@ -95,8 +96,6 @@ let g:pymode_rope = 0
 let g:pymode_rope_lookup_project = 0
 " }}}
 
-" Map leader key
-let mapleader = ","
 
 set backspace=indent
 set backspace+=eol
@@ -255,7 +254,9 @@ let g:rooter_patterns = ['Rakefile', 'pom.xml', '.git/', 'Gemfile', 'package.jso
 
 function! RunInProjectDir(cmd)
   let root_dir = FindRootDirectory()
-  VimuxRunCommand("cd ".root_dir)
+  if !empty(root_dir)
+    VimuxRunCommand("cd ".root_dir)
+  endif
   VimuxRunCommand(a:cmd)
 endfunction
 
