@@ -7,12 +7,12 @@ window_root "~/repos/haskell"
 new_window "haskell"
 
 # Split window into panes.
-split_v 20
+#split_v 20
 #split_h 50
 
 # Run commands.
 run_cmd "vim app/baby.hs" 1 # runs in active pane
-run_cmd "./run-docker.sh" 2  # runs in pane 1
+# run_cmd "./run-docker.sh" 2  # runs in pane 1
 
 # Paste text
 #send_keys "top"    # paste into active pane
