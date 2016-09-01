@@ -1,11 +1,11 @@
-Host gerritmirror.lmera.ericsson.se 
+Host gerritmirror.lmera.ericsson.se
     Hostname gerritmirror.lmera.ericsson.se
     IdentityFile ~/.ssh/id_ericsson
 
-Host gerrit.ericsson.se 
+Host gerrit.ericsson.se
     Hostname gerrit.ericsson.se
     IdentityFile ~/.ssh/id_ericsson
-    
+
 Host github.com
     Hostname ssh.github.com
     IdentityFile ~/.ssh/id_personal
@@ -17,7 +17,7 @@ Host tv-atlas
     Port 22
 
 Host tv-odin
-    Hostname 159.107.164.101
+    Hostname 159.107.164.132
     IdentityFile ~/.ssh/id_ericsson_tv
     Port 22
 
