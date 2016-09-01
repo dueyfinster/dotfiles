@@ -78,8 +78,8 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 " Solarized Colorscheme {{{
 "set background=dark
-"let g:solarized_termtrans=1
-"let g:solarized_termcolors=256
+let g:solarized_termtrans=1
+let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "let g:solarized_visibility="high"
 colorscheme solarized
@@ -260,12 +260,22 @@ function! RunInProjectDir(cmd)
   VimuxRunCommand(a:cmd)
 endfunction
 
+function! VimuxSlime()
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction
+
 " Vimux Settings {{{
 
 " Run the current project build
 map <Leader>rn :call RunInProjectDir("npm run")<CR>
 map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
 map <Leader>rd :call RunInProjectDir("./run-docker.sh")<CR>
+:let maplocalleader = "\\"
+" If text is selected, save it in the v buffer and send to tmux
+vmap <LocalLeader>vs "vy :call VimuxSlime()<CR>
+" Select Paragraph and send to Tmux pane
+nmap <LocalLeader>vs vip<LocalLeader>vs<CR>
 
 " Inspect runner pane map
 map <Leader>vi :VimuxInspectRunner<CR>
@@ -277,6 +287,10 @@ map <Leader>vz :VimuxZoomRunner<CR>
 map <Leader>vc :VimuxClearRunnerHistory<CR>
 " Close vim tmux runner opened by VimuxRunCommand
 map <Leader>vq :VimuxCloseRunner<CR>
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Prompt for a command to run
+vmap <Leader>vp "vy :call VimuxPromptCommand(@v)<CR>
 
 " }}}
 
