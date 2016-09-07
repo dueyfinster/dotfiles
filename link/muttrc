@@ -13,10 +13,10 @@ set trash = "=Trash"
 mailboxes = "="
 
 # ================  SMTP  ====================
-set smtp_url = 'smtp://$imap_user@smtp.gmail.com:587'
+set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
 # activate TLS if available on the server
 set ssl_starttls = yes
-set smtp_pass = $imap_pass
+set smtp_pass = "$imap_pass"
 set record = ""
 # set smtp_url = "smtps://$imap_user:$imap_pass@smtps-proxy.messagingengine.com:443"
 
