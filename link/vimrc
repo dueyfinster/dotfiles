@@ -53,6 +53,7 @@ Plugin 'vim-ruby/vim-ruby' " ruby lang support
 Plugin 'klen/python-mode' " Python lang support
 Plugin 'leafgarland/typescript-vim' " typescript support
 Plugin 'kchmck/vim-coffee-script' " Coffeescript support
+Plugin 'ledger/vim-ledger' " Ledger accounting support
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -199,7 +200,8 @@ nmap <Leader>n :NERDTreeFind<CR>
 
 " CTRL-P Settings
 :let g:ctrlp_map = '<Leader>t'
-:let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+:let g:ctrlp_user_command = 'rg %s --files --color=never ""'
 " Search open buffers with ctrlp
 nnoremap <Leader>r :CtrlPBuffer<cr>
 " :let g:ctrlp_match_window_bottom = 0
@@ -218,6 +220,8 @@ inoremap <F5> <esc>:w<enter>:!%:p<enter>
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 au BufRead,BufNewFile *.md setlocal textwidth=80
+" Ledger files with .ldg extentions 
+au BufNewFile,BufRead *.ldg,*.ledger,*.journal setf ledger
 
 if exists('+colorcolumn')
   set colorcolumn=80
