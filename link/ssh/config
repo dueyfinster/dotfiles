@@ -8,7 +8,7 @@ Host gerrit.ericsson.se
 
 Host github.com
     Hostname ssh.github.com
-    IdentityFile ~/.ssh/id_personal
+    IdentityFile ~/.ssh/id_ed25519
     Port 443
 
 Host tv-atlas
@@ -29,12 +29,12 @@ Host tv-standup
 Host home
     Hostname eq.neilgrogan.com
     ServerAliveInterval 120
-    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_ed25519
     User ngrogan
 
 Host *
     ServerAliveInterval 300
-    IdentityFile ~/.ssh/id_personal
+    IdentityFile ~/.ssh/id_ed25519
     ServerAliveCountMax 2
 
 Host *+*
