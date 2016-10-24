@@ -32,6 +32,11 @@ Host home
     IdentityFile ~/.ssh/id_ed25519
     User ngrogan
 
+Host nfsn
+    Hostname ssh.phx.nearlyfreespeech.net
+    ServerAliveInterval 120
+    User dueyfinster_ngrogan
+
 Host *
     ServerAliveInterval 300
     IdentityFile ~/.ssh/id_ed25519
