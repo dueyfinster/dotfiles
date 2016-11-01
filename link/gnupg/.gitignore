@@ -1,4 +1,6 @@
 pubring.gpg
+gpg-agent.conf
+openpgp-revocs.d/
 trustdb.gpg
 secring.gpg
 random_seed
