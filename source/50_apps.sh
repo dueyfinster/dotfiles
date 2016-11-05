@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Application shortcuts
-
+budget_file="$HOME/.hledger.journal"
+alias ledger="ledger -f $budget_file"
+alias budget="ledger -p \"this month\" --budget --monthly balance ^expenses"
+alias bal="ledger bal ^Assets:Checking"
+alias savings="ledger bal ^Assets:Savings"
+alias monexp="ledger -MAn reg"
+alias vb="vim $budget_file"
 alias vi='vim'
 alias tmux='tmux -2'
 alias hist='history'
@@ -76,7 +82,8 @@ alias ds='du -ks *|sort -n' # Find the biggest in a folder
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30' # show most used commands
 alias sulast='sudo $(history -p !-1)' # add sudo to last command
 alias k9='kill -9'
-alias tm='ps -ef | grep'
+alias tms='ps -ef | grep'
+alias tmu="tmuxifier"
 # }}}
 
 ### Git Commands {{{
@@ -120,6 +127,15 @@ alias dritrm='docker run -it --rm'
 alias dpsa='docker ps -a'
 alias din='docker inspect'
 
+alias dc="docker-compose"
+alias dcu="docker-compose up -d"
+alias dcl="docker-compose logs"
+alias dck="docker-compose kill"
+alias dcr="docker-compose rm"
+alias dcrf="docker-compose rm -f"
+
+alias dm="docker-machine"
+
 function d(){
   docker "$@"
 }
@@ -128,7 +144,7 @@ function d(){
 # A collection of server and network commands {{{
 alias httpserv="python -m SimpleHTTPServer" # Serve current directory as a webpage
 alias exip='curl ifconfig.me'
-alias downweb='wget --random-wait -r -p -e robots=off -U mozilla $1' # download an entire website (takes url as argument) 
+alias downweb='wget --random-wait -r -p -e robots=off -U mozilla $1' # download an entire website (takes url as argument)
 
 function anybar { echo -n $1 | nc -4u -w0 localhost ${2:-1738}; }
 

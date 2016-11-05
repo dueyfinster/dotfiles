@@ -1,0 +1,35 @@
+# .muttrc
+# ================  IMAP ====================
+source "gpg -d ~/.mutt/passwords.gpg |"
+set folder = imaps://imap.gmail.com:993/
+set spoolfile = +INBOX
+# set record = "+[Gmail]/Sent Mail"
+set postponed = "+[Gmail]/Drafts"
+# set spoolfile = imaps://imaps-proxy.messagingengine.com:443/INBOX
+# set folder = imaps://imaps-proxy.messagingengine.com:443
+# set record = "=INBOX.Sent"
+# set postponed = "=INBOX.Drafts"
+set trash = "=Trash"
+mailboxes = "="
+
+# ================  SMTP  ====================
+set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
+# activate TLS if available on the server
+set ssl_starttls = yes
+set smtp_pass = "$imap_pass"
+set record = ""
+# set smtp_url = "smtps://$imap_user:$imap_pass@smtps-proxy.messagingengine.com:443"
+
+# ================  Composition  ====================
+set editor = "vim"
+set edit_headers = yes  # See the headers when editing
+set charset = UTF-8     # value of $LANG; also fallback for send_charset
+# Sender, email address, and sign-off line must match
+unset use_domain        # because joe@localhost is just embarrassing
+set use_from = yes
+
+#=================  Key Bindings =====================
+macro index gi '=INBOX' 'Go to inbox'
+macro index ga '=[Google Mail]/All Mail' 'Go to all mail'
+macro index gs '=[Google Mail]/Sent Mail' 'Go to Sent Mail'
+macro index gd '=[Google Mail]/Drafts' 'Go to drafts'

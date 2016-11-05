@@ -16,7 +16,7 @@ function v() {
 
 export VISUAL="$EDITOR"
 #alias vv="cd $DOTFILES/link && v $DOTFILES/link/.{,g}vimrc +'cd $DOTFILES'"
-alias vv="cd $DOTFILES/link && v $DOTFILES/link/.vimrc +'cd $DOTFILES'"
+alias vv="cd $DOTFILES/link && v $DOTFILES/link/vimrc +'cd $DOTFILES'"
 alias vd="cd $DOTFILES && v $DOTFILES"
 alias vblog="v +'cd $HOME/Dropbox/Blog'"
 # Colour code output, needs pygments installed

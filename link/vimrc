@@ -4,9 +4,8 @@
 "   \ \/ / | | '_ ` _ \| '__/ __|
 "    \  /  | | | | | | | | | (__
 "     \/   |_|_| |_| |_|_|  \___|
-	"
-
-	" Vundle {{{
+"
+" Vundle {{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -19,11 +18,12 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'benmills/vimux' " Interact with tmux in vim
 
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
 Plugin 'scrooloose/nerdtree' " file browser
-Plugin 'kien/ctrlp.vim' " Search through files, buffers etc
+Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
 " }}}
 
 " Source Code Browsing {{{
@@ -33,15 +33,13 @@ Plugin 'taglist.vim' " Browsing source code easier
 Plugin 'majutsushi/tagbar' " Viewing source tree easier
 " }}}
 
-Plugin 'bling/vim-airline' " Better status bar
+"Plugin 'bling/vim-airline' " Better status bar
 Plugin 'tpope/vim-sensible' " Sensible defaults
 Plugin 'tpope/vim-commentary' " Vim comments
 Plugin 'tpope/vim-sleuth' " automatic spacing
 Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
 Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
 Plugin 'tpope/vim-fugitive' " Git support
-Plugin 'mbbill/undotree' " Undo tree
-Plugin 'Shougo/neocomplcache.vim' " Autocomplete
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
@@ -53,15 +51,17 @@ Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
 " Language Support
 Plugin 'vim-ruby/vim-ruby' " ruby lang support
 Plugin 'klen/python-mode' " Python lang support
-
-" Syntax Highlighters
-Plugin 'mxw/vim-jsx'
-Plugin 'potatoesmaster/i3-vim-syntax' " Provide syntax highlighting for i3 window manager
+Plugin 'leafgarland/typescript-vim' " typescript support
+Plugin 'kchmck/vim-coffee-script' " Coffeescript support
+Plugin 'ledger/vim-ledger' " Ledger accounting support
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 " }}}
+
+" Map leader key
+let mapleader = ","
 
 set mouse=a " Turn mouse support on
 set nrformats= " Treat all numbers as decimal
@@ -71,18 +71,22 @@ set encoding=utf-8
 set nu
 set omnifunc=syntaxcomplete#Complete " Turn on autocomplete
 set showcmd " display incomplete commands
+" Don't make backups at all
+set nobackup
+set nowritebackup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 " Solarized Colorscheme {{{
 "set background=dark
-"let g:solarized_termtrans=1
-"let g:solarized_termcolors=256
+let g:solarized_termtrans=1
+let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "let g:solarized_visibility="high"
-"let g:molokai_original = 1
-"let g:rehash256 = 1
-colorscheme molokai
-set t_Co=256
+colorscheme solarized
 set background=dark
+map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+set t_Co=256
 "highlight Normal ctermbg=NONE
 "highlight nonText ctermbg=NONE
 " }}}
@@ -93,16 +97,14 @@ let g:pymode_rope = 0
 let g:pymode_rope_lookup_project = 0
 " }}}
 
-" Map leader key
-let mapleader = ","
 
 set backspace=indent
 set backspace+=eol
 set backspace+=start
 
 " vimrc editing shortcuts {{{
-" Edit vimrc with <leader> v
-nnoremap <leader>v :tabedit $MYVIMRC<CR>
+" Edit vimrc with <leader> vv
+nnoremap <leader>vv :tabedit $MYVIMRC<CR>
 
 " Source the vimrc file after saving it
 if has("autocmd")
@@ -116,10 +118,16 @@ set tags=./tags;/
 
 " Store persistent undo
 if has("persistent_undo")
- set undodir='$HOME/.dotfiles/caches/'
  set undofile
+ set undodir=$HOME/.dotfiles/caches
+ set undolevels=1000         " How many undos
+ set undoreload=10000        " number of lines to save for undo
 endif
 " }}}
+
+" Move to last edited line if buffer reopened
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
 
 " Remap ESC to be easier to type
 inoremap kj <Esc>
@@ -175,53 +183,35 @@ nnoremap <C-H> <C-W><C-H>
 cmap w!! w !sudo tee % > /dev/null
 
 
-" enforce purity
-"noremap  <Up> <Nop>
-"noremap  <Down> <Nop>
-"noremap  <Left> <Nop>
-"noremap  <Right> <Nop>
+" enforce purity for arrow keys
+noremap  <Up> <Nop>
+noremap  <Down> <Nop>
+noremap  <Left> <Nop>
+noremap  <Right> <Nop>
 
 " PLUGIN SETTINGS {{{
 """""""""""""""""
-
-" vim-airline {{{
-"
-let g:airline#extensions#tabline#enabled = 1 " Show buffers at top
-" Change Tab Style
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"let g:airline_powerline_fonts = 1
+" NERDTREE Settings {{{
+map <Leader>e :NERDTreeToggle<CR>
+nmap <Leader>n :NERDTreeFind<CR>
 " }}}
-
-" Turn on neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-
 
 " CTRL-P Settings {{{
 
 " CTRL-P Settings
 :let g:ctrlp_map = '<Leader>t'
-:let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+:let g:ctrlp_user_command = 'rg %s --files --color=never ""'
+" Search open buffers with ctrlp
+nnoremap <Leader>r :CtrlPBuffer<cr>
 " :let g:ctrlp_match_window_bottom = 0
 " :let g:ctrlp_match_window_reversed = 0
-:let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+:let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 
 " CTRL-P buffers mapping
 ":nmap ; :CtrlPBuffer<CR>
 nnoremap <Leader>u :UndotreeToggle<cr>
 
-" }}}
-
-" NERDTree {{{
-
-" Show NERDTree
-:nmap <Leader>e :NERDTreeToggle<CR>
-
-" Show Current NERDTree file
-:nmap \n :NERDTreeFind<CR>
-
-" Close NERDTree if only window left
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " }}}
 
 nnoremap <F5> <esc>:w<enter>:!%:p<enter>
@@ -230,6 +220,8 @@ inoremap <F5> <esc>:w<enter>:!%:p<enter>
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 au BufRead,BufNewFile *.md setlocal textwidth=80
+" Ledger files with .ldg extentions 
+au BufNewFile,BufRead *.ldg,*.ledger,*.journal setf ledger
 
 if exists('+colorcolumn')
   set colorcolumn=80
@@ -261,32 +253,48 @@ let g:snips_github="dueyfinster"
 let g:snips_email="neil@ngrogan.com"
 " }}}
 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
-" Bi-directional find motion
-" " Jump to anywhere you want with minimal keystrokes, with just one key
-" binding.
-" " `s{char}{label}`
-nmap s <Plug>(easymotion-s)
-" " or
-" " `s{char}{char}{label}`
-" " Need one more keystroke, but on average, it may be more comfortable.
-" nmap s <Plug>(easymotion-s2)
-"
-" " Turn on case insensitive feature
-" let g:EasyMotion_smartcase = 1
-"
-" " JK motions: Line motions
-" map <Leader>j <Plug>(easymotion-j)
-" map <Leader>k <Plug>(easymotion-k)
+let g:rooter_patterns = ['Rakefile', 'pom.xml', '.git/', 'Gemfile', 'package.json']
 
-" EasyMotion Colours {{{
-hi link EasyMotionTarget Search
-hi link EasyMotionTarget2First Search
-hi link EasyMotionTarget2Second Search
-hi link EasyMotionShade Comment
+function! RunInProjectDir(cmd)
+  let root_dir = FindRootDirectory()
+  if !empty(root_dir)
+    VimuxRunCommand("cd ".root_dir)
+  endif
+  VimuxRunCommand(a:cmd)
+endfunction
+
+function! VimuxSlime()
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction
+
+" Vimux Settings {{{
+
+" Run the current project build
+map <Leader>rn :call RunInProjectDir("npm run")<CR>
+map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
+map <Leader>rd :call RunInProjectDir("./run-docker.sh")<CR>
+:let maplocalleader = "\\"
+" If text is selected, save it in the v buffer and send to tmux
+vmap <LocalLeader>vs "vy :call VimuxSlime()<CR>
+" Select Paragraph and send to Tmux pane
+nmap <LocalLeader>vs vip<LocalLeader>vs<CR>
+
+" Inspect runner pane map
+map <Leader>vi :VimuxInspectRunner<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+" Zoom the tmux runner page
+map <Leader>vz :VimuxZoomRunner<CR>
+" Clear the tmux history of the runner pane
+map <Leader>vc :VimuxClearRunnerHistory<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>vq :VimuxCloseRunner<CR>
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Prompt for a command to run
+vmap <Leader>vp "vy :call VimuxPromptCommand(@v)<CR>
+
 " }}}
-"
-" vim:foldmethod=marker:foldlevel=0
 
-" }}}

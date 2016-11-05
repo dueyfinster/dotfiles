@@ -1,15 +1,20 @@
 [user]
 	name = Neil Grogan
-	email = neil@ngrogan.com
-[alias]	
+	email = neil@grogan.ie
+[alias]
 	a = add -A
 	c = commit -m
 	co = checkout
+  gd = diff --staged
+  f = fetch
+  l = log
 	last = log -1 HEAD
 	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
 	reviewmaster = push origin HEAD:refs/for/master
+  r = rebase
 	s = status
 	p = push
+  pl = pull
 	ctags = !.git/hooks/ctags
 [push]
 	default = simple
@@ -20,6 +25,6 @@
 [grep]
 	patternType = perl
 [credential]
-	helper = cache
+	helper = cache --timeout=3600
 [init]
 	templatedir = ~/.git_template
