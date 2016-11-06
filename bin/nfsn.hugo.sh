@@ -8,7 +8,7 @@ LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse origin)
 
 if [ $LOCAL = $REMOTE ]; then
-    ;
+    :
 else
 	git pull
 fi
