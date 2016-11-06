@@ -6,16 +6,23 @@
 
 # 0: request URI, e.g. '/dns/example.com/listRRs'
 # 1..n: parameters
+
+if [ "$#" -le 3 ]; then
+  echo "Need a login name, API Key, domain and optionally a hostname"
+fi
+LOGIN=$1
+API_KEY=$2
+DOMAIN=$3
+HOSTNAME=$4
+
 make_request () {
-    LOGIN=''
     TIMESTAMP=$(date +%s)
     SALT=$(tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 16)
-    API_KEY=''
     REQUEST_URI="$1"
 
     if [ "$#" -gt "1" ]; then
         PARAMETERS="$2"
-    fi  
+    fi
 
     COUNT=3
     while test $COUNT -le $#
@@ -46,13 +53,13 @@ make_request () {
 }
 
 
-A_RECORD=$(make_request '/dns/example.com/listRRs' 'name=' 'type=A' | sed 's/.*"data":"\([0-9\.]*\)".*/\1/')
-IP="127.0.0.1" #`ip -o addr show ppp0 | awk 'FNR == 2 {print $4}'`
+A_RECORD=$(make_request "/dns/$DOMAIN/listRRs" "name=$HOSTNAME" 'type=A' | sed 's/.*"data":"\([0-9\.]*\)".*/\1/')
+IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 echo "existing record: $A_RECORD"
 echo "current address: $IP"
 
 if [ "$IP" != "$A_RECORD" ]; then
-    make_request '/dns/example.com/removeRR' 'name=' 'type=A' "data=$A_RECORD"
-    make_request '/dns/example.com/addRR' 'name=' 'type=A' "data=$IP"
+    make_request "/dns/$DOMAIN/removeRR" "name=$HOSTNAME" 'type=A' "data=$A_RECORD"
+    make_request "/dns/$DOMAIN/addRR" "name=$HOSTNAME" 'type=A' "data=$IP"
 fi
