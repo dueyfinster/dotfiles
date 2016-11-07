@@ -1,6 +1,6 @@
 #!/bin/bash
 # A Scrit to do a hugo build if any future posts exist
-set -x
+#set -x
 
 cd $HOME/repos/ngrogan.com
 
