@@ -28,9 +28,6 @@ Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
 
 " Source Code Browsing {{{
 Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'taglist.vim' " Browsing source code easier
-Plugin 'majutsushi/tagbar' " Viewing source tree easier
 " }}}
 
 "Plugin 'bling/vim-airline' " Better status bar
@@ -204,6 +201,7 @@ nmap <Leader>n :NERDTreeFind<CR>
 :let g:ctrlp_user_command = 'rg %s --files --color=never ""'
 " Search open buffers with ctrlp
 nnoremap <Leader>r :CtrlPBuffer<cr>
+nnoremap <Leader>. :CtrlPTag<cr>
 " :let g:ctrlp_match_window_bottom = 0
 " :let g:ctrlp_match_window_reversed = 0
 :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
@@ -212,6 +210,10 @@ nnoremap <Leader>r :CtrlPBuffer<cr>
 ":nmap ; :CtrlPBuffer<CR>
 nnoremap <Leader>u :UndotreeToggle<cr>
 
+" }}}
+
+" {{{ Tagbar Plugin Settings
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
 " }}}
 
 nnoremap <F5> <esc>:w<enter>:!%:p<enter>
