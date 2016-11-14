@@ -44,7 +44,7 @@ function is_osx() {
 function is_ubuntu() {
   [[ "$(cat /etc/issue 2> /dev/null)" =~ Ubuntu ]] || return 1
 }
-function is_win() { 
+function is_win() {
   [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || return 1
 }
 
@@ -219,7 +219,7 @@ function link_test() {
 }
 function link_do() {
   e_success "Linking ~/$1."
-  ln -sf ${2#$HOME/} ~/.${1}
+  ln -sf ${2#$HOME/} ~/
 }
 
 # Copy, link, init, etc.
