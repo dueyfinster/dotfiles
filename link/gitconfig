@@ -20,6 +20,8 @@
 	default = simple
 [pull]
 	rebase = true
+[status]
+  short = true
 [color]
 	ui = auto
 [grep]
