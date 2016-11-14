@@ -28,6 +28,8 @@ Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
 
 " Source Code Browsing {{{
 Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'majutsushi/tagbar' " Viewing source tree easier
 " }}}
 
 "Plugin 'bling/vim-airline' " Better status bar
@@ -222,7 +224,7 @@ inoremap <F5> <esc>:w<enter>:!%:p<enter>
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 au BufRead,BufNewFile *.md setlocal textwidth=80
-" Ledger files with .ldg extentions 
+" Ledger files with .ldg extentions
 au BufNewFile,BufRead *.ldg,*.ledger,*.journal setf ledger
 
 if exists('+colorcolumn')
