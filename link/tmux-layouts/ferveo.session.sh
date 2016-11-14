@@ -11,7 +11,8 @@ if initialize_session "ferveo"; then
 
   # Load a defined window layout.
   load_window "ferveo"
-  load_window "django"
+  load_window "manpy"
+  load_window "django-shell"
 
   # Select the default active window on session creation.
   select_window 1

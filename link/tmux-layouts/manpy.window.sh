@@ -4,14 +4,14 @@ window_root "~/repos/ferveo"
 
 # Create new window. If no argument is given, window name will be based on
 # layout file name.
-new_window "django"
+new_window "manpy"
 
 # Split window into panes.
 #split_v 20
 #split_h 50
 
 # Run commands.
-#run_cmd "top"     # runs in active pane
+run_cmd "source venv/bin/activate && source .env"     # runs in active pane
 #run_cmd "date" 1  # runs in pane 1
 
 # Paste text
