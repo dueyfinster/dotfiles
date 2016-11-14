@@ -6,4 +6,5 @@
 	url = https://github.com/VundleVim/Vundle.vim.git
 [submodule "link/tmuxifier"]
 	path = link/tmuxifier
-	url = https://github.com/jimeh/tmuxifier.git
+  url = https://github.com/jimeh/tmuxifier.git
+  ignore = untracked
