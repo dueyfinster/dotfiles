@@ -11,7 +11,7 @@ new_window "hugo"
 #split_h 50
 
 # Run commands.
-run_cmd "hugo serve"     # runs in active pane
+run_cmd "hugo serve -DF --bind '0.0.0.0'"     # runs in active pane
 #run_cmd "date" 1  # runs in pane 1
 
 # Paste text
