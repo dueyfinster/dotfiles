@@ -113,6 +113,9 @@ done
 # }}}
 
 # Docker commands {{{
+dshell(){
+ docker exec -i -t $1 /bin/bash
+}
 alias d="docker"
 alias di='docker images'
 alias dps='docker ps'
