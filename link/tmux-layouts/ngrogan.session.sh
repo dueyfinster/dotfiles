@@ -1,6 +1,6 @@
 # Set a custom session root path. Default is `$HOME`.
 # Must be called before `initialize_session`.
-session_root "~/repos/ngrogan.com"
+session_root "~/repos/dueyfinster.github.io"
 
 # Create session with specified name if it does not already exist. If no
 # argument is given, session name will be based on layout file name.
@@ -11,7 +11,7 @@ if initialize_session "ngrogan"; then
 
   # Load a defined window layout.
   load_window "vim"
-  load_window "hugo"
+  load_window "jekyll"
 
   # Select the default active window on session creation.
   select_window 1
