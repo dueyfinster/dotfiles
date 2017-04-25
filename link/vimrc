@@ -19,6 +19,7 @@ Plugin 'airblade/vim-rooter'
 Plugin 'vimoutliner/vimoutliner' " For creating outlines
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'benmills/vimux' " Interact with tmux in vim
+Plugin 'kana/vim-arpeggio' " Allows keys to be pressed at the same time
 
 " Finding Files / Grep-like {{{
 Plugin 'rking/ag.vim' " Find code
@@ -280,6 +281,10 @@ function! VimuxSlime()
   call VimuxSendText(@v)
   call VimuxSendKeys("Enter")
 endfunction
+
+" Chords Settings {{{
+Arpeggio inoremap jk  <Esc>
+" }}}
 
 " Vimux Settings {{{
 
