@@ -11,31 +11,11 @@ Host github.com
     IdentityFile ~/.ssh/id_ed25519
     Port 443
 
-Host tv-atlas
-    Hostname 159.107.161.181
-    IdentityFile ~/.ssh/id_ericsson_tv
-    Port 22
-
-Host tv-odin
-    Hostname 159.107.164.132
-    IdentityFile ~/.ssh/id_ericsson_tv
-    Port 22
-
-Host tv-standup
-    Hostname 159.107.161.164
-    IdentityFile ~/.ssh/id_ericsson_tv
-    Port 22
-
 Host home
     Hostname eq.neilgrogan.com
     ServerAliveInterval 120
     IdentityFile ~/.ssh/id_ed25519
     User ngrogan
-
-Host nfsn
-    Hostname ssh.phx.nearlyfreespeech.net
-    ServerAliveInterval 120
-    User dueyfinster_ngrogan
 
 Host *
     ServerAliveInterval 300
