@@ -15,8 +15,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'airblade/vim-rooter'
-Plugin 'vimoutliner/vimoutliner' " For creating outlines
+Plugin 'airblade/vim-rooter' " Changes to working dir
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'benmills/vimux' " Interact with tmux in vim
 Plugin 'kana/vim-arpeggio' " Allows keys to be pressed at the same time
@@ -25,6 +24,11 @@ Plugin 'kana/vim-arpeggio' " Allows keys to be pressed at the same time
 Plugin 'rking/ag.vim' " Find code
 Plugin 'scrooloose/nerdtree' " file browser
 Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
+" }}}
+
+" Source Control {{{
+Plugin 'tpope/vim-fugitive' " Git support
+Plugin 'airblade/vim-gitgutter' " Git Gutter support
 " }}}
 
 " Source Code Browsing {{{
@@ -39,7 +43,6 @@ Plugin 'tpope/vim-commentary' " Vim comments
 Plugin 'tpope/vim-sleuth' " automatic spacing
 Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
 Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
-Plugin 'tpope/vim-fugitive' " Git support
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
@@ -227,8 +230,8 @@ nnoremap <Leader>u :UndotreeToggle<cr>
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
 " }}}
 
-nnoremap <F5> <esc>:w<enter>:!%:p<enter>
-inoremap <F5> <esc>:w<enter>:!%:p<enter>
+" nnoremap <F5> <esc>:w<enter>:!%:p<enter>
+" inoremap <F5> <esc>:w<enter>:!%:p<enter>
 
 autocmd filetype crontab setlocal nobackup nowritebackup
 
@@ -283,14 +286,29 @@ function! VimuxSlime()
 endfunction
 
 " Chords Settings {{{
-Arpeggio inoremap jk  <Esc>
+let g:arpeggio_timeoutlen = 70
+call arpeggio#load()
+
+Arpeggio inoremap jk <ESC>
+Arpeggio onoremap jk <ESC>
+Arpeggio vnoremap jk <ESC>
 " }}}
+
+" {{{ Git Gutter
+let g:gitgutter_max_signs = 999
+nnoremap <silent> ,gg :<C-u>GitGutterToggle<CR>
+nnoremap <silent> ,gh :<C-u>GitGutterLineHighlightsToggle<CR>
+" }}}
+
+nnoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>
+inoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>a
 
 " Vimux Settings {{{
 
 " Run the current project build
 map <Leader>rn :call RunInProjectDir("npm run")<CR>
-map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
+map <Leader>rm :call RunInProjectDir("make run")<CR>
+"map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
 map <Leader>rd :call RunInProjectDir("./run-docker.sh")<CR>
 :let maplocalleader = "\\"
 " If text is selected, save it in the v buffer and send to tmux
