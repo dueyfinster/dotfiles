@@ -8,7 +8,7 @@ Host gerrit.ericsson.se
 
 Host github.com
     Hostname ssh.github.com
-    IdentityFile ~/.ssh/id_personal
+    IdentityFile ~/.ssh/id_github
     Port 443
 
 Host home
