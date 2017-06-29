@@ -34,6 +34,7 @@ Plugin 'airblade/vim-gitgutter' " Git Gutter support
 " Source Code Browsing {{{
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
+Plugin 'ludovicchabant/vim-gutentags' " regenerates CTAGS
 Plugin 'majutsushi/tagbar' " Viewing source tree easier
 " }}}
 
@@ -52,10 +53,8 @@ Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
 
 " Language Support
-Plugin 'vim-ruby/vim-ruby' " ruby lang support
 Plugin 'klen/python-mode' " Python lang support
 Plugin 'leafgarland/typescript-vim' " typescript support
-Plugin 'kchmck/vim-coffee-script' " Coffeescript support
 Plugin 'ledger/vim-ledger' " Ledger accounting support
 
 " All of your Plugins must be added before the following line
