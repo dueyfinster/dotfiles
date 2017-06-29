@@ -8,18 +8,18 @@ Host gerrit.ericsson.se
 
 Host github.com
     Hostname ssh.github.com
-    IdentityFile ~/.ssh/id_ed25519
+    IdentityFile ~/.ssh/id_personal
     Port 443
 
 Host home
     Hostname eq.neilgrogan.com
     ServerAliveInterval 120
-    IdentityFile ~/.ssh/id_ed25519
+    IdentityFile ~/.ssh/id_personal
     User ngrogan
 
 Host *
     ServerAliveInterval 300
-    IdentityFile ~/.ssh/id_ed25519
+    IdentityFile ~/.ssh/id_personal
     ServerAliveCountMax 2
 
 Host *+*
