@@ -62,9 +62,6 @@ else
 
   packloadall
 
-  command! PackUpdate call minpac#update()
-  command! PackClean call minpac#clean()
-
   " Chords Settings {{{
   call arpeggio#load()
   let g:arpeggio_timeoutlen = 70
@@ -74,6 +71,12 @@ else
   Arpeggio vnoremap jk <ESC>
   " }}}
 endif
+
+" Define user commands for updating/cleaning the plugins.
+" Each of them loads minpac, reloads .vimrc to register the
+" information of plugins, then performs the task.
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 " }}}
 
 
@@ -102,18 +105,32 @@ set complete+=kspell
 " nmap <silent> <leader>s :set spell!<CR>
 " }}}
 
-" Solarized Colorscheme {{{
-"set background=dark
-let g:solarized_termtrans=1
-let g:solarized_termcolors=256
-"let g:solarized_contrast="high"
-"let g:solarized_visibility="high"
-colorscheme solarized
-set background=dark
+" colorscheme {{{
+" https://gist.github.com/XVilka/8346728#detection
+if has('termguicolors') && $COLORTERM =~# '^\(truecolor\|24bit\)$'
+  if &t_8f ==# '' || &t_8b ==# ''
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+  set termguicolors
+endif
+
+try
+  if &termguicolors || has('gui_running')
+    set background=dark
+    colorscheme solarized
+  elseif &t_Co == 256
+    set background=dark
+    colorscheme solarized
+    " let g:solarized_termtrans=1
+    " let g:solarized_termcolors=256
+  endif
+catch
+  set termguicolors&
+  colorscheme slate
+endtry
+
 map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-set t_Co=256
-"highlight Normal ctermbg=NONE
-"highlight nonText ctermbg=NONE
 " }}}
 
 " PyMode {{{
