@@ -5,62 +5,61 @@
 "    \  /  | | | | | | | | | (__
 "     \/   |_|_| |_| |_|_|  \___|
 "
-" Vundle {{{
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'airblade/vim-rooter' " Changes to working dir
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'benmills/vimux' " Interact with tmux in vim
-Plugin 'kana/vim-arpeggio' " Allows keys to be pressed at the same time
+" {{{ Minpac
+packadd minpac
+call minpac#init()
+call minpac#add('airblade/vim-rooter') " Changes to working dir
+call minpac#add('editorconfig/editorconfig-vim')
+call minpac#add('benmills/vimux') " Interact with tmux in vim
+call minpac#add('kana/vim-arpeggio') " Allows keys to be pressed at the same time
 
 " Finding Files / Grep-like {{{
-Plugin 'rking/ag.vim' " Find code
-Plugin 'scrooloose/nerdtree' " file browser
-Plugin 'ctrlpvim/ctrlp.vim' " Search through files, buffers etc
+call minpac#add('rking/ag.vim') " Find code
+call minpac#add('scrooloose/nerdtree') " file browser
+call minpac#add('ctrlpvim/ctrlp.vim') " Search through files, buffers etc
 " }}}
 
 " Source Control {{{
-Plugin 'tpope/vim-fugitive' " Git support
-Plugin 'airblade/vim-gitgutter' " Git Gutter support
+call minpac#add('tpope/vim-fugitive') " Git support
+call minpac#add('airblade/vim-gitgutter') " Git Gutter support
 " }}}
 
 " Source Code Browsing {{{
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
-Plugin 'ludovicchabant/vim-gutentags' " regenerates CTAGS
-Plugin 'majutsushi/tagbar' " Viewing source tree easier
+call minpac#add('xolox/vim-misc')
+call minpac#add('xolox/vim-easytags')
+call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
+call minpac#add('majutsushi/tagbar') " Viewing source tree easier
 " }}}
 
-"Plugin 'bling/vim-airline' " Better status bar
-Plugin 'tpope/vim-sensible' " Sensible defaults
-Plugin 'tpope/vim-commentary' " Vim comments
-Plugin 'tpope/vim-sleuth' " automatic spacing
-Plugin 'tpope/vim-surround' " Adds support for modifying surrounds
-Plugin 'tpope/vim-unimpaired' " Adds support for quick jumps in quickfix window
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+"call minpac#add('bling/vim-airline')" Better status bar
+call minpac#add('tpope/vim-sensible') " Sensible defaults
+call minpac#add('tpope/vim-commentary') " Vim comments
+call minpac#add('tpope/vim-sleuth') " automatic spacing
+call minpac#add('tpope/vim-surround') " Adds support for modifying surrounds
+call minpac#add('tpope/vim-unimpaired') " Adds support for quick jumps in quickfix window
+call minpac#add('SirVer/ultisnips')
+call minpac#add('honza/vim-snippets')
 
 
 " Colorschemes
-Plugin 'tomasr/molokai'
-Plugin 'altercation/vim-colors-solarized' "Solarized colourscheme
+call minpac#add('tomasr/molokai')
+call minpac#add('altercation/vim-colors-solarized') "Solarized colourscheme
 
 " Language Support
-Plugin 'klen/python-mode' " Python lang support
-Plugin 'leafgarland/typescript-vim' " typescript support
-Plugin 'ledger/vim-ledger' " Ledger accounting support
+call minpac#add('klen/python-mode') " Python lang support
+call minpac#add('leafgarland/typescript-vim') " typescript support
+call minpac#add('ledger/vim-ledger') " Ledger accounting support
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+packloadall
+
+command! PackUpdate call minpac#update()
+command! PackClean call minpac#clean()
 " }}}
+
+call arpeggio#load()
 
 " Map leader key
 let mapleader = ","
@@ -286,7 +285,6 @@ endfunction
 
 " Chords Settings {{{
 let g:arpeggio_timeoutlen = 70
-call arpeggio#load()
 
 Arpeggio inoremap jk <ESC>
 Arpeggio onoremap jk <ESC>
