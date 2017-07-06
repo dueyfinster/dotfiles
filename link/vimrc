@@ -64,7 +64,7 @@ else
 
   command! PackUpdate call minpac#update()
   command! PackClean call minpac#clean()
-  
+
   " Chords Settings {{{
   call arpeggio#load()
   let g:arpeggio_timeoutlen = 70
@@ -222,23 +222,32 @@ nmap <Leader>n :NERDTreeFind<CR>
 " }}}
 
 " CTRL-P Settings {{{
+let g:ctrlp_extensions = ['changes', 'line', 'quickfix', 'tag']
 
-" CTRL-P Settings
-:let g:ctrlp_map = '<Leader>t'
-" :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-:let g:ctrlp_user_command = 'rg %s --files --color=never ""'
-" Search open buffers with ctrlp
-nnoremap <Leader>r :CtrlPBuffer<cr>
-nnoremap <Leader>. :CtrlPTag<cr>
-" :let g:ctrlp_match_window_bottom = 0
-" :let g:ctrlp_match_window_reversed = 0
-:let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+nnoremap [ctrlp] <nop>
+nmap     <Leader>c [ctrlp]
+nnoremap <silent> [ctrlp]b :<C-u>CtrlPBuffer<CR>
+nnoremap <silent> [ctrlp]c :<C-u>CtrlPChangeAll<CR>
+nnoremap <silent> [ctrlp]f :<C-u>CtrlP<CR>
+nnoremap <silent> [ctrlp]l :<C-u>CtrlPLine<CR>
+nnoremap <silent> [ctrlp]r :<C-u>CtrlPMRU<CR>
+nnoremap <silent> [ctrlp]t :<C-u>CtrlPTag<CR>
 
-" CTRL-P buffers mapping
-":nmap ; :CtrlPBuffer<CR>
-nnoremap <Leader>u :UndotreeToggle<cr>
+let g:ctrlp_user_command = {}
+let g:ctrlp_user_command.types = {
+      \   1: ['.git', 'git --git-dir=%s/.git ls-files -co --exclude-standard'],
+      \ }
+" :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
 
+if executable('ag')
+  let g:ctrlp_user_command.fallback = 'ag %s --nocolor --nogroup -g ""'
+  " :let g:ctrlp_user_command = 'rg %s --files --color=never ""'
+  " :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
 " }}}
+
+nnoremap <Leader>u :UndotreeToggle<cr>
 
 " {{{ Tagbar Plugin Settings
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
