@@ -35,7 +35,7 @@ else
 
   " Source Code Browsing {{{
   call minpac#add('xolox/vim-misc')
-  call minpac#add('xolox/vim-easytags')
+  " call minpac#add('xolox/vim-easytags')
   call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
   call minpac#add('majutsushi/tagbar') " Viewing source tree easier
   " }}}
@@ -94,8 +94,31 @@ set showcmd " display incomplete commands
 " Don't make backups at all
 set nobackup
 set nowritebackup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+
+" Set Cache Settings {{{
+set tags=./tags;/
+
+" Store persistent undo
+if has("persistent_undo")
+ set undofile
+ set undolevels=1000         " How many undos
+ set undoreload=10000        " number of lines to save for undo
+endif
+" }}}
+
+if has("unix")
+    set directory=/tmp/
+    set undodir=/tmp/
+elseif has("win32") || has("win64")
+    if isdirectory("C:/Temp")
+        set directory=C://Temp
+        set undodir=C://Temp
+    else
+        set directory=$HOME
+        set undodir=$HOME
+    endif
+endif
 
 " {{{ Spelling Settings
 autocmd BufRead,BufNewFile *.md setlocal spell
@@ -154,18 +177,6 @@ if has("autocmd")
 endif
 " }}}
 
-" Set Cache Settings {{{
-set directory=$HOME/.dotfiles/caches/ " Set the directory to store .swp files
-set tags=./tags;/
-
-" Store persistent undo
-if has("persistent_undo")
- set undofile
- set undodir=$HOME/.dotfiles/caches
- set undolevels=1000         " How many undos
- set undoreload=10000        " number of lines to save for undo
-endif
-" }}}
 
 " Move to last edited line if buffer reopened
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
