@@ -173,7 +173,7 @@ nnoremap <leader>vv :tabedit $MYVIMRC<CR>
 
 " Source the vimrc file after saving it
 if has("autocmd")
-  autocmd bufwritepost .vimrc source $MYVIMRC
+  autocmd bufwritepost vimrc source $MYVIMRC
 endif
 " }}}
 
@@ -272,6 +272,27 @@ let g:quickrun_config = {}
 let g:quickrun_config.python = {
 \       "command" : "python3",
 \}
+
+" let g:quickrun_config['typescript'] = {
+" \       "command": "npm",
+" \       "exec" : "%c test -- -p",
+" \       "hook/cd/directory": "%:t:r",
+" \       "hook/cd": "%:t:r"
+" \}
+
+au! BufNewFile,BufRead *.ts call s:RunTS()
+
+function! s:RunTS()
+  if match(expand('%:p'), 'Shield')
+    let s:wd = expand('%:p:h')
+    let b:quickrun_config = get(get(g:, 'quickrun_config', {}), 'typescript', {})
+    echom(s:wd)
+    let b:quickrun_config['hook/cd/directory'] = s:wd
+    let b:quickrun_config['hook/cd'] = s:wd
+    let b:quickrun_config.exec = "npm test -- -p ".expand('%:t:r')
+  endif
+endfunction
+
 let g:quickrun_config = {
                         \ "_" : {
                         \	"outputter/buffer/split" : ":botright 8sp",
