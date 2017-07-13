@@ -1,7 +1,10 @@
 snippet fmatter
 ---
 title: $1
-date: ${2:`date +%Y-%m-%d`}
+date: ${2:`!p
+import datetime
+snip.rv = datetime.date.today().strftime('%Y/%m/%d')
+`}
 tags: $3
 ---
 $0
