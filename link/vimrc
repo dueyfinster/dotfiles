@@ -56,9 +56,12 @@ else
 
   " Language Support
   call minpac#add('thinca/vim-quickrun') " Python lang support
-  call minpac#add('klen/python-mode') " Python lang support
+  " call minpac#add('klen/python-mode') " Python lang support
   call minpac#add('leafgarland/typescript-vim') " typescript support
   call minpac#add('ledger/vim-ledger') " Ledger accounting support
+  call minpac#add('mitermayer/vim-prettier', { 
+        \ 'do': '!npm install', 
+        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] } )
 
   packloadall
 
