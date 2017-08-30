@@ -25,4 +25,13 @@ function src() {
   fi
 }
 
+# Source all files in "source"
+function completion() {
+  local file
+  for file in $DOTFILES/link/bash-completion.d/*; do
+    source "$file"
+  done
+}
+
 src
+completion
