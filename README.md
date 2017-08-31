@@ -20,4 +20,3 @@ bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
 * The `/vendor` directory contains third-party libraries.
 
 [dotfiles]: bin/dotfiles
-
