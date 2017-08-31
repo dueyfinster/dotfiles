@@ -13,6 +13,11 @@ export TMUXIFIER_LAYOUT_PATH="$HOME/.dotfiles/link/tmux-layouts"
 # Add binaries into the path
 export PATH="$DOTFILES/bin:$HOME/.tmuxifier/bin:$PATH"
 
+# Add Dircolors
+if [ -x "$(command -v dircolors)" ]; then
+  eval $(dircolors "$HOME/.dotfiles/link/dircolors.256dark")
+fi
+
 # Source all files in "source"
 function src() {
   local file
