@@ -2,7 +2,7 @@
 [![Circle
 CI](https://circleci.com/gh/dueyfinster/dotfiles/tree/master.svg?style=svg)](https://circleci.com/gh/dueyfinster/dotfiles/tree/master)
 [![Build
-status](https://ci.appveyor.com/api/projects/status/p8fx9mjvxmqd4dl3?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles-0iv0q)
+status](https://ci.appveyor.com/api/projects/status/v0lhd0mf2997i73a?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles-0iv0q)
 # dotfiles
 ## Install
 
