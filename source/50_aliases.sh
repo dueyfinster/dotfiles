@@ -75,8 +75,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias --="cd -"
-
 
 b() { # go back x directories
     str=""
