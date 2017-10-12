@@ -57,16 +57,86 @@ ft() {
     find . -name "$2" -exec grep -il "$1" {} \;
 }
 
+command_exists () {
+  type "$1" &> /dev/null ;
+}
 
-### Clipboard {{{
+if command_exists apt-get; then
+  alias pkgc="sudo apt-get autoremove"
+  alias pkgi="sudo apt-get install"
+  alias pkgr="sudo apt-get remove"
+  alias pkgs="apt-cache search"
+  alias pkgup="sudo apt-get update"
+  alias pkgug="sudo apt-get upgrade"
+elif command_exists brew; then
+  alias pkgc="brew cleanup"
+  alias pkgi="brew install"
+  alias pkgr="brew remove"
+  alias pkgs="brew search"
+  alias pkgup="brew update"
+  alias pkgug="brew upgrade"
+fi
+
+
+alias c='clear'
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+
+b() { # go back x directories
+    str=""
+    count=0
+    while [ "$count" -lt "$1" ];
+    do
+        str=$str"../"
+        let count=count+1
+    done
+    cd $str
+}
+
+mcd() { # Make a Directory and CD in to it
+   mkdir -p "$1" && cd "$1";
+}
+
+if is_osx; then
+  FILE_MANAGER='open'
+elif is_ubuntu; then
+  FILE_MANAGER='nautilus'
+elif is_win; then
+  FILE_MANAGER='/bin/cygstart --explore'
+fi
+
+# `o` with no arguments opens the current directory, otherwise opens the given
+# location
+function o() {
+  if [ $# -eq 0 ]; then
+    $FILE_MANAGER . & 
+  else
+    $FILE_MANAGER "$@" & 
+  fi;
+}
+
+
+### System Specific Aliases {{{
 if is_ubuntu; then
-    alias copy='xclip -selection clipboard'
-    alias paste='xclip -selection clipboard -o'
+  alias copy='xclip -selection clipboard'
+  alias paste='xclip -selection clipboard -o'
+  alias ls='ls -F --color=auto'
+  alias l.='ls -d .* --color=auto' # show hidden files only
+  alias l='ls -lAh --color'
+  alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
 fi
 
 if is_osx; then
-    alias copy='pbcopy'
-    alias paste='pbpaste'
+  alias copy='pbcopy'
+  alias paste='pbpaste'
+  alias ls="ls -G"
 fi
 
 
@@ -143,6 +213,25 @@ function d(){
   docker "$@"
 }
 # }}}
+
+
+export EDITOR='vim'
+
+
+# `v` with no arguments opens the current directory in Vim, otherwise opens the
+# given location
+function v() {
+	if [ $# -eq 0 ]; then
+		$EDITOR .;
+	else
+		$EDITOR "$@";
+	fi;
+}
+
+export VISUAL="$EDITOR"
+#alias vv="cd $DOTFILES/link && v $DOTFILES/link/.{,g}vimrc +'cd $DOTFILES'"
+alias vv="cd $DOTFILES/link && v $DOTFILES/link/vimrc +'cd $DOTFILES'"
+alias vd="cd $DOTFILES && v $DOTFILES"
 
 # A collection of server and network commands {{{
 alias httpserv="python -m SimpleHTTPServer" # Serve current directory as a webpage
