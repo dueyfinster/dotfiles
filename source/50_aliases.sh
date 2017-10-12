@@ -13,24 +13,14 @@ alias hist='history'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 alias c='clear'
 
-alias grey-grep="GREP_COLOR='1;30' grep --color=always"
 alias red-grep="GREP_COLOR='1;31' grep --color=always"
-alias green-grep="GREP_COLOR='1;32' grep --color=always"
-alias yellow-grep="GREP_COLOR='1;33' grep --color=always"
-alias blue-grep="GREP_COLOR='1;34' grep --color=always"
-alias magenta-grep="GREP_COLOR='1;35' grep --color=always"
-alias cyan-grep="GREP_COLOR='1;36' grep --color=always"
 alias white-grep="GREP_COLOR='1;37' grep --color=always"
-
-alias highlight-green="green-grep -C 10000"
-alias highlight-red="red-grep -C 10000"
-alias highlight-yellow="yellow-grep -C 10000"
 
 alias lf='ls -Gl | grep ^d' #Only list directories
 alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 alias sweep='find ~ -type f \( -name '*.swp' -o -name 'wget.log' -o -name 'foobar*' -o -name '*~' -o -name '.netrwhist'  \) -delete' # clean temp files in home directory
 alias hi='history | red-grep '
-alias ga='alias | red-grep'
+alias ga='alias | red-grep '
 
 extract () { # extracts common archives
     if [ -f $1 ] ; then
@@ -85,8 +75,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
+alias --="cd -"
 
 
 b() { # go back x directories
@@ -156,61 +145,18 @@ alias tms='ps -ef | grep'
 alias tmu="tmuxifier"
 # }}}
 
-### Git Commands {{{
-if [[ "$(type -P brew)" ]] && is_osx; then
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-      . $(brew --prefix)/etc/bash_completion
-  fi
-fi
-
-if [[ is_ubuntu ]]; then
-  if [ -f /usr/share/bash-completion/completions/git ]; then
-      . /usr/share/bash-completion/completions/git
-  fi
-fi
-
-function_exists() {
-    declare -f -F $1 > /dev/null
-    return $?
-}
-
-for al in `__git_aliases`; do
-    alias g$al="git $al"
-
-    complete_func=_git_$(__git_aliased_command $al)
-    function_exists $complete_fnc && __git_complete g$al $complete_func
-done
-# }}}
 
 # Docker commands {{{
 dshell(){
  docker exec -i -t $1 /bin/bash
 }
-alias d="docker"
-alias di='docker images'
-alias dps='docker ps'
-alias dim='docker images'
-alias dka='docker kill $(docker ps -q --no-trunc)'
-alias dsta='docker stop $(docker ps -q --no-trunc)'
-alias drmae='docker rm $(docker ps -qa --no-trunc --filter "status=exited")'
-alias drmiad='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
-alias dr='docker run'
-alias dritrm='docker run -it --rm'
-#alias dr='docker run -it --rm'
-alias dpsa='docker ps -a'
-alias din='docker inspect'
-
-alias dc="docker-compose"
-alias dcu="docker-compose up -d"
-alias dcl="docker-compose logs"
-alias dck="docker-compose kill"
-alias dcr="docker-compose rm"
-alias dcrf="docker-compose rm -f"
-
-alias dm="docker-machine"
 
 function d(){
   docker "$@"
+}
+
+function dc(){
+  docker-compose "$@"
 }
 # }}}
 
