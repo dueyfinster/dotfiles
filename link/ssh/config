@@ -6,6 +6,10 @@ Host gerrit.ericsson.se
     Hostname gerrit.ericsson.se
     IdentityFile ~/.ssh/id_ericsson
 
+Host hubseli
+    Hostname 150.132.76.53
+    IdentityFile ~/.ssh/id_ericsson
+
 Host github.com
     Hostname ssh.github.com
     IdentityFile ~/.ssh/id_github
