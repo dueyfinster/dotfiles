@@ -102,6 +102,7 @@ set nowritebackup
 
 
 " Set Cache Settings {{{
+let b:gutentags_tagfile = '.git/tags'
 set tags=./tags;/
 
 " Store persistent undo
