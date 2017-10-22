@@ -23,6 +23,10 @@ else
   call minpac#add('kana/vim-arpeggio') " Allows keys to be pressed at the same time
 
   " Finding Files / Grep-like {{{
+  ""
+  call minpac#add('mileszs/ack.vim') " Find code
+  call minpac#add('junegunn/fzf.vim') " Fuzzy match
+  ""
   call minpac#add('rking/ag.vim') " Find code
   call minpac#add('scrooloose/nerdtree') " file browser
   call minpac#add('ctrlpvim/ctrlp.vim') " Search through files, buffers etc
@@ -59,8 +63,8 @@ else
   " call minpac#add('klen/python-mode') " Python lang support
   call minpac#add('leafgarland/typescript-vim') " typescript support
   call minpac#add('ledger/vim-ledger') " Ledger accounting support
-  call minpac#add('mitermayer/vim-prettier', { 
-        \ 'do': '!npm install', 
+  call minpac#add('mitermayer/vim-prettier', {
+        \ 'do': '!npm install',
         \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] } )
 
   packloadall
