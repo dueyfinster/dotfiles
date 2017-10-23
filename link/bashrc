@@ -12,6 +12,7 @@ export TMUXIFIER_LAYOUT_PATH="$HOME/.dotfiles/link/tmux-layouts"
 
 # Add binaries into the path
 export PATH="$DOTFILES/bin:$HOME/.tmuxifier/bin:$PATH"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
