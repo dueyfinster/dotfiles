@@ -41,25 +41,25 @@ done
 #
 # REPO Commands
 #
-alias rep_reset_ap="find "$REPOS_HOME"/ap* -maxdepth 1 -type d -name .git -execdir git fetch origin \; -execdir git checkout master \; -execdir git reset --hard origin/master \;"
-alias rep_reset_all="find "$REPOS_HOME"/* -maxdepth 1 -type d -name .git -execdir git checkout master \; -execdir git reset --hard origin/master \;"
+# alias rep_reset_ap="find "$REPOS_HOME"/ap* -maxdepth 1 -type d -name .git -execdir git fetch origin \; -execdir git checkout master \; -execdir git reset --hard origin/master \;"
+# alias rep_reset_all="find "$REPOS_HOME"/* -maxdepth 1 -type d -name .git -execdir git checkout master \; -execdir git reset --hard origin/master \;"
 
-alias rep_update_all="find "$REPOS_HOME"/* -maxdepth 1 -type d -name .git -execdir git com \; -execdir git rebase origin/master \;"
-alias rep_update_ap="find "$REPOS_HOME"/ap* -maxdepth 1 -type d -name .git -execdir git checkout master \; -execdir git rebase origin/master \;"
+# alias rep_update_all="find "$REPOS_HOME"/* -maxdepth 1 -type d -name .git -execdir git com \; -execdir git rebase origin/master \;"
+# alias rep_update_ap="find "$REPOS_HOME"/ap* -maxdepth 1 -type d -name .git -execdir git checkout master \; -execdir git rebase origin/master \;"
 
 #
 # BUILD & DEPLOY COMMANDS
 #
-alias apbuild="cd $REPOS_HOME/ap-parent && mvn clean install -Dmodules -Dsnapshot.all"
-alias apdeploy="cd $REPOS_HOME/ap-parent/deployment && mvn clean install -Ddev.local -Dsnapshot.all"
+# alias apbuild="cd $REPOS_HOME/ap-parent && mvn clean install -Dmodules -Dsnapshot.all"
+# alias apdeploy="cd $REPOS_HOME/ap-parent/deployment && mvn clean install -Ddev.local -Dsnapshot.all"
 
 
-alias killjboss="ps -ef | grep java | grep -v grep | grep jboss | awk '{print $2}' | xargs kill -9"
-alias rwa="source $HOME/.work_aliases.sh" # reload aliases
-alias cli-start="cd $CLI_HOME && cdt2 serve --proxy-config dev/js/proxy-config.json"
-alias repos="cd $REPOS_HOME"
-alias jboss="cd $JBOSS_HOME"
-alias cli-chrome="/usr/bin/google-chrome --allow-file-access-from-files --disable-web-security -incognito --new-window http://localhost:8585/#cliapp"
+# alias killjboss="ps -ef | grep java | grep -v grep | grep jboss | awk '{print $2}' | xargs kill -9"
+# alias rwa="source $HOME/.work_aliases.sh" # reload aliases
+# alias cli-start="cd $CLI_HOME && cdt2 serve --proxy-config dev/js/proxy-config.json"
+# alias repos="cd $REPOS_HOME"
+# alias jboss="cd $JBOSS_HOME"
+# alias cli-chrome="/usr/bin/google-chrome --allow-file-access-from-files --disable-web-security -incognito --new-window http://localhost:8585/#cliapp"
 
 copy_rpms(){
   find . -name '*.rpm' -exec cp {} $1 \;
@@ -68,17 +68,17 @@ copy_rpms(){
 #
 # Test Commands
 
-alias tafregression="cd $REPOS_HOME/ap-macro-testware && mvn clean install -Dsnapshot.all -Dsuites=APERbsRegressionSuite.xml"
+# alias tafregression="cd $REPOS_HOME/ap-macro-testware && mvn clean install -Dsnapshot.all -Dsuites=APERbsRegressionSuite.xml"
 
-rebase_ap(){
-    cd $REPOS_HOME
-    repos=($(find . -mindepth 1 -maxdepth 1 -type d -name 'ap*'))
-    for D in ${arr[@]}; do
-        cd $D;
-	git rebase origin/master
-        cd ..
-    done
-}
+# rebase_ap(){
+#     cd $REPOS_HOME
+#     repos=($(find . -mindepth 1 -maxdepth 1 -type d -name 'ap*'))
+#     for D in ${arr[@]}; do
+#         cd $D;
+# 	git rebase origin/master
+#         cd ..
+#     done
+# }
 
 
 ## Versant Commands
