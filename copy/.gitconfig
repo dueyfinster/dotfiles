@@ -1,0 +1,4 @@
+[user]
+	email = neil@grogan.ie
+[include]
+	path = ~/.dotfiles/link/gitconfig
