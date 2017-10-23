@@ -129,9 +129,9 @@ fi
 # location
 function o() {
   if [ $# -eq 0 ]; then
-    $FILE_MANAGER . & 
+    $FILE_MANAGER . &
   else
-    $FILE_MANAGER "$@" & 
+    $FILE_MANAGER "$@" &
   fi;
 }
 
@@ -200,7 +200,7 @@ function v() {
 
 export VISUAL="$EDITOR"
 #alias vv="cd $DOTFILES/link && v $DOTFILES/link/.{,g}vimrc +'cd $DOTFILES'"
-alias vv="cd $DOTFILES/link && v $DOTFILES/link/vimrc +'cd $DOTFILES'"
+alias vv="cd $DOTFILES/conf && v $DOTFILES/conf/vimrc +'cd $DOTFILES'"
 alias vd="cd $DOTFILES && v $DOTFILES"
 
 # A collection of server and network commands {{{
