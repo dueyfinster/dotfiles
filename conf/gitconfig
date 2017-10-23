@@ -13,6 +13,7 @@
   r = rebase
 	s = status
 	p = push
+	pf = push --force
   pl = pull
 	ctags = !.git/hooks/ctags
 [push]
