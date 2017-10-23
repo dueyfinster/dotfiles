@@ -25,7 +25,8 @@ else
   " Finding Files / Grep-like {{{
   ""
   call minpac#add('mileszs/ack.vim') " Find code
-  call minpac#add('junegunn/fzf.vim') " Fuzzy match
+  call minpac#add('junegunn/fzf', {'do': '!./install --all'})
+  call minpac#add('junegunn/fzf.vim')
   ""
   call minpac#add('rking/ag.vim') " Find code
   call minpac#add('scrooloose/nerdtree') " file browser
@@ -87,7 +88,6 @@ endif
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 " }}}
-
 
 " Map leader key
 let mapleader = ","
@@ -321,6 +321,11 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 
 " CTRL-P Settings {{{
 let g:ctrlp_extensions = ['changes', 'line', 'quickfix', 'tag']
+
+
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>r :Tags<CR>
 
 nnoremap [ctrlp] <nop>
 nmap     <Leader>c [ctrlp]
