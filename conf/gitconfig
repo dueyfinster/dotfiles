@@ -29,4 +29,4 @@
 [credential]
 	helper = cache --timeout=3600
 [init]
-	templatedir = ~/.git_template
+	templatedir = ~/.dotfiles/conf/git_template
