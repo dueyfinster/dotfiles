@@ -1,1 +1,1 @@
-source "$HOME/.dotfiles/link/bashrc"
+source "$HOME/.dotfiles/conf/bashrc"
