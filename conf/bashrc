@@ -16,7 +16,7 @@ export PATH="$DOTFILES/bin:$HOME/.tmuxifier/bin:$PATH"
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
-  eval $(dircolors "$HOME/.dotfiles/link/dircolors.256dark")
+  eval $(dircolors "$HOME/.dotfiles/conf/dircolors.256dark")
 fi
 
 # Source all files in "source"
@@ -34,7 +34,7 @@ function src() {
 # Source all files in "source"
 function completion() {
   local file
-  for file in $DOTFILES/link/bash-completion.d/*; do
+  for file in $DOTFILES/conf/bash-completion.d/*; do
     source "$file"
   done
 }
