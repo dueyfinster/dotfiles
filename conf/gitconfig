@@ -30,3 +30,5 @@
 	helper = cache --timeout=3600
 [init]
 	templatedir = ~/.dotfiles/conf/git_template
+[core]
+	excludesfile = ~/.dotfiles/conf/gitexcludes
