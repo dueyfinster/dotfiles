@@ -1,4 +1,5 @@
-pubring.gpg
+pubring*
+private-keys*
 gpg-agent.conf
 openpgp-revocs.d/
 trustdb.gpg
