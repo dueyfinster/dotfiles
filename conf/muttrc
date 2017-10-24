@@ -1,6 +1,6 @@
 # .muttrc
 # ================  IMAP ====================
-source "gpg -d ~/.mutt/passwords.gpg |"
+source "gpg -d ~/.dotfiles/conf/mutt/passwords.gpg |"
 set folder = imaps://imap.gmail.com:993/
 set spoolfile = +INBOX
 # set record = "+[Gmail]/Sent Mail"
