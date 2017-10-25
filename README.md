@@ -1,8 +1,7 @@
 [![Build Status](https://travis-ci.org/dueyfinster/dotfiles.svg?branch=master)](https://travis-ci.org/dueyfinster/dotfiles)
 [![Circle
 CI](https://circleci.com/gh/dueyfinster/dotfiles/tree/master.svg?style=svg)](https://circleci.com/gh/dueyfinster/dotfiles/tree/master)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/v0lhd0mf2997i73a?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles-0iv0q)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/v0lhd0mf2997i73a/branch/master?svg=true)](https://ci.appveyor.com/project/dueyfinster/dotfiles/branch/master)
 # dotfiles
 ## Install
 
