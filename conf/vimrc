@@ -322,22 +322,37 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 " CTRL-P Settings {{{
 let g:ctrlp_extensions = ['changes', 'line', 'quickfix', 'tag']
 
-
+" {{{ Map FZF Commands
 nmap ; :Buffers<CR>
 nmap <Leader>t :Files<CR>
 nmap <Leader>r :Tags<CR>
+" }}}
+
+" Search word under cursor with Ack
 nmap <M-k> :Ack! "\b<cword>\b" <CR>
 nmap <Esc>k :Ack! "\b<cword>\b" <CR>
+" Close quickfix window
 nmap \x :cclose<CR>
 
+
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "!{.git,node_modules,vendor,pack,plugins}/*" '
+" Optional to add if only want certain files:
+" \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+
+" Bind a new Rg command that uses FZF to search
 command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>), 1,
+      \ call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1,
       \   <bang>0 ? fzf#vim#with_preview('up:60%')
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 
+" Use Rg Command to search word under cursor
 nnoremap <C-p>a :Rg! <cword><CR>
+
+" Search and Replace word under cursor
+nmap <leader>w :s/\(<c-r>=expand("<cword>")<cr>\)/
 
 nnoremap [ctrlp] <nop>
 nmap     <Leader>c [ctrlp]
