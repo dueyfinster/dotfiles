@@ -11,17 +11,16 @@ recipes=(
   ctags
   coreutils
   findutils
+  fzf
   gcc
   git
   git-extras
   irssi
   mutt
   python3
-  the_silver_searcher
   tmux
   vim
-  ruby
-  rtorrent
+  ripgrep
   ssh-copy-id
 )
 
