@@ -13,7 +13,7 @@ declare -a a1=(ppa:pi-rho/dev tmux)
 declare -a a2=(ppa:jonathonf/vim vim)
 #declare -a a2=(ppa:lvillani/i3 i3-wm)
 
-for i in $(seq 1) # Update Number, then done..
+for i in $(seq 2) # Update Number, then done..
 do
 	array="a$i"
 	ppa_name=${!array[0]}
