@@ -7,3 +7,5 @@ install: true
 before_script:
   - chmod +x bin/dotfiles
 script: travis_wait; ./bin/dotfiles
+after_success:
+  - ls -altr ~/
