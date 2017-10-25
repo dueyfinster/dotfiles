@@ -8,8 +8,9 @@ sudo apt-get install -y python-software-properties software-properties-common
 
 # ADD ARRAY, THEN UPDATE FOR LOOP SEQUENCE!
 
-# Array, with ppa name first, followed by packages 
-declare -a a1=(ppa:pi-rho/dev tmux vim)
+# Array, with ppa name first, followed by packages
+declare -a a1=(ppa:pi-rho/dev tmux)
+declare -a a2=(ppa:jonathonf/vim vim)
 #declare -a a2=(ppa:lvillani/i3 i3-wm)
 
 for i in $(seq 1) # Update Number, then done..
