@@ -179,7 +179,8 @@ set backspace+=start
 
 " vimrc editing shortcuts {{{
 " Edit vimrc with <leader> vv
-nnoremap <leader>vv :tabedit $MYVIMRC<CR>
+nnoremap <leader>vh :e $MYVIMRC<CR>
+nnoremap <leader>vv :e ~/.dotfiles/conf/vimrc<CR>
 
 " Source the vimrc file after saving it
 if has("autocmd")
@@ -252,6 +253,38 @@ noremap  <Down> <Nop>
 noremap  <Left> <Nop>
 noremap  <Right> <Nop>
 
+
+" TERMINAL {{{
+
+if has('terminal')
+	" Enter terminal-normal mode using two ESCs
+	tnoremap <Esc><Esc> <C-\><C-n>
+
+	" Set terminal colour
+	hi Terminal ctermbg=black
+	"  hi Terminal ctermbg=lightgrey ctermfg=blue guibg=lightgrey guifg=blue
+
+	" Create a terminal buffer in
+	"	- current window : SPACE+c
+	"	- split          : SPACE+s
+	"	- 1/5th split   : SPACE+t
+	"	- 1/3rd vsplit   : SPACE+v
+	"	- new tab        : SPACE+t
+	nnoremap <Space>c :term ++curwin<CR>
+	nnoremap <Space>s :term<CR>
+	nnoremap <Space>t :execute "rightbelow" . float2nr(0.20 * winheight(0)) . "split <bar> :term ++curwin"<CR>
+	nnoremap <Space>v :execute "rightbelow" . float2nr(0.33 * winwidth(0)) . "vsplit <bar> :term ++curwin"<CR>
+	nnoremap <Space>t :execute ":tabnew <bar> term ++curwin"<CR>
+
+	" Send key-sequence to a terminal window using SPACE+e
+	command! -nargs=+ SendKeys :call term_sendkeys(bufnr("bash"), <q-args>."\<CR>")
+	nnoremap <Space>e :SendKeys<Space>
+	command! RepeatCommand :call term_sendkeys(bufnr("bash"), "\<C-p>\<CR>")
+	nnoremap <Space>r :RepeatCommand<CR>
+endif
+
+" }}}
+
 " PLUGIN SETTINGS {{{
 """""""""""""""""
 
@@ -322,11 +355,33 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 " CTRL-P Settings {{{
 let g:ctrlp_extensions = ['changes', 'line', 'quickfix', 'tag']
 
-" {{{ Map FZF Commands
+nnoremap [ctrlp] <nop>
+nmap     <Leader>c [ctrlp]
+nnoremap <silent> [ctrlp]b :<C-u>CtrlPBuffer<CR>
+nnoremap <silent> [ctrlp]c :<C-u>CtrlPChangeAll<CR>
+nnoremap <silent> [ctrlp]f :<C-u>CtrlP<CR>
+nnoremap <silent> [ctrlp]l :<C-u>CtrlPLine<CR>
+nnoremap <silent> [ctrlp]r :<C-u>CtrlPMRU<CR>
+nnoremap <silent> [ctrlp]t :<C-u>CtrlPTag<CR>
+
+let g:ctrlp_user_command = {}
+let g:ctrlp_user_command.types = {
+      \   1: ['.git', 'git --git-dir=%s/.git ls-files -co --exclude-standard'],
+      \ }
+" :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
+
+if executable('ag')
+  let g:ctrlp_user_command.fallback = 'ag %s --nocolor --nogroup -g ""'
+  " :let g:ctrlp_user_command = 'rg %s --files --color=never ""'
+  " :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+" }}}
+
+" {{{ FZF & RIPGREP
 nmap ; :Buffers<CR>
 nmap <Leader>t :Files<CR>
 nmap <Leader>r :Tags<CR>
-" }}}
 
 " Search word under cursor with Ack
 nmap <M-k> :Ack! "\b<cword>\b" <CR>
@@ -350,32 +405,11 @@ command! -bang -nargs=* Rg
 
 " Use Rg Command to search word under cursor
 nnoremap <C-p>a :Rg! <cword><CR>
+" }}}
 
 " Search and Replace word under cursor
 nmap <leader>w :s/\(<c-r>=expand("<cword>")<cr>\)/
 
-nnoremap [ctrlp] <nop>
-nmap     <Leader>c [ctrlp]
-nnoremap <silent> [ctrlp]b :<C-u>CtrlPBuffer<CR>
-nnoremap <silent> [ctrlp]c :<C-u>CtrlPChangeAll<CR>
-nnoremap <silent> [ctrlp]f :<C-u>CtrlP<CR>
-nnoremap <silent> [ctrlp]l :<C-u>CtrlPLine<CR>
-nnoremap <silent> [ctrlp]r :<C-u>CtrlPMRU<CR>
-nnoremap <silent> [ctrlp]t :<C-u>CtrlPTag<CR>
-
-let g:ctrlp_user_command = {}
-let g:ctrlp_user_command.types = {
-      \   1: ['.git', 'git --git-dir=%s/.git ls-files -co --exclude-standard'],
-      \ }
-" :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
-
-if executable('ag')
-  let g:ctrlp_user_command.fallback = 'ag %s --nocolor --nogroup -g ""'
-  " :let g:ctrlp_user_command = 'rg %s --files --color=never ""'
-  " :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
-" }}}
 
 nnoremap <Leader>u :UndotreeToggle<cr>
 
