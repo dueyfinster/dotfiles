@@ -28,7 +28,6 @@ else
   call minpac#add('junegunn/fzf', {'do': '!./install --all'})
   call minpac#add('junegunn/fzf.vim')
   ""
-  call minpac#add('scrooloose/nerdtree') " file browser
   call minpac#add('ctrlpvim/ctrlp.vim') " Search through files, buffers etc
   " }}}
 
