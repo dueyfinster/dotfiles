@@ -27,8 +27,6 @@ else
   call minpac#add('mileszs/ack.vim') " Find code
   call minpac#add('junegunn/fzf', {'do': '!./install --all'})
   call minpac#add('junegunn/fzf.vim')
-  ""
-  call minpac#add('ctrlpvim/ctrlp.vim') " Search through files, buffers etc
   " }}}
 
   " {{{ Shells and Runners
@@ -104,7 +102,7 @@ set nowritebackup
 
 
 " Set Cache Settings {{{
-let g:gutentags_ctags_exclude = ['*vim*', '*tmux*']
+let g:gutentags_ctags_exclude = ["node_modules","plugged","tmp","temp","tmux","log","vendor","vim"]
 let g:gutentags_cache_dir = '.git/'
 let b:gutentags_tagfile = '.git/tags'
 let g:gutentags_init_user_func = "SetGutentagsDirectory"
@@ -362,32 +360,6 @@ let g:quickrun_config.python = {
 
 nnoremap <silent> <Leader>r :<C-u>QuickRun<CR>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
-" }}}
-
-" CTRL-P Settings {{{
-let g:ctrlp_extensions = ['changes', 'line', 'quickfix', 'tag']
-
-nnoremap [ctrlp] <nop>
-nmap     <Leader>c [ctrlp]
-nnoremap <silent> [ctrlp]b :<C-u>CtrlPBuffer<CR>
-nnoremap <silent> [ctrlp]c :<C-u>CtrlPChangeAll<CR>
-nnoremap <silent> [ctrlp]f :<C-u>CtrlP<CR>
-nnoremap <silent> [ctrlp]l :<C-u>CtrlPLine<CR>
-nnoremap <silent> [ctrlp]r :<C-u>CtrlPMRU<CR>
-nnoremap <silent> [ctrlp]t :<C-u>CtrlPTag<CR>
-
-let g:ctrlp_user_command = {}
-let g:ctrlp_user_command.types = {
-      \   1: ['.git', 'git --git-dir=%s/.git ls-files -co --exclude-standard'],
-      \ }
-" :let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|\v\~$|\.(o|swp|pyc|wav|mp3|ttf|ogg|blend|jar|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py'
-
-if executable('ag')
-  let g:ctrlp_user_command.fallback = 'ag %s --nocolor --nogroup -g ""'
-  " :let g:ctrlp_user_command = 'rg %s --files --color=never ""'
-  " :let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
 " }}}
 
 " {{{ FZF & RIPGREP
