@@ -37,7 +37,7 @@ else
   " Source Control & Tags {{{
   call minpac#add('tpope/vim-fugitive') " Git support
   call minpac#add('airblade/vim-gitgutter') " Git Gutter support
-  call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
+  " call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
   call minpac#add('majutsushi/tagbar') " Viewing source tree easier
   " }}}
 
@@ -102,22 +102,23 @@ set nowritebackup
 
 
 " Set Cache Settings {{{
-let g:gutentags_ctags_exclude = ["node_modules","plugged","tmp","temp","tmux","log","vendor","vim"]
-let g:gutentags_cache_dir = '.git/'
-let b:gutentags_tagfile = '.git/tags'
-let g:gutentags_init_user_func = "SetGutentagsDirectory"
+" let g:gutentags_ctags_exclude = =["node_modules","plugged","tmp","temp","log","vendor"]
+" let g:gutentags_cache_dir = '.git/'
+" let b:gutentags_tagfile = '.git/tags'
+" let g:gutentags_init_user_func = "SetGutentagsDirectory"
 
-function! SetGutentagsDirectory(buffer_filename)
-  let l:git_root=system('git rev-parse --git-dir 2>/dev/null')
-  if v:shell_error
-    let b:gutentags_tagfile = 'tags'
-  else
-    let b:gutentags_tagfile = '.git/tags'
-  endif
-  return 1
-endfunction
+" function! SetGutentagsDirectory(buffer_filename)
+"   let l:git_root=system('git rev-parse --git-dir 2>/dev/null')
+"   if v:shell_error
+"     let b:gutentags_tagfile = 'tags'
+"   else
+"     let b:gutentags_tagfile = '.git/tags'
+"   endif
+"   return 1
+" endfunction
 
-set tags=tags,.git/tags
+let g:fzf_tags_command = 'git ctags'
+set tags = ".git/tags"
 
 " Store persistent undo
 if has("persistent_undo")
@@ -322,12 +323,6 @@ nnoremap <space>gpl :! git pull<CR>
 " nmap <Tab>epf :bel vnew  <bar> r!curl vpaste.net -F 'text='<left>
 " }}}
 
-
-" NERDTREE Settings {{{
-map <Leader>e :NERDTreeToggle<CR>
-nmap <Leader>n :NERDTreeFind<CR>
-" }}}
-
 " {{{ QuickRun Settings
 let g:quickrun_config = {
   \ "_" : {
@@ -466,7 +461,7 @@ nnoremap <silent> ,gh :<C-u>GitGutterLineHighlightsToggle<CR>
 " }}}
 
 nnoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>
-inoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>a
+inoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>
 
 " Vimux Settings {{{
 
