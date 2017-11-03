@@ -238,6 +238,9 @@ if has("clipboard")
 endif
 " }}}
 
+" Don't give Search continues messages, where I need to press <enter>
+set shm+=s
+
 " wrap lines
 :nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
 
