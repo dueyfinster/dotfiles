@@ -366,9 +366,6 @@ nmap <Leader>t :Files<CR>
 nmap <Leader>r :Tags<CR>
 nmap <Leader>f :History<CR>
 
-" Search word under cursor with Ack
-nmap <M-k> :Ack! "\b<cword>\b" <CR>
-nmap <Esc>k :Ack! "\b<cword>\b" <CR>
 " Close quickfix window
 nmap \x :cclose<CR>
 nmap \c :bd<CR>
