@@ -169,6 +169,11 @@ alias tms='ps -ef | grep'
 alias tmu="tmuxifier"
 # }}}
 
+# SSH Tunnel {{{
+tunnel(){
+  ssh home -L "$1":localhost:"$1"
+}
+# }}}
 
 # Docker commands {{{
 dshell(){
