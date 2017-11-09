@@ -320,10 +320,13 @@ nnoremap <space>gps :! git push<CR>
 nnoremap <space>gpl :! git pull<CR>
 
 " Pastebin Settings {{{
-" TODO:
-" nmap <Tab>ef :exec "w !|curl vpaste.net -F 'text='<cr>
-" nmap <Tab>ep  :bel vnew  <bar> r!curl -\# vpaste.net/?raw<left><left><left><left>
-" nmap <Tab>epf :bel vnew  <bar> r!curl vpaste.net -F 'text='<left>
+if executable('nc') && executable('tr') && executable('cat')
+  command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tr -d '\n' | cat
+  command! -range=% SP  <line1>,<line2>w !curl -F 'sprunge=<-' http://sprunge.us | tr -d '\n' | xclip
+  command! -range=% CL  <line1>,<line2>w !curl -F 'clbin=<-' https://clbin.com | tr -d '\n' | xclip
+  command! -range=% VP  <line1>,<line2>w !curl -F 'text=<-' http://vpaste.net | tr -d '\n' | xclip
+  command! -range=% IX  <line1>,<line2>w !curl -F 'f:1=<-' ix.io | tr -d '\n' | xclip
+endif
 " }}}
 
 " {{{ QuickRun Settings
