@@ -175,6 +175,10 @@ tunnel(){
 }
 # }}}
 
+p(){
+  dir=$(find ~/repos -type d -execdir test -d {}/.git \; -print -prune | fzf) && cd $dir
+}
+
 # Docker commands {{{
 dshell(){
  docker exec -i -t $1 /bin/bash
