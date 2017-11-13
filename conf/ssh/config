@@ -18,6 +18,7 @@ Host github.com
 Host home
     Hostname eq.neilgrogan.com
     ServerAliveInterval 120
+    ForwardX11 yes
     IdentityFile ~/.ssh/id_personal
     User ngrogan
 
