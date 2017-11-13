@@ -35,6 +35,7 @@ else
   " }}}
 
   " Source Control & Tags {{{
+  call minpac#add('w0rp/ale') " Asynchronous Linter
   call minpac#add('tpope/vim-fugitive') " Git support
   call minpac#add('airblade/vim-gitgutter') " Git Gutter support
   " call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
