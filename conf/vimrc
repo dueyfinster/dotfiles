@@ -30,7 +30,6 @@ else
   " }}}
 
   " {{{ Shells and Runners
-  call minpac#add('benmills/vimux') " Interact with tmux in vim
   call minpac#add('thinca/vim-quickrun') " Run Commands Quickly
   " }}}
 
@@ -87,7 +86,8 @@ command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 " }}}
 
 " Map leader key
-let mapleader = ","
+" let mapleader = ","
+let mapleader = "\<Space>"
 
 set mouse=a " Turn mouse support on
 set nrformats= " Treat all numbers as decimal
@@ -285,17 +285,17 @@ if has('terminal')
 	"	- 1/5th split   : SPACE+t
 	"	- 1/3rd vsplit   : SPACE+v
 	"	- new tab        : SPACE+t
-	nnoremap <Space>c :term ++curwin<CR>
-	nnoremap <Space>s :term<CR>
-	nnoremap <Space>t :execute "rightbelow" . float2nr(0.20 * winheight(0)) . "split <bar> :term ++curwin"<CR>
-	nnoremap <Space>v :execute "rightbelow" . float2nr(0.33 * winwidth(0)) . "vsplit <bar> :term ++curwin"<CR>
-	nnoremap <Space>t :execute ":tabnew <bar> term ++curwin"<CR>
+	" nnoremap <Space>c :term ++curwin<CR>
+	" nnoremap <Space>s :term<CR>
+	nnoremap <Leader>s :execute "rightbelow" . float2nr(0.20 * winheight(0)) . "split <bar> :term ++curwin"<CR>
+	" nnoremap <Space>v :execute "rightbelow" . float2nr(0.33 * winwidth(0)) . "vsplit <bar> :term ++curwin"<CR>
+	" nnoremap <Space>t :execute ":tabnew <bar> term ++curwin"<CR>
 
-	" Send key-sequence to a terminal window using SPACE+e
-	command! -nargs=+ SendKeys :call term_sendkeys(bufnr("bash"), <q-args>."\<CR>")
-	nnoremap <Space>e :SendKeys<Space>
-	command! RepeatCommand :call term_sendkeys(bufnr("bash"), "\<C-p>\<CR>")
-	nnoremap <Space>r :RepeatCommand<CR>
+	" " Send key-sequence to a terminal window using SPACE+e
+	" command! -nargs=+ SendKeys :call term_sendkeys(bufnr("bash"), <q-args>."\<CR>")
+	" nnoremap <Space>e :SendKeys<Space>
+	" command! RepeatCommand :call term_sendkeys(bufnr("bash"), "\<C-p>\<CR>")
+	" nnoremap <Space>r :RepeatCommand<CR>
 endif
 
 " }}}
@@ -360,19 +360,19 @@ let g:quickrun_config.python = {
 "   endif
 " endfunction
 
-nnoremap <silent> <Leader>r :<C-u>QuickRun<CR>
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
+" nnoremap <silent> <Leader>r :<C-u>QuickRun<CR>
+" nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
 " }}}
 
 " {{{ FZF & RIPGREP
-nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
-nmap <Leader>r :Tags<CR>
-nmap <Leader>f :History<CR>
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>h :History<CR>
 
 " Close quickfix window
-nmap \x :cclose<CR>
-nmap \c :bd<CR>
+nmap <Leader>x :cclose<CR>
+nmap <Leader>c :bd<CR>
 
 
 let g:rg_command = '
@@ -399,7 +399,7 @@ nmap <leader>w :s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <Leader>u :UndotreeToggle<cr>
 
 " {{{ Tagbar Plugin Settings
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
+nnoremap <silent> <Leader>n :TagbarToggle<CR>
 " }}}
 
 " nnoremap <F5> <esc>:w<enter>:!%:p<enter>
@@ -441,59 +441,9 @@ let g:snips_github="dueyfinster"
 let g:snips_email="neil@ngrogan.com"
 " }}}
 
-
-let g:rooter_patterns = ['Rakefile', 'pom.xml', '.git/', 'Gemfile', 'package.json']
-
-function! RunInProjectDir(cmd)
-  let root_dir = FindRootDirectory()
-  if !empty(root_dir)
-    VimuxRunCommand("cd ".root_dir)
-  endif
-  VimuxRunCommand(a:cmd)
-endfunction
-
-function! VimuxSlime()
-  call VimuxSendText(@v)
-  call VimuxSendKeys("Enter")
-endfunction
-
-
 " {{{ Git Gutter
 let g:gitgutter_max_signs = 999
 nnoremap <silent> ,gg :<C-u>GitGutterToggle<CR>
 nnoremap <silent> ,gh :<C-u>GitGutterLineHighlightsToggle<CR>
-" }}}
-
-nnoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>
-inoremap <F5> <esc>:w<CR>:VimuxRunLastCommand<CR>
-
-" Vimux Settings {{{
-
-" Run the current project build
-map <Leader>rn :call RunInProjectDir("npm run")<CR>
-map <Leader>rm :call RunInProjectDir("make run")<CR>
-"map <Leader>rm :call RunInProjectDir("mvn clean install")<CR>
-map <Leader>rd :call RunInProjectDir("./run-docker.sh")<CR>
-:let maplocalleader = "\\"
-" If text is selected, save it in the v buffer and send to tmux
-vmap <LocalLeader>vs "vy :call VimuxSlime()<CR>
-" Select Paragraph and send to Tmux pane
-nmap <LocalLeader>vs vip<LocalLeader>vs<CR>
-
-" Inspect runner pane map
-map <Leader>vi :VimuxInspectRunner<CR>
-" Run last command executed by VimuxRunCommand
-map <Leader>vl :VimuxRunLastCommand<CR>
-" Zoom the tmux runner page
-map <Leader>vz :VimuxZoomRunner<CR>
-" Clear the tmux history of the runner pane
-map <Leader>vc :VimuxClearRunnerHistory<CR>
-" Close vim tmux runner opened by VimuxRunCommand
-map <Leader>vq :VimuxCloseRunner<CR>
-" Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
-" Prompt for a command to run
-vmap <Leader>vp "vy :call VimuxPromptCommand(@v)<CR>
-
 " }}}
 
