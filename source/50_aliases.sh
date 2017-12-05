@@ -173,6 +173,10 @@ alias tmu="tmuxifier"
 tunnel(){
   ssh home -L "$1":localhost:"$1"
 }
+
+rtunnel(){
+    ssh -R 80:localhost:"$1" serveo.net
+}
 # }}}
 
 p(){
