@@ -16,7 +16,7 @@ Host github.com
     Port 443
 
 Host home
-    Hostname eq.neilgrogan.com
+    Hostname ballyda.com
     ServerAliveInterval 120
     ForwardX11 yes
     IdentityFile ~/.ssh/id_personal
