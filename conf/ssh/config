@@ -15,6 +15,11 @@ Host github.com
     IdentityFile ~/.ssh/id_github
     Port 443
 
+Host bitbucket.org
+    Hostname altssh.bitbucket.org
+    IdentityFile ~/.ssh/id_github
+    Port 443
+
 Host home
     Hostname ballyda.com
     ServerAliveInterval 120
