@@ -20,8 +20,8 @@
 	pf = push --force
   pl = pull
 	ctags = !.git/hooks/ctags
-[commit]
-	gpgsign = true
+# [commit]
+#	  gpgsign = true
 [push]
 	default = simple
 [pull]
