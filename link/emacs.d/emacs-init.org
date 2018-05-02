@@ -58,7 +58,9 @@
 ** Defaults
    Sets all the defaults we need
    #+BEGIN_SRC emacs-lisp
-   (setq inhibit-startup-screen t)
+   (setq inhibit-startup-screen t           ; No startup message
+         custom-file (make-temp-file "")    ; Discard customization's
+   )
    #+END_SRC
 
 ** Visual
