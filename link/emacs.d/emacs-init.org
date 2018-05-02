@@ -1,0 +1,77 @@
+#+TITLE: Emacs configuration file
+#+AUTHOR: Neil Grogan
+#+BABEL: :cache yes
+
+** Packages
+
+   Managing extensions for Emacs is simplified using =package= which is
+   built in to Emacs 24 and newer. To load downloaded packages we need to
+   initialize =package=. =cl= is a library that contains many functions from
+   Common Lisp, and comes in handy quite often, so we want to make sure it's
+   loaded, along with =package=, which is obviously needed.
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'cl)
+   (require 'package)
+   (package-initialize)
+   #+END_SRC
+
+   #+RESULTS:
+
+   Packages can be fetched from different mirrors, [[http://melpa.milkbox.net/#/][melpa]] is the largest archive and is well maintained.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+
+   (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+   #+END_SRC
+
+   The configuration assumes that the packages listed below are
+   installed. To ensure we install missing packages if they are missing.
+
+   #+BEGIN_SRC emacs-lisp
+   (let* ((package--builtins nil)
+          (packages
+           '(auto-compile         ; automatically compile Emacs Lisp libraries
+             erlang               ; Erlang major mode
+	     evil                 ; evil vim mode!
+             jedi                 ; Python auto-completion for Emacs
+             magit                ; control Git from Emacs
+             markdown-mode        ; Emacs Major mode for Markdown-formatted files
+             org                  ; Outline-based notes management and organizer
+             solarized-theme      ; Solarized theme
+             try)))        				; Display available keybindings in popup
+     (ignore-errors ;; This package is only relevant for Mac OS X.
+       (when (memq window-system '(mac ns))
+         (push 'exec-path-from-shell packages)
+         (push 'reveal-in-osx-finder packages))
+       (let ((packages (remove-if 'package-installed-p packages)))
+         (when packages
+           ;; Install uninstalled packages
+           (package-refresh-contents)
+           (mapc 'package-install packages)))))
+   #+END_SRC
+
+   #+RESULTS:
+
+** Defaults
+   Sets all the defaults we need
+   #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-screen t)
+   #+END_SRC
+
+** Visual
+
+   Change the color-theme to =solarized=.
+
+   #+BEGIN_SRC emacs-lisp
+   (load-theme 'solarized-dark t)
+   #+END_SRC
+
+** Package Settings
+*** Evil
+   #+BEGIN_SRC emacs-lisp
+   (require 'evil)
+   (evil-mode 1)
+   #+END_SRC
