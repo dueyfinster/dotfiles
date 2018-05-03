@@ -34,13 +34,16 @@
    (let* ((package--builtins nil)
           (packages
            '(auto-compile         ; automatically compile Emacs Lisp libraries
+	     company              ; Modular text completion framework
              erlang               ; Erlang major mode
 	     evil                 ; evil vim mode!
+	     git-gutter-fringe    ; Fringe version of git-gutter.el
              jedi                 ; Python auto-completion for Emacs
              magit                ; control Git from Emacs
              markdown-mode        ; Emacs Major mode for Markdown-formatted files
              org                  ; Outline-based notes management and organizer
-             solarized-theme      ; Solarized theme
+             projectile           ; Manage and navigate projects in Emacs easily
+	     solarized-theme      ; Solarized theme
              try)))        				; Display available keybindings in popup
      (ignore-errors ;; This package is only relevant for Mac OS X.
        (when (memq window-system '(mac ns))
@@ -63,6 +66,23 @@
    )
    #+END_SRC
 
+** Modes
+   Enable useful modes:
+   #+BEGIN_SRC emacs-lisp
+   (dolist (mode
+         '(abbrev-mode                  ; E.g. sopl -> System.out.println
+           column-number-mode           ; Show column number in mode line
+           delete-selection-mode        ; Replace selected text
+           dirtrack-mode                ; directory tracking in *shell*
+           global-company-mode          ; Auto-completion everywhere
+           global-git-gutter-mode       ; Show changes latest commit
+           global-prettify-symbols-mode ; Greek letters should look greek
+           projectile-global-mode       ; Manage and navigate projects
+           recentf-mode                 ; Recently opened files
+           show-paren-mode))             ; Available keybindings in popup
+  (funcall mode 1))
+   #+END_SRC
+
 ** Visual
 
    Change the color-theme to =solarized=.
@@ -72,6 +92,23 @@
    #+END_SRC
 
 ** Package Settings
+*** Company Mode
+    Company mode provides auto completion for editing.
+   #+BEGIN_SRC emacs-lisp
+   (setq company-idle-delay 0
+      company-echo-delay 0
+      company-dabbrev-downcase nil
+      company-minimum-prefix-length 2
+      company-selection-wrap-around t
+      company-transformers '(company-sort-by-occurrence
+                             company-sort-by-backend-importance))
+
+   ; Define key bindings for company mode
+   (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
+   (define-key company-active-map (kbd "C-n") 'company-select-next)
+   (define-key company-active-map (kbd "C-p") 'company-select-previous)
+   (define-key company-active-map (kbd "<tab>") 'company-complete)
+   #+END_SRC
 *** Evil
    #+BEGIN_SRC emacs-lisp
    (require 'evil)
