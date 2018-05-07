@@ -66,8 +66,14 @@
    Sets all the defaults we need
    #+BEGIN_SRC emacs-lisp
    (setq inhibit-startup-screen t           ; No startup message
-         custom-file (make-temp-file "")    ; Discard customization's
+	 custom-file (make-temp-file "")    ; Discard customization's
+	 initial-scratch-message nil       ; Clean scratch buffer
+	 recentf-max-saved-items 25       ; Show more recent files
+	 ring-bell-function 'ignore        ; Quiet
    )
+
+   (setq recentf-exclude
+           '("^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))
    #+END_SRC
 
 ** Modes
