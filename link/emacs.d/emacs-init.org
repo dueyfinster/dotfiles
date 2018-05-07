@@ -219,14 +219,20 @@
 *** Org Mode
     Default settings for orgmode, such as where files are located:
    #+BEGIN_SRC emacs-lisp
-   (require 'org)
-   (require 'htmlize)
-   ;; Set to the location of your Org files on your local system
-   (setq org-directory "~/org")
-   ;; Set to the name of the file where new notes will be stored
-   (setq org-mobile-inbox-for-pull "~/org/flagged.org")
-   ;; Set to <your Dropbox root directory>/MobileOrg.
-   (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+      (require 'org)
+      (require 'htmlize)
+
+      (setq org-completion-use-ido nil)
+      (setq org-refile-targets '(
+      (nil :maxlevel . 2)             ; refile to headings in the current buffer
+      (org-agenda-files :maxlevel . 2) ; refile to any of these files
+       ))
+      ;; Set to the location of your Org files on your local system
+      (setq org-directory "~/Dropbox/org")
+      ;; Set to the name of the file where new notes will be stored
+      (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
+      ;; Set to <your Dropbox root directory>/MobileOrg.
+      (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
    #+END_SRC
 
    Key bindings for orgmode.
@@ -246,6 +252,7 @@
     'org-babel-load-languages
     '((emacs-lisp . t)
      (gnuplot . t)
+     (ledger . t)
      (java . t)
      (python . t)
      (ruby . t)
@@ -267,3 +274,5 @@
    (require 'org-bullets)
    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
    #+END_SRC
+   
+   
