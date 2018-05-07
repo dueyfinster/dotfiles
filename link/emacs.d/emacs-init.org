@@ -31,28 +31,29 @@
 
    #+BEGIN_SRC emacs-lisp
    (let* ((package--builtins nil)
-          (packages
-           '(auto-compile         ; automatically compile Emacs Lisp libraries
+	  (packages
+	   '(auto-compile         ; automatically compile Emacs Lisp libraries
 	     company              ; Modular text completion framework
-             erlang               ; Erlang major mode
+	     erlang               ; Erlang major mode
 	     evil                 ; evil vim mode!
 	     git-gutter-fringe    ; Fringe version of git-gutter.el
-             jedi                 ; Python auto-completion for Emacs
-             magit                ; control Git from Emacs
-             markdown-mode        ; Emacs Major mode for Markdown-formatted files
-             org-contrib-plus     ; Outline-based notes management and organizer
-             projectile           ; Manage and navigate projects in Emacs easily
+	     jedi                 ; Python auto-completion for Emacs
+	     magit                ; control Git from Emacs
+	     markdown-mode        ; Emacs Major mode for Markdown-formatted files
+	     org                  ; Outline-based notes management and organizer
+             org-bullets          ; Pretty org bullets
+	     projectile           ; Manage and navigate projects in Emacs easily
 	     solarized-theme      ; Solarized theme
-             try)))        				; Display available keybindings in popup
+	     try)))        				; Display available keybindings in popup
      (ignore-errors ;; This package is only relevant for Mac OS X.
        (when (memq window-system '(mac ns))
-         (push 'exec-path-from-shell packages)
-         (push 'reveal-in-osx-finder packages))
+	 (push 'exec-path-from-shell packages)
+	 (push 'reveal-in-osx-finder packages))
        (let ((packages (remove-if 'package-installed-p packages)))
-         (when packages
-           ;; Install uninstalled packages
-           (package-refresh-contents)
-           (mapc 'package-install packages)))))
+	 (when packages
+	   ;; Install uninstalled packages
+	   (package-refresh-contents)
+	   (mapc 'package-install packages)))))
    #+END_SRC
 
    #+RESULTS:
@@ -157,4 +158,10 @@
          org-src-tab-acts-natively t
          org-confirm-babel-evaluate nil
          org-edit-src-content-indentation 0)
+   #+END_SRC
+
+   Add org-bullets:
+   #+BEGIN_SRC emacs-lisp
+   (require 'org-bullets)
+   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
    #+END_SRC
