@@ -2,3 +2,8 @@ elpa/
 auto-save-list/
 emacs-init.el
 *.data
+bookmarks
+eshell/
+helm-adaptive-history
+projectile-bookmarks.eld
+recentf
