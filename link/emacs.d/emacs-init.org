@@ -23,8 +23,7 @@
    #+BEGIN_SRC emacs-lisp
    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
    (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-
-   (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
    #+END_SRC
 
    The configuration assumes that the packages listed below are
@@ -41,7 +40,7 @@
              jedi                 ; Python auto-completion for Emacs
              magit                ; control Git from Emacs
              markdown-mode        ; Emacs Major mode for Markdown-formatted files
-             org                  ; Outline-based notes management and organizer
+             org-contrib-plus     ; Outline-based notes management and organizer
              projectile           ; Manage and navigate projects in Emacs easily
 	     solarized-theme      ; Solarized theme
              try)))        				; Display available keybindings in popup
@@ -115,6 +114,7 @@
    (evil-mode 1)
    #+END_SRC
 *** Org Mode
+    Default settings for orgmode, such as where files are located:
    #+BEGIN_SRC emacs-lisp
    (require 'org)
    ;; Set to the location of your Org files on your local system
@@ -123,29 +123,38 @@
    (setq org-mobile-inbox-for-pull "~/org/flagged.org")
    ;; Set to <your Dropbox root directory>/MobileOrg.
    (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-   ;; The following lines are always needed.  Choose your own keys.
+   #+END_SRC
+
+   Key bindings for orgmode.
+
+   #+BEGIN_SRC emacs-lisp
    (global-set-key "\C-cl" 'org-store-link)
    (global-set-key "\C-ca" 'org-agenda)
    (global-set-key "\C-cc" 'org-capture)
    (global-set-key "\C-cb" 'org-iswitchb)
-   
+   #+END_SRC
+
+   Enable babel to use different languages in orgmode:
+
+   #+BEGIN_SRC emacs-lisp
    (org-babel-do-load-languages
     'org-babel-load-languages
-    '((R . t)
-     (ditaa . t)
-     (dot . t)
+    '(
      (emacs-lisp . t)
      (gnuplot . t)
-     (haskell . nil)
-     (latex . t)
-     (ledger . t)     
      (java . t)
-     (ocaml . nil)
-     (octave . t)
      (python . t)
      (ruby . t)
-     (screen . nil)
      (sh . t)
-     (sql . nil)
-     (sqlite . t)))
+     ))
+   #+END_SRC
+   
+   When editing org-files with source-blocks, we want the source blocks to
+   be themed as they would in their native mode.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq org-src-fontify-natively t
+         org-src-tab-acts-natively t
+         org-confirm-babel-evaluate nil
+         org-edit-src-content-indentation 0)
    #+END_SRC
