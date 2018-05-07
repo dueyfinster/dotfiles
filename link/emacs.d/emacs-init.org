@@ -37,11 +37,15 @@
 	     erlang               ; Erlang major mode
 	     evil                 ; evil vim mode!
 	     git-gutter-fringe    ; Fringe version of git-gutter.el
+	     helm                 ; Incremental and narrowing framework
+	     helm-company         ; Helm interface for company-mode
+	     helm-projectile      ; Helm integration for Projectile
+             helm-rg              ; helm integration for ripgrep
 	     jedi                 ; Python auto-completion for Emacs
 	     magit                ; control Git from Emacs
 	     markdown-mode        ; Emacs Major mode for Markdown-formatted files
 	     org                  ; Outline-based notes management and organizer
-             org-bullets          ; Pretty org bullets
+	     org-bullets          ; Pretty org bullets
 	     projectile           ; Manage and navigate projects in Emacs easily
 	     solarized-theme      ; Solarized theme
 	     try)))        				; Display available keybindings in popup
@@ -114,6 +118,28 @@
    (require 'evil)
    (evil-mode 1)
    #+END_SRC
+
+*** Helm
+   #+BEGIN_SRC emacs-lisp
+   (require 'helm)
+   (require 'helm-config)
+   
+   (setq helm-split-window-in-side-p t
+      helm-M-x-fuzzy-match t
+      helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match t
+      helm-move-to-line-cycle-in-source t
+      projectile-completion-system 'helm)
+   
+   (set-face-attribute 'helm-selection nil :background "cyan")
+   (global-set-key (kbd "M-x") 'helm-M-x)
+   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+   (helm-mode 1)
+   (helm-projectile-on)
+   (helm-adaptive-mode 1)
+   #+END_SRC
+
 *** Org Mode
     Default settings for orgmode, such as where files are located:
    #+BEGIN_SRC emacs-lisp
