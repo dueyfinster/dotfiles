@@ -1,0 +1,256 @@
+#+TITLE: Emacs configuration file
+#+AUTHOR: Neil Grogan
+#+BABEL: :cache yes
+
+** Packages
+
+   Managing extensions for Emacs is simplified using =package= which is
+   built in to Emacs 24 and newer. To load downloaded packages we need to
+   initialize =package=. =cl= is a library that contains many functions from
+   Common Lisp, and comes in handy quite often, so we want to make sure it's
+   loaded, along with =package=, which is obviously needed.
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'cl)
+   (require 'package)
+   (package-initialize)
+   #+END_SRC
+
+   #+RESULTS:
+
+   Packages can be fetched from different mirrors, [[http://melpa.milkbox.net/#/][melpa]] is the largest archive and is well maintained.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
+   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+   #+END_SRC
+
+   The configuration assumes that the packages listed below are
+   installed. To ensure we install missing packages if they are missing.
+
+   #+BEGIN_SRC emacs-lisp
+   (let* ((package--builtins nil)
+	  (packages
+	   '(auto-compile         ; automatically compile Emacs Lisp libraries
+	     company              ; Modular text completion framework
+	     erlang               ; Erlang major mode
+	     evil                 ; evil vim mode!
+	     git-gutter-fringe    ; Fringe version of git-gutter.el
+	     gnuplot              ; GNU Charting program
+	     helm                 ; Incremental and narrowing framework
+	     helm-company         ; Helm interface for company-mode
+	     helm-projectile      ; Helm integration for Projectile
+	     helm-rg              ; helm integration for ripgrep
+             htmlize              ; Pretty html for org exports
+	     jedi                 ; Python auto-completion for Emacs
+	     magit                ; control Git from Emacs
+	     markdown-mode        ; Emacs Major mode for Markdown-formatted files
+	     org                  ; Outline-based notes management and organizer
+	     org-bullets          ; Pretty org bullets
+	     projectile           ; Manage and navigate projects in Emacs easily
+	     idle-require         ; load elisp libraries while Emacs is idle
+	     solarized-theme      ; Solarized theme
+	     try)))        				; Display available keybindings in popup
+     (ignore-errors ;; This package is only relevant for Mac OS X.
+       (when (memq window-system '(mac ns))
+	 (push 'exec-path-from-shell packages)
+	 (push 'reveal-in-osx-finder packages))
+       (let ((packages (remove-if 'package-installed-p packages)))
+	 (when packages
+	   ;; Install uninstalled packages
+	   (package-refresh-contents)
+	   (mapc 'package-install packages)))))
+   #+END_SRC
+
+** Mac OS X
+
+   I run this configuration mostly on Mac OS X, so we need a couple of
+   settings to make things work smoothly. In the package section
+   =exec-path-from-shell= is included (only if you're running OS X), this is
+   to include environment-variables from the shell. It makes using Emacs
+   along with external processes a lot simpler. I also prefer using the
+   =Command=-key as the =Meta=-key.
+
+   #+BEGIN_SRC emacs-lisp
+   (when (memq window-system '(mac ns))
+     (setq ns-pop-up-frames nil
+           x-select-enable-clIpboard t)
+     (exec-path-from-shell-initialize)
+     (when (fboundp 'mac-auto-operator-composition-mode)
+       (mac-auto-operator-composition-mode 1)))'
+   #+END_SRC
+
+** Require
+
+   Some features are not loaded by default to minimize initialization time,
+   so they have to be required (or loaded, if you will). =require=-calls
+   tends to lead to the largest bottleneck's in a
+   configuration. =idle-require= delays the =require=-calls to a time where
+   Emacs is in idle. So this is great for stuff you eventually want to load,
+   but is not a high priority.
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'idle-require)             ; Need in order to use idle-require
+
+   (dolist (feature
+            '(auto-compile             ; auto-compile .el files
+              recentf))                  ; recently opened files
+     (idle-require feature))
+
+   (setq idle-require-idle-delay 5)
+   (idle-require-mode 1)
+   #+END_SRC
+** Defaults
+   Sets all the defaults we need
+   #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-screen t           ; No startup message
+	 custom-file (make-temp-file "")    ; Discard customization's
+	 initial-scratch-message nil       ; Clean scratch buffer
+	 recentf-max-saved-items 25       ; Show more recent files
+	 ring-bell-function 'ignore        ; Quiet
+   )
+
+   (setq recentf-exclude
+           '("^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))
+   #+END_SRC
+
+** Modes
+   Enable useful modes:
+   #+BEGIN_SRC emacs-lisp
+   (dolist (mode
+         '(abbrev-mode                  ; E.g. sopl -> System.out.println
+           column-number-mode           ; Show column number in mode line
+           delete-selection-mode        ; Replace selected text
+           dirtrack-mode                ; directory tracking in *shell*
+           global-company-mode          ; Auto-completion everywhere
+           global-git-gutter-mode       ; Show changes latest commit
+           global-prettify-symbols-mode ; Greek letters should look greek
+           projectile-global-mode       ; Manage and navigate projects
+           recentf-mode                 ; Recently opened files
+           show-paren-mode))             ; Available keybindings in popup
+  (funcall mode 1))
+   #+END_SRC
+
+** Visual
+
+   Change the color-theme to =solarized=.
+
+   #+BEGIN_SRC emacs-lisp
+   (load-theme 'solarized-dark t)
+   #+END_SRC
+
+** Package Settings
+*** Company Mode
+    Company mode provides auto completion for editing.
+   #+BEGIN_SRC emacs-lisp
+   (setq company-idle-delay 0
+      company-echo-delay 0
+      company-dabbrev-downcase nil
+      company-minimum-prefix-length 2
+      company-selection-wrap-around t
+      company-transformers '(company-sort-by-occurrence
+                             company-sort-by-backend-importance))
+
+   ; Define key bindings for company mode
+   (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer)
+   (define-key company-active-map (kbd "C-n") 'company-select-next)
+   (define-key company-active-map (kbd "C-p") 'company-select-previous)
+   (define-key company-active-map (kbd "<tab>") 'company-complete)
+   #+END_SRC
+*** Evil
+   #+BEGIN_SRC emacs-lisp
+   (require 'evil)
+   (evil-mode 1)
+   #+END_SRC
+
+*** Git Gutter
+   #+BEGIN_SRC emacs-lisp
+   (require 'git-gutter-fringe)
+
+   (dolist (p '((git-gutter:added    . "#0c0")
+                (git-gutter:deleted  . "#c00")
+                (git-gutter:modified . "#c0c")))
+     (set-face-foreground (car p) (cdr p))
+     (set-face-background (car p) (cdr p)))
+   #+END_SRC
+*** Helm
+   #+BEGIN_SRC emacs-lisp
+   (require 'helm)
+   (require 'helm-config)
+   (require 'helm-rg)
+
+   (setq helm-split-window-in-side-p t
+      helm-M-x-fuzzy-match t
+      helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match t
+      helm-move-to-line-cycle-in-source t
+      projectile-completion-system 'helm)
+
+   (set-face-attribute 'helm-selection nil :background "cyan")
+   (global-set-key (kbd "M-x") 'helm-M-x)
+   (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+   (global-set-key (kbd "C-c h") 'helm-command-prefix)
+   (global-unset-key (kbd "C-x c"))
+
+   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+   (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+   (helm-mode 1)
+   (helm-projectile-on)
+   (helm-adaptive-mode 1)
+   #+END_SRC
+
+*** Org Mode
+    Default settings for orgmode, such as where files are located:
+   #+BEGIN_SRC emacs-lisp
+   (require 'org)
+   (require 'htmlize)
+   ;; Set to the location of your Org files on your local system
+   (setq org-directory "~/org")
+   ;; Set to the name of the file where new notes will be stored
+   (setq org-mobile-inbox-for-pull "~/org/flagged.org")
+   ;; Set to <your Dropbox root directory>/MobileOrg.
+   (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+   #+END_SRC
+
+   Key bindings for orgmode.
+
+   #+BEGIN_SRC emacs-lisp
+   (global-set-key "\C-cl" 'org-store-link)
+   (global-set-key "\C-ca" 'org-agenda)
+   (global-set-key "\C-cc" 'org-capture)
+   (global-set-key "\C-cb" 'org-iswitchb)
+   #+END_SRC
+
+   Enable babel to use different languages in orgmode:
+
+   #+BEGIN_SRC emacs-lisp
+   (setq org-confirm-babel-evaluate nil)
+   (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+     (gnuplot . t)
+     (java . t)
+     (python . t)
+     (ruby . t)
+     (sh . t)))
+   #+END_SRC
+   
+   When editing org-files with source-blocks, we want the source blocks to
+   be themed as they would in their native mode.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq org-src-fontify-natively t
+         org-src-tab-acts-natively t
+         org-confirm-babel-evaluate nil
+         org-edit-src-content-indentation 0)
+   #+END_SRC
+
+   Add org-bullets:
+   #+BEGIN_SRC emacs-lisp
+   (require 'org-bullets)
+   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+   #+END_SRC
