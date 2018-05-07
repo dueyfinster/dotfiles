@@ -7,3 +7,4 @@ eshell/
 helm-adaptive-history
 projectile-bookmarks.eld
 recentf
+private.el
