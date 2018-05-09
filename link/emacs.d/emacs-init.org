@@ -101,6 +101,24 @@
    (setq idle-require-idle-delay 5)
    (idle-require-mode 1)
    #+END_SRC
+** Backup and autosave
+By default, emacs writes a backup file next to the file being editing
+with a trailing =~= turd.
+#+BEGIN_SRC emacs-lisp
+;; store all autosave files in the tmp dir
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; backups in backup dir
+(setq backup-by-copying t
+      backup-directory-alist '(("." . "~/.emacs.d/backup"))
+      delete-old-versions t
+      kept-new-versions 24
+      kept-old-versions 12
+      version-control t)
+
+(setq create-lockfiles nil)
+#+END_SRC
 ** Defaults
    Sets all the defaults we need
    #+BEGIN_SRC emacs-lisp
@@ -115,7 +133,7 @@
            '("^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))
    #+END_SRC
 
-** Private 
+** Private
    I'd like to keep a few settings private, so we load a =private.el= if it
    exists after the init-file has loaded.
 
@@ -266,7 +284,7 @@
      (ruby . t)
      (sh . t)))
    #+END_SRC
-   
+
    When editing org-files with source-blocks, we want the source blocks to
    be themed as they would in their native mode.
 
@@ -282,5 +300,5 @@
    (require 'org-bullets)
    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
    #+END_SRC
-   
-   
+
+
