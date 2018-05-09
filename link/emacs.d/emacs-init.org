@@ -219,20 +219,28 @@
 *** Org Mode
     Default settings for orgmode, such as where files are located:
    #+BEGIN_SRC emacs-lisp
-      (require 'org)
-      (require 'htmlize)
+   (require 'org)
+   (require 'htmlize)
 
-      (setq org-completion-use-ido nil)
-      (setq org-refile-targets '(
-      (nil :maxlevel . 2)             ; refile to headings in the current buffer
-      (org-agenda-files :maxlevel . 2) ; refile to any of these files
-       ))
-      ;; Set to the location of your Org files on your local system
-      (setq org-directory "~/Dropbox/org")
-      ;; Set to the name of the file where new notes will be stored
-      (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
-      ;; Set to <your Dropbox root directory>/MobileOrg.
-      (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+   (setq org-completion-use-ido nil)
+   ;; Set to the location of your Org files on your local system
+   (setq org-directory "~/Dropbox/org")
+   (setq org-agenda-files '("~/Dropbox/org/inbox.org"
+                         "~/Dropbox/org/gtd.org"
+                         "~/Dropbox/org/tickler.org"))
+
+   (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                               (file+headline "~/Dropbox/org/inbox.org" "Tasks")
+                               "* TODO %i%?")
+                              ("T" "Tickler" entry
+                               (file+headline "~/Dropbox/org/tickler.org" "Tickler")
+                               "* %i%? \n %U")))
+
+   (setq org-refile-targets '(("~/Dropbox/org/gtd.org" :maxlevel . 3)
+                           ("~/Dropbox/org/someday.org" :level . 1)
+                           ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
+
+   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
    #+END_SRC
 
    Key bindings for orgmode.
