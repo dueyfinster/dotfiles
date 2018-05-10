@@ -42,7 +42,7 @@
 	     helm-company         ; Helm interface for company-mode
 	     helm-projectile      ; Helm integration for Projectile
 	     helm-rg              ; helm integration for ripgrep
-             htmlize              ; Pretty html for org exports
+	     htmlize              ; Pretty html for org exports
 	     jedi                 ; Python auto-completion for Emacs
 	     magit                ; control Git from Emacs
 	     markdown-mode        ; Emacs Major mode for Markdown-formatted files
@@ -125,7 +125,7 @@ with a trailing =~= turd.
    (setq inhibit-startup-screen t           ; No startup message
 	 custom-file (make-temp-file "")    ; Discard customization's
 	 initial-scratch-message nil       ; Clean scratch buffer
-	 recentf-max-saved-items 25       ; Show more recent files
+	 recentf-max-saved-items 200       ; Show more recent files
 	 ring-bell-function 'ignore        ; Quiet
    )
 
