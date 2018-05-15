@@ -282,7 +282,7 @@ with a trailing =~= turd.
      (java . t)
      (python . t)
      (ruby . t)
-     (sh . t)))
+     (shell . t)))
    #+END_SRC
 
    When editing org-files with source-blocks, we want the source blocks to
