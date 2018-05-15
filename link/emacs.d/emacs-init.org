@@ -34,6 +34,7 @@
 	  (packages
 	   '(auto-compile         ; automatically compile Emacs Lisp libraries
 	     company              ; Modular text completion framework
+	     editorconfig	  ; Provides editor standards (linespacing, etc)
 	     erlang               ; Erlang major mode
 	     evil                 ; evil vim mode!
 	     git-gutter-fringe    ; Fringe version of git-gutter.el
@@ -189,6 +190,13 @@ with a trailing =~= turd.
    (define-key company-active-map (kbd "C-p") 'company-select-previous)
    (define-key company-active-map (kbd "<tab>") 'company-complete)
    #+END_SRC
+
+*** EditorConfig
+   #+BEGIN_SRC emacs-lisp
+   (require 'editorconfig)
+   (editorconfig-mode 1)
+   #+END_SRC
+
 *** Evil
    #+BEGIN_SRC emacs-lisp
    (require 'evil)
