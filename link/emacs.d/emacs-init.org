@@ -148,6 +148,18 @@ with a trailing =~= turd.
    #+END_SRC
 
 ** Modes
+   There are some modes that are enabled by default that I don't find
+   particularly useful. We create a list of these modes, and disable all of
+   these.
+
+   #+BEGIN_SRC emacs-lisp
+   (dolist (mode
+            '(tool-bar-mode                ; No toolbars, more room for text
+              scroll-bar-mode              ; No scroll bars either
+              blink-cursor-mode))          ; The blinking cursor gets old
+     (funcall mode 0))
+   #+END_SRC
+
    Enable useful modes:
    #+BEGIN_SRC emacs-lisp
    (dolist (mode
