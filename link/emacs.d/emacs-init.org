@@ -103,6 +103,24 @@
    (idle-require-mode 1)
    #+END_SRC
 ** Backup and autosave
+   To avoid doing this each time a change is made we can add a function to
+   the =after-save-hook= ensuring to always tangle and byte-compile the
+   =org=-document after changes.
+
+   #+BEGIN_SRC emacs-lisp
+   (defun tangle-init ()
+     "If the current buffer is 'emacs-init.org' the code-blocks are
+   tangled, and the tangled file is compiled."
+     (when (equal (buffer-file-name)
+                  (expand-file-name (concat user-emacs-directory "emacs-init.org")))
+       ;; Avoid running hooks when tangling.
+       (let ((prog-mode-hook nil))
+         (org-babel-tangle)
+         (byte-compile-file (concat user-emacs-directory "emacs-init.el")))))
+
+   (add-hook 'after-save-hook 'tangle-init)
+   #+END_SRC
+
 By default, emacs writes a backup file next to the file being editing
 with a trailing =~= turd.
 #+BEGIN_SRC emacs-lisp
@@ -320,5 +338,3 @@ with a trailing =~= turd.
    (require 'org-bullets)
    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
    #+END_SRC
-
-
