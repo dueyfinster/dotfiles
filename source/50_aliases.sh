@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Application shortcuts
-budget_file="$HOME/.hledger.journal"
-alias ledger="ledger -f $budget_file"
+export LEDGERFILE="$HOME/.hledger.journal"
 alias budget="ledger -p \"this month\" --budget --monthly balance ^expenses"
 alias bal="ledger bal ^Assets:Checking"
 alias savings="ledger bal ^Assets:Savings"
 alias monexp="ledger -MAn reg"
-alias vb="vim $budget_file"
+alias vb="vim $LEDGERFILE"
 alias vi='vim'
 alias tmux='tmux -2'
 alias hist='history'
@@ -21,6 +20,11 @@ alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 alias sweep='find ~ -type f \( -name '*.swp' -o -name 'wget.log' -o -name 'foobar*' -o -name '*~' -o -name '.netrwhist'  \) -delete' # clean temp files in home directory
 alias hi='history | red-grep '
 alias ga='alias | red-grep '
+
+ytdl() {
+  TOKEN=$(cat "$HOME"/.hook)
+  curl -X POST --data "token=$TOKEN" --data "url=$1" https://hook.ballyda.com/hooks/yt-dl
+}
 
 extract () { # extracts common archives
     if [ -f $1 ] ; then
