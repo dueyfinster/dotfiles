@@ -47,17 +47,13 @@ else
   call minpac#add('tpope/vim-surround') " Adds support for modifying surrounds
   call minpac#add('tpope/vim-unimpaired') " Adds support for quick jumps in quickfix window
 
-  " {{{ Snippets
-  call minpac#add('SirVer/ultisnips')
-  call minpac#add('honza/vim-snippets')
-  " }}}
-
   " Colorschemes
   call minpac#add('tomasr/molokai')
   call minpac#add('altercation/vim-colors-solarized') "Solarized colourscheme
 
   " Language Support
   " call minpac#add('klen/python-mode') " Python lang support
+  call minpac#add('jceb/vim-orgmode') " org-mode support
   call minpac#add('leafgarland/typescript-vim') " typescript support
   call minpac#add('ledger/vim-ledger') " Ledger accounting support
   call minpac#add('mitermayer/vim-prettier', {
