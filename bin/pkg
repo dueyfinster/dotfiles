@@ -16,9 +16,9 @@ command_exists () {
   type "$1" &> /dev/null ;
 }
 
-if command_exists apt; then
+if is_ubuntu; then
   COMMAND="sudo apt"
-elif command_exists brew; then
+elif is_osx && command_exists brew; then
   COMMAND="brew"
 fi
 
