@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Quick shortcut to a file manager.
+#
+#
+# USAGE:
+#
+#   $ o
+#   # => opens the current directory in your file manager
+#
+#   $ o /usr/local
+#   # => opens the specified file in your file manager
+source dotfiles
+
+if is_osx; then
+  FILE_MANAGER='open'
+elif is_ubuntu; then
+  FILE_MANAGER='nautilus'
+elif is_win; then
+  FILE_MANAGER='/bin/cygstart --explore'
+fi
+
+if [ $# -eq 0 ]; then
+  exec $FILE_MANAGER . >/dev/null
+else
+  exec $FILE_MANAGER "${1:-.}" >/dev/null
+fi
+

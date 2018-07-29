@@ -1,0 +1,4 @@
+#!/bin/sh
+#
+# Quick shortcut to a project directory.
+dir=$(find ~/repos -type d -execdir test -d {}/.git \; -print -prune | fzf) && cd $dir
