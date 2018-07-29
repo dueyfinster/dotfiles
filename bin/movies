@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+MOVIES=$(curl --header "Content-Type: application/json" --request POST \
+  --data '{description: "Athlone"}' \
+  https://www.imccinemas.ie/DesktopModules/Inventise.IMC.API/V1/API/Search/GetEventsByVenueDescription \
+  | jq '[.data[] | {title: .Description, director: .Director, desc: .EventSummary, starring: .Staring, duration: .Duration, trailer_url: .Trailer, rating: .RatingIE, url: .UrlLink}]')
+
+for row in $(echo "${MOVIES}" | jq -r '.[] | .url'); do
+  echo "${row}"
+  curl -H 'content-type: application/json;charset=UTF-8' \
+    -H 'accept: application/json, text/plain, */*' \
+    --data '{"eventDescription":"'"${row}"'","eventDate":null,"venueDescription":"Athlone"}' \
+    'https://www.imccinemas.ie/DesktopModules/Inventise.IMC.API/V1/API/Search/GetEventDatesAndPerformances' \
+    | jq '.data.EventDates[] | .PerformanceDetails[] | {start_date: .StartDate}'
+done
