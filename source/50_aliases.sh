@@ -6,62 +6,20 @@ alias bal="ledger bal ^Assets:Checking"
 alias savings="ledger bal ^Assets:Savings"
 alias monexp="ledger -MAn reg"
 alias vb="vim $LEDGERFILE"
-alias vi='vim'
-alias tmux='tmux -2'
 alias hist='history'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 alias c='clear'
-
-alias red-grep="GREP_COLOR='1;31' grep --color=always"
-alias white-grep="GREP_COLOR='1;37' grep --color=always"
-
-alias lf='ls -Gl | grep ^d' #Only list directories
-alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
-alias sweep='find ~ -type f \( -name '*.swp' -o -name 'wget.log' -o -name 'foobar*' -o -name '*~' -o -name '.netrwhist'  \) -delete' # clean temp files in home directory
-alias hi='history | red-grep '
-alias ga='alias | red-grep '
 
 ytdl() {
   TOKEN=$(cat "$HOME"/.hook)
   curl -X POST --data "token=$TOKEN" --data "url=$1" https://hook.ballyda.com/hooks/yt-dl
 }
 
-extract () { # extracts common archives
-    if [ -f $1 ] ; then
-      case $1 in
-        *.tar.bz2)   tar xjf $1     ;;
-        *.tar.gz)    tar xzf $1     ;;
-        *.bz2)       bunzip2 $1     ;;
-        *.rar)       unrar e $1     ;;
-        *.gz)        gunzip $1      ;;
-        *.tar)       tar xf $1      ;;
-        *.tbz2)      tar xjf $1     ;;
-        *.tgz)       tar xzf $1     ;;
-        *.zip)       unzip $1       ;;
-        *.Z)         uncompress $1  ;;
-        *.7z)        7z x $1        ;;
-        *)     echo "'$1' cannot be extracted via extract()" ;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
-}
-
-ft() {
-    find . -name "$2" -exec grep -il "$1" {} \;
-}
-
 ### Git Commands {{{
-if [[ "$(type -P brew)" ]] && is_osx; then
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
       . $(brew --prefix)/etc/bash_completion
-  fi
-fi
-
-if [[ is_ubuntu ]]; then
-  if [ -f /usr/share/bash-completion/completions/git ]; then
+elif [ -f /usr/share/bash-completion/completions/git ]; then
       . /usr/share/bash-completion/completions/git
-  fi
 fi
 
 function_exists() {
@@ -77,71 +35,6 @@ for al in `__git_aliases`; do
 done
 # }}}
 
-alias c='clear'
-
-# Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-
-b() { # go back x directories
-    str=""
-    count=0
-    while [ "$count" -lt "$1" ];
-    do
-        str=$str"../"
-        let count=count+1
-    done
-    cd $str
-}
-
-mcd() { # Make a Directory and CD in to it
-   mkdir -p "$1" && cd "$1";
-}
-
-if is_osx; then
-  FILE_MANAGER='open'
-elif is_ubuntu; then
-  FILE_MANAGER='nautilus'
-elif is_win; then
-  FILE_MANAGER='/bin/cygstart --explore'
-fi
-
-# `o` with no arguments opens the current directory, otherwise opens the given
-# location
-function o() {
-  if [ $# -eq 0 ]; then
-    $FILE_MANAGER . &
-  else
-    $FILE_MANAGER "$@" &
-  fi;
-}
-
-
-### System Specific Aliases {{{
-if is_ubuntu; then
-  alias copy='xclip -selection clipboard'
-  alias paste='xclip -selection clipboard -o'
-  alias ls='ls -F --color=auto'
-  alias l.='ls -d .* --color=auto' # show hidden files only
-  alias l='ls -lAh --color'
-  alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'''
-fi
-
-if is_osx; then
-  alias copy='pbcopy'
-  alias paste='pbpaste'
-  alias ls="ls -G"
-fi
-
-
-if is_win; then
-    alias copy='/dev/clipboard'
-    alias paste='cat /dev/clipboard'
-fi
-# }}}
-
 # Shell & System {{{
 alias scriptcom='echo "!!" > $1' # Create a script of the last executed command (takes a filename.sh as argument)
 alias ds='du -ks *|sort -n' # Find the biggest in a folder
@@ -149,7 +42,6 @@ alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 
 alias sulast='sudo $(history -p !-1)' # add sudo to last command
 alias k9='kill -9'
 alias tms='ps -ef | grep'
-alias tmu="tmuxifier"
 # }}}
 
 # SSH Tunnel {{{
@@ -161,10 +53,6 @@ rtunnel(){
     ssh -R 80:localhost:"$1" serveo.net
 }
 # }}}
-
-p(){
-  dir=$(find ~/repos -type d -execdir test -d {}/.git \; -print -prune | fzf) && cd $dir
-}
 
 # Docker commands {{{
 dshell(){
@@ -182,22 +70,6 @@ function dc(){
 
 
 export EDITOR='vim'
-
-
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-	if [ $# -eq 0 ]; then
-		$EDITOR .;
-	else
-		$EDITOR "$@";
-	fi;
-}
-
-export VISUAL="$EDITOR"
-#alias vv="cd $DOTFILES/link && v $DOTFILES/link/.{,g}vimrc +'cd $DOTFILES'"
-alias vv="cd $DOTFILES/conf && v $DOTFILES/conf/vimrc +'cd $DOTFILES'"
-alias vd="cd $DOTFILES && v $DOTFILES"
 
 # A collection of server and network commands {{{
 alias httpserv="python -m SimpleHTTPServer" # Serve current directory as a webpage
