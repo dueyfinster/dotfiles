@@ -1,0 +1,41 @@
+cask_args appdir: '/Applications'
+
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/core"
+tap "homebrew/services"
+
+brew "bash"
+brew "bash-completion"
+brew "coreutils"
+brew "ctags"
+brew "direnv"
+brew "findutils"
+brew "fish"
+brew "fzf"
+brew "gcc"
+brew "git"
+brew "git-extras"
+brew "gnupg"
+brew "irssi"
+brew "jq"
+brew "libtiff"
+brew "node"
+brew "postgresql", restart_service: true
+brew "python"
+brew "ripgrep"
+brew "ssh-copy-id"
+brew "tmux"
+brew "vim"
+brew "webp"
+brew "wget"
+
+
+cask "dropbox"
+cask "docker"
+cask "firefox"
+cask "font-fira-code"
+cask "java"
+cask "google-chrome"
+cask "skype"
+
