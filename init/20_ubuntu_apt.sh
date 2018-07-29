@@ -9,6 +9,7 @@ sudo apt-get -qq update
 packages=(
   build-essential
   bash-completion
+  direnv
   exuberant-ctags
   fonts-mplus
   git-core
