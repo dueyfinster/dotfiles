@@ -10,6 +10,7 @@ recipes=(
   bash-completion
   ctags
   coreutils
+  direnv
   findutils
   fzf
   gcc
