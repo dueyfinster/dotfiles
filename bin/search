@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# Quick search in a directory for a string ($@).
+#
+set -e
+
+if [ -x "$(command -v rg)" ]; then
+  rg "$@"
+else
+  grep "$@" -r .
+fi
