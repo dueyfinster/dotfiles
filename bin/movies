@@ -1,15 +1,63 @@
 #!/usr/bin/env bash
+# Find Movie Showtimes for IMC Cinemas in Ireland, Copyright 2018 Neil Grogan
+# Dependencies: curl, base64 & jq: https://stedolan.github.io/jq/
+LOCATION="Athlone"
+OMDB_API_KEY=""
 
-MOVIES=$(curl --header "Content-Type: application/json" --request POST \
-  --data '{description: "Athlone"}' \
-  https://www.imccinemas.ie/DesktopModules/Inventise.IMC.API/V1/API/Search/GetEventsByVenueDescription \
-  | jq '[.data[] | {title: .Description, director: .Director, desc: .EventSummary, starring: .Staring, duration: .Duration, trailer_url: .Trailer, rating: .RatingIE, url: .UrlLink}]')
+# Decodes Base64 String ($1) to JSON and retrieves specified data ($2)
+function _jq(){
+  local data=$(echo ${1} | base64 --decode | jq -r ${2})
+  echo "$data"
+}
 
-for row in $(echo "${MOVIES}" | jq -r '.[] | .url'); do
-  echo "${row}"
-  curl -H 'content-type: application/json;charset=UTF-8' \
-    -H 'accept: application/json, text/plain, */*' \
-    --data '{"eventDescription":"'"${row}"'","eventDate":null,"venueDescription":"Athlone"}' \
-    'https://www.imccinemas.ie/DesktopModules/Inventise.IMC.API/V1/API/Search/GetEventDatesAndPerformances' \
-    | jq '.data.EventDates[] | .PerformanceDetails[] | {start_date: .StartDate}'
-done
+# Posts payload ($1) using curl to IMC API endpoint ($2)
+function curl_post_json(){
+  local url="https://www.imccinemas.ie/DesktopModules/Inventise.IMC.API/V1/API/Search/$2"
+  local data=$(curl -s -H "Content-Type: application/json" -H 'accept: application/json' --request POST --data "$1" "$url")
+  echo "$data"
+}
+
+# Gets data using curl with specified URI endpoint ($1)
+function curl_get_json(){
+  local data=$(curl -s -H "Accept: application/json" $1)
+  echo "$data"
+}
+
+function get_movies_list(){
+  local payload="{description: '$LOCATION'}"
+  local endpoint="GetEventsByVenueDescription"
+  local data=$(curl_post_json "$payload" "$endpoint" \
+    | jq '[.data[] | {title: .Description, director: .Director, desc: .EventSummary, starring: .Staring, duration: .Duration, trailer_url: .Trailer, rating: .RatingIE, url: .UrlLink}]')
+  echo "$data"
+}
+
+function get_showing_times(){
+  local endpoint="GetEventDatesAndPerformances"
+  for movie in $(echo "$1" | jq -r '.[] | @base64'); do
+    local url=$(_jq $movie '.url')
+    payload='{"eventDescription":"'"${url}"'","eventDate":null,"venueDescription":"'"${LOCATION}"'"}'
+    local times=$(curl_post_json "$payload" "$endpoint" | jq '[.data.EventDates[] | .PerformanceDetails[] | {show_time: .StartDate}]')
+    result=$(echo "$movie" | base64 --decode | jq --argjson obj "$times" '.Times += $obj')
+    echo $result
+  done
+}
+
+function get_ratings(){
+
+  for movie in $(echo "$1" | jq -r '.[] | @base64'); do
+    local name=$(_jq $movie '.title')
+    local movie_name=${name// /+}
+    local url="http://www.omdbapi.com/?t=$movie_name&apikey=$OMDB_API_KEY"
+    echo "url is:"
+    local ratings=$(curl_get_json $url | jq '[.Ratings[]]')
+    result=$(echo "$movie" | base64 --decode | jq --argjson obj "$ratings" '.Ratings += $obj')
+    echo $result
+  done
+}
+
+if [ ! -z "$1" ]; then
+  LOCATION="$1"
+fi
+
+get_showing_times "$(get_movies_list)"
+#get_ratings "$(get_movies_list)"
