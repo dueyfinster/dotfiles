@@ -26,6 +26,14 @@ if [ -x "$(command -v direnv)" ]; then
   eval "$(direnv hook bash)"
 fi
 
+# Source all files in "completion"
+function completion() {
+  local file
+  for file in $DOTFILES/conf/bash-completion.d/*; do
+    source "$file"
+  done
+}
+
 # Source all files in "source"
 function src() {
   local file
@@ -38,13 +46,6 @@ function src() {
   fi
 }
 
-# Source all files in "source"
-function completion() {
-  local file
-  for file in $DOTFILES/conf/bash-completion.d/*; do
-    source "$file"
-  done
-}
 
-src
 completion
+src
