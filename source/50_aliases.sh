@@ -16,11 +16,11 @@ ytdl() {
 }
 
 ### Git Commands {{{
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-      . $(brew --prefix)/etc/bash_completion
-elif [ -f /usr/share/bash-completion/completions/git ]; then
-      . /usr/share/bash-completion/completions/git
-fi
+# if [ ! -x "$(command -v brew)" ] | [ -f $(brew --prefix)/etc/bash_completion ]; then
+#       . $(brew --prefix)/etc/bash_completion
+# elif [ -f /usr/share/bash-completion/completions/git ]; then
+#       . /usr/share/bash-completion/completions/git
+# fi
 
 function_exists() {
     declare -f -F $1 > /dev/null
