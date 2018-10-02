@@ -42,6 +42,16 @@ else
     yellow="\e[1;33m"
 fi
 
+function get_git_branch {
+  if [ -d .git ]; then
+    BNAME=$(git branch | grep \* | cut -d ' ' -f2)
+    BRANCH_NAME=" ($BNAME) "
+  else
+    BRANCH_NAME=""
+  fi;
+     
+}
+
 function get_hostname {
   export SHORTNAME=${HOSTNAME%%.*}
 }
@@ -67,8 +77,8 @@ inputcolor=$white
 cwdcolor=$green
 host_name=$yellow
 user_color
-PROMPT_COMMAND='settitle; get_hostname; history -a;'
-export PS1='\e${usercolor}\u${reset}@\e${host_name}${SHORTNAME}:\e${cwdcolor}$PWD\e${reset}\n\A $ ${inputcolor}'
+PROMPT_COMMAND='settitle; get_hostname; get_git_branch; history -a;'
+export PS1='\e${usercolor}\u${reset}@\e${host_name}${SHORTNAME}:\e${cwdcolor}$PWD\e${reset}${BRANCH_NAME}\n\A $ ${inputcolor}'
 
 # Aliases
 alias ls='ls -l --color'
