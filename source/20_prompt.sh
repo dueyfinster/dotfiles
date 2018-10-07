@@ -42,11 +42,19 @@ else
     yellow="\e[1;33m"
 fi
 
-function parse_git_modified(){
-  modified=$(git status -s | egrep "^M|^A" | wc -l | xargs)
-  [[ $modified != "0" ]] && echo -n " ${blue}✚ ${modified}${reset}"
+function parse_git_deleted(){
   deleted=$(git status -s | egrep "^D" | wc -l | xargs)
   [[ $deleted != "0" ]] && echo -n " ${red}✖ ${deleted}${reset}"
+}
+
+function parse_git_staged(){
+  staged=$(git status -s | egrep "^M|^A" | wc -l | xargs)
+  [[ $staged != "0" ]] && echo -n " ${purple}●${staged}${reset}"
+}
+
+function parse_git_modified(){
+  modified=$(git status -s | egrep "^ M" | wc -l | xargs)
+  [[ $modified != "0" ]] && echo -n " ${blue}✚ ${modified}${reset}"
 }
 
 function parse_git_untracked(){
@@ -80,7 +88,7 @@ function parse_git_branch {
 function git_status {
   if [[ $(which git) ]]; then
     if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]]; then
-      echo -n " ($(parse_git_branch)$(parse_git_dirty)$(parse_git_stash)$(parse_git_modified)$(parse_git_untracked))";
+      echo -n " ($(parse_git_branch)$(parse_git_dirty)$(parse_git_staged)$(parse_git_deleted)$(parse_git_modified)$(parse_git_untracked)$(parse_git_stash))";
     fi
   fi
 }
