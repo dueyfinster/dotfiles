@@ -2,7 +2,7 @@
 # Find Movie Showtimes for IMC Cinemas in Ireland, Copyright 2018 Neil Grogan
 # Dependencies: curl, base64 & jq: https://stedolan.github.io/jq/
 LOCATION="Athlone"
-OMDB_API_KEY=""
+OMDB_API_KEY="f4a055f7"
 
 # Decodes Base64 String ($1) to JSON and retrieves specified data ($2)
 function _jq(){
@@ -23,21 +23,23 @@ function curl_get_json(){
   echo "$data"
 }
 
+# By location ($1) gets a list of now showing movies, and encodes in Base 64
 function get_movies_list(){
-  local payload="{description: '$LOCATION'}"
+  local payload="{description: '$1'}"
   local endpoint="GetEventsByVenueDescription"
   local data=$(curl_post_json "$payload" "$endpoint" \
-    | jq '[.data[] | {title: .Description, director: .Director, desc: .EventSummary, starring: .Staring, duration: .Duration, trailer_url: .Trailer, rating: .RatingIE, url: .UrlLink}]')
-  echo "$data"
+    | jq '[.data[] | {title: .Description, director: .Director, desc: .EventSummary, starring: .Staring, duration: .Duration, trailer_url: .Trailer, rating: .RatingIE, url: .UrlLink}] | @base64')
+  echo "$data" | sed -e 's/^"//' -e 's/"$//'
 }
 
+# Takes a list of movies in Base 64 ($1) gets a list of show times for that movie
 function get_showing_times(){
   local endpoint="GetEventDatesAndPerformances"
-  for movie in $(echo "$1" | jq -r '.[] | @base64'); do
+  for movie in $(echo "$1" | base64 --decode | jq -r '.[] | @base64'); do
     local url=$(_jq $movie '.url')
     payload='{"eventDescription":"'"${url}"'","eventDate":null,"venueDescription":"'"${LOCATION}"'"}'
     local times=$(curl_post_json "$payload" "$endpoint" | jq '[.data.EventDates[] | .PerformanceDetails[] | {show_time: .StartDate}]')
-    result=$(echo "$movie" | base64 --decode | jq --argjson obj "$times" '.Times += $obj')
+    result=$(echo "$movie" | base64 --decode | jq --argjson obj "$times" '.times += $obj')
     echo $result
   done
 }
@@ -48,7 +50,6 @@ function get_ratings(){
     local name=$(_jq $movie '.title')
     local movie_name=${name// /+}
     local url="http://www.omdbapi.com/?t=$movie_name&apikey=$OMDB_API_KEY"
-    echo "url is:"
     local ratings=$(curl_get_json $url | jq '[.Ratings[]]')
     result=$(echo "$movie" | base64 --decode | jq --argjson obj "$ratings" '.Ratings += $obj')
     echo $result
@@ -59,5 +60,8 @@ if [ ! -z "$1" ]; then
   LOCATION="$1"
 fi
 
-get_showing_times "$(get_movies_list)"
-#get_ratings "$(get_movies_list)"
+movies=$(get_movies_list "$LOCATION")
+times=$(get_showing_times "$movies")
+echo "$times"
+#ratings=$(get_ratings "$times")
+#echo "$ratings"
