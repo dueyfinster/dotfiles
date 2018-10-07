@@ -78,5 +78,5 @@ cwdcolor=$green
 host_name=$yellow
 user_color
 PROMPT_COMMAND='settitle; get_hostname; get_git_branch; history -a;'
-export PS1='\e${usercolor}\u${reset}@\e${host_name}${SHORTNAME}:\e${cwdcolor}$PWD\e${reset}${BRANCH_NAME}\n\A $ ${inputcolor}${reset}'
+export PS1='\e${usercolor}\u${reset}@\e${host_name}${SHORTNAME}:\e${cwdcolor}$PWD\e${reset}\[${BRANCH_NAME}\]\n\A $ ${inputcolor}${reset}'
 
