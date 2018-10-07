@@ -42,14 +42,47 @@ else
     yellow="\e[1;33m"
 fi
 
-function get_git_branch {
-  if [ -d .git ]; then
-    BNAME=$(git branch | grep \* | cut -d ' ' -f2)
-    BRANCH_NAME=" ($BNAME) "
-  else
-    BRANCH_NAME=""
-  fi;
+function parse_git_modified(){
+  modified=$(git status -s | egrep "^M|^A" | wc -l | xargs)
+  [[ $modified != "0" ]] && echo -n " ${blue}✚ ${modified}${reset}"
+  deleted=$(git status -s | egrep "^D" | wc -l | xargs)
+  [[ $deleted != "0" ]] && echo -n " ${red}✖ ${deleted}${reset}"
+}
 
+function parse_git_untracked(){
+  untracked=$(git status -s | egrep "^\?\?" | wc -l | xargs)
+  [[ $untracked != "0" ]] && echo -n " ${white}…${untracked}${reset}"
+}
+
+function parse_git_dirty {
+  status=$(git status --porcelain -b 2> /dev/null)
+  aheadRegex="ahead ([0-9]+)"
+  behindRegex="behind ([0-9]+)"
+
+  [[ $status =~ $aheadRegex ]] && ahead="${BASH_REMATCH[1]}" || ahead="0"
+  [[ $status =~ $behindRegex ]] && behind="${BASH_REMATCH[1]}" || behind="0"
+
+  [[ $(git status --long 2> /dev/null | tail -n1) == "nothing to commit, working tree clean" ]] && echo -n " ${green}✔${reset}"
+  [[ $ahead != "0" ]] && echo -n " ${yellow}↑${ahead}${reset}"
+  [[ $behind != "0" ]] && echo -n " ${yellow}↓${behind}${reset}"
+}
+
+function parse_git_stash {
+  stash_count=$(git stash list 2> /dev/null | wc -l | xargs)
+  [[ ${stash_count} -gt 0 ]] && echo " ⚑$stash_count"
+}
+
+function parse_git_branch {
+  BNAME=$(git branch | grep \* | cut -d ' ' -f2)
+  echo -n "$BNAME"
+}
+
+function git_status {
+  if [[ $(which git) ]]; then
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]]; then
+      echo -n " ($(parse_git_branch)$(parse_git_dirty)$(parse_git_stash)$(parse_git_modified)$(parse_git_untracked))";
+    fi
+  fi
 }
 
 function get_return_code {
@@ -80,14 +113,14 @@ function settitle() {
 __prompt_command() {
   local ex_code="$?"
   RET_CODE="" # Res
-  get_return_code "${ex_code}"; settitle; get_hostname; get_git_branch; history -a;
+  get_return_code "${ex_code}"; settitle; get_hostname; history -a;
 
   # Set prompt and window title
   inputcolor=$white
   cwdcolor=$green
   host_name=$yellow
   user_color
-  PS1='\e\[${RET_CODE}\]\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[${BRANCH_NAME}\]\n\A $ \[${inputcolor}\]\[${reset}\]'
+  PS1='\e\[${RET_CODE}\]\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[$(git_status)\]\n\A $ \[${inputcolor}\]\[${reset}\]'
 }
 
 
