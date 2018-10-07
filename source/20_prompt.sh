@@ -52,16 +52,22 @@ function get_git_branch {
 
 }
 
+function get_return_code {
+  [[ $1 != 0 ]] && export RET_CODE="\(${bold}${red}$1${reset}) "
+}
+
 function get_hostname {
   export SHORTNAME=${HOSTNAME%%.*}
 }
 
 function user_color {
-  id | grep "Admin" > /dev/null
-  RETVAL=$?
-  if [[ $RETVAL == 0 ]]; then
-    usercolor=$red;
-  else
+  if [[ "$SSH_TTY" ]]; then
+    # connected via ssh
+    usercolor=$cyan;
+  elif [[ "$USER" == "root" ]]; then
+    # logged in as root
+    usercolor=$bold$red;
+	else
     usercolor=$orange;
   fi
 }
@@ -71,12 +77,18 @@ function settitle() {
   h="$u@${HOSTNAME}"
   echo -ne "\e]2;$h\a\e]1;$h\a";
 }
+__prompt_command() {
+  local ex_code="$?"
+  RET_CODE="" # Res
+  get_return_code "${ex_code}"; settitle; get_hostname; get_git_branch; history -a;
 
-# Set prompt and window title
-inputcolor=$white
-cwdcolor=$green
-host_name=$yellow
-user_color
-PROMPT_COMMAND='settitle; get_hostname; get_git_branch; history -a;'
-export PS1='\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[${BRANCH_NAME}\]\n\A $ \[${inputcolor}\]\[${reset}\]'
+  # Set prompt and window title
+  inputcolor=$white
+  cwdcolor=$green
+  host_name=$yellow
+  user_color
+  PS1='\e\[${RET_CODE}\]\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[${BRANCH_NAME}\]\n\A $ \[${inputcolor}\]\[${reset}\]'
+}
 
+
+PROMPT_COMMAND='__prompt_command'
