@@ -118,9 +118,18 @@ function settitle() {
   h="$u@${HOSTNAME}"
   echo -ne "\e]2;$h\a\e]1;$h\a";
 }
+
+# Maintain a per-execution call stack.
+__prompt_stack=()
+trap '__prompt_stack=("${__prompt_stack[@]}" "$BASH_COMMAND")' DEBUG
+
 __prompt_command() {
   local ex_code="$?"
-  RET_CODE="" # Res
+  RET_CODE="" # Restore to nothing when re-running
+
+  [[ "${__prompt_stack[0]}" == "__prompt_command" ]] && ex_code=0
+  __prompt_stack=()
+
   get_return_code "${ex_code}"; settitle; get_hostname; history -a;
 
   # Set prompt and window title
