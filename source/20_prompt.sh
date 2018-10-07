@@ -113,11 +113,11 @@ function user_color {
   fi
 }
 
-function settitle() {
-  u=${USERNAME}
-  h="$u@${HOSTNAME}"
-  echo -ne "\e]2;$h\a\e]1;$h\a";
-}
+# function settitle() {
+#   u=${USERNAME}
+#   h="$u@${HOSTNAME}"
+#   echo -ne "\e]2;$h\a\e]1;$h\a";
+# }
 
 # Maintain a per-execution call stack.
 __prompt_stack=()
@@ -130,7 +130,7 @@ __prompt_command() {
   [[ "${__prompt_stack[0]}" == "__prompt_command" ]] && ex_code=0
   __prompt_stack=()
 
-  get_return_code "${ex_code}"; settitle; get_hostname; history -a;
+  get_return_code "${ex_code}"; get_hostname; history -a;
 
   # Set prompt and window title
   inputcolor=$white
