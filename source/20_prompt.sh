@@ -88,7 +88,11 @@ function parse_git_branch {
 function git_status {
   if [[ $(which git) ]]; then
     if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) ]]; then
-      echo -n " ($(parse_git_branch)$(parse_git_dirty)$(parse_git_staged)$(parse_git_deleted)$(parse_git_modified)$(parse_git_untracked)$(parse_git_stash))";
+      if [[ "$OSTYPE" == "msys" ]]; then # Git bash on windows, so very slow
+        printf -- "$(git branch 2>/dev/null | sed -ne '/^\* / s/^\* \(.*\)/ [\1] / p')"
+      else
+        echo -n " ($(parse_git_branch)$(parse_git_dirty)$(parse_git_staged)$(parse_git_deleted)$(parse_git_modified)$(parse_git_untracked)$(parse_git_stash))";
+      fi
     fi
   fi
 }
