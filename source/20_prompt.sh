@@ -132,12 +132,14 @@ __prompt_command() {
 
   get_return_code "${ex_code}"; get_hostname; history -a;
 
+  GSTATUS=$(git_status)
+
   # Set prompt and window title
   inputcolor=$white
   cwdcolor=$green
   host_name=$yellow
   user_color
-  PS1='\e\[${RET_CODE}\]\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[$(git_status)\]\n\A $ \[${inputcolor}\]\[${reset}\]'
+  PS1='\e\[${RET_CODE}\]\e\[${usercolor}\]\u\[${reset}\]@\e\[${host_name}\]\[${SHORTNAME}\]:\e\[${cwdcolor}\]\[$PWD\]\e\[${reset}\]\[${GSTATUS}\]\n\A $ \[${inputcolor}\]\[${reset}\]'
 }
 
 
