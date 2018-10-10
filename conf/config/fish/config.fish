@@ -1,6 +1,9 @@
 # Turn off fish greeting
 set -e  fish_greeting
 
+# Solarized colours
+. $HOME/.config/fish/solarized.fish
+
 # load solarized colors
 set -g theme_color_scheme solarized-dark
 set -g __fish_git_prompt_show_informative_status 1
