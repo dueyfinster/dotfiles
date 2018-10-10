@@ -1,3 +1,3 @@
 # load solarized colors
-. $HOME/.conf/fish/solarized.fish
-. $HOME/.conf/fish/colors.fish
+. $HOME/.config/fish/solarized.fish
+. $HOME/.config/fish/colours.fish
