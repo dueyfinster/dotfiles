@@ -1,5 +1,6 @@
 Host lime
     Hostname 150.132.76.214
+    IdentityFile ~/.ssh/id_eric_egronei
     User root
 
 Host mango
