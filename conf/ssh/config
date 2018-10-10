@@ -8,6 +8,7 @@ Host mango
 
 Host xmas
     Hostname 10.59.140.196
+    IdentityFile ~/.ssh/id_eric_egronei
     User root
 
 Host gerritmirror.lmera.ericsson.se
