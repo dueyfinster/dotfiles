@@ -10,6 +10,16 @@ set -g __fish_git_prompt_show_informative_status 1
 
 # Abbreviations
 abbr -a e 'exit'
+
+# Directory Shortcuts
+abbr -a dx 'cd ~/Dropbox'
+abbr -a de 'cd ~/Desktop'
+abbr -a do 'cd ~/Documents'
+abbr -a dw 'cd ~/Downloads'
+abbr -a dr 'cd ~/repos'
+abbr -a dt 'cd ~/.dotfiles'
+
+# Git Abbreviations
 abbr -a g 'git'
 abbr -a ga 'git add'
 abbr -a gc 'git commit -m'
