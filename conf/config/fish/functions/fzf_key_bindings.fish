@@ -1,1 +1,0 @@
-/home/ngrogan/.fzf/shell/key-bindings.fish
