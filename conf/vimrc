@@ -169,6 +169,8 @@ try
   elseif &t_Co == 256
     set background=dark
     colorscheme solarized
+    highlight Normal ctermbg=NONE
+    highlight nonText ctermbg=NONE
     " let g:solarized_termtrans=1
     " let g:solarized_termcolors=256
   endif
