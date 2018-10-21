@@ -30,6 +30,7 @@ else
   " }}}
 
   " {{{ Shells and Runners
+  call minpac#add('thinca/vim-quickrun') " Run Commands Quickly
   call minpac#add('christoomey/vim-tmux-runner') " Run Commands Quickly
   " }}}
 
