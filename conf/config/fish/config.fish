@@ -8,6 +8,9 @@ set -e  fish_greeting
 set -g theme_color_scheme solarized-dark
 set -g __fish_git_prompt_show_informative_status 1
 
+# Set path
+set PATH ~/.dotfiles/bin ~/.fzf/bin $PATH
+
 # Abbreviations
 abbr -a e 'exit'
 
