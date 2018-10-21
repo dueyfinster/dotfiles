@@ -30,7 +30,7 @@ else
   " }}}
 
   " {{{ Shells and Runners
-  call minpac#add('thinca/vim-quickrun') " Run Commands Quickly
+  call minpac#add('christoomey/vim-tmux-runner') " Run Commands Quickly
   " }}}
 
   " Source Control & Tags {{{
@@ -304,6 +304,9 @@ endif
 " PLUGIN SETTINGS {{{
 """""""""""""""""
 
+" Vim Tmux Runner settings
+nnoremap <leader>py :VtrOpenRunner {'orientation': 'h', 'percentage': 50, 'cmd': 'python3'}<cr>
+
 " fugitive git bindings
 nnoremap <space>ga :Git add %:p<CR><CR>
 nnoremap <space>gs :Gstatus<CR>
@@ -329,40 +332,6 @@ if executable('nc') && executable('tr') && executable('cat')
   command! -range=% VP  <line1>,<line2>w !curl -F 'text=<-' http://vpaste.net | tr -d '\n' | xclip
   command! -range=% IX  <line1>,<line2>w !curl -F 'f:1=<-' ix.io | tr -d '\n' | xclip
 endif
-" }}}
-
-" {{{ QuickRun Settings
-let g:quickrun_config = {
-  \ "_" : {
-  \   "outputter/buffer/split" : ":botright 8sp",
-  \   "outputter/buffer/close_on_empty" : 1
-  \ },
-  \ 'typescript' : {
-  \ 'command': 'npm',
-  \  'exec' : '%c test -- -p %S:t:r',
-  \  'hook/cd/directory': '%S:p:h',
-  \}
-\}
-let g:quickrun_config.python = {
-\       "command" : "python3",
-\}
-
-" let g:quickrun_config[
-" au! BufNewFile,BufRead *.ts call s:RunTS()
-
-" function! s:RunTS()
-"   if match(expand('%:p'), 'Shield')
-"     let s:wd = expand('%:p:h')
-"     let b:quickrun_config = get(get(g:, 'quickrun_config', {}), 'typescript', {})
-"     echom(s:wd)
-"     let b:quickrun_config['hook/cd/directory'] = s:wd
-"     let b:quickrun_config['hook/cd'] = s:wd
-"     let b:quickrun_config.exec = "npm test -- -p ".expand('%:t:r')
-"   endif
-" endfunction
-
-" nnoremap <silent> <Leader>r :<C-u>QuickRun<CR>
-" nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
 " }}}
 
 " {{{ FZF & RIPGREP
