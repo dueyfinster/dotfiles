@@ -97,6 +97,11 @@ set showcmd " display incomplete commands
 set nobackup
 set nowritebackup
 
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
 
 " Set Cache Settings {{{
 " let g:gutentags_ctags_exclude = =["node_modules","plugged","tmp","temp","log","vendor"]
