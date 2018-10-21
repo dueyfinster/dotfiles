@@ -15,7 +15,7 @@ if test -d ~/.fzf/bin
 end
 
 # Abbreviations
-abbr -a e 'exit'
+abbr -a x 'exit'
 
 # Directory Shortcuts
 abbr -a dx 'cd ~/Dropbox'
@@ -34,3 +34,6 @@ abbr -a gl 'git log'
 abbr -a gs 'git status'
 abbr -a gp 'git push'
 abbr -a gpl 'git pull'
+
+# Aliases
+alias e 'vim +Files'
