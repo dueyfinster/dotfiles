@@ -349,6 +349,16 @@ let g:rg_command = '
 " Optional to add if only want certain files:
 " \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
 
+
+
+function! s:fzf_file_preview_options(bang) abort
+    return fzf#vim#with_preview('right:60%:hidden', '?')
+endfunction
+
+function! s:fzf_grep_preview_options(bang) abort
+    return a:bang ? fzf#vim#with_preview('up:60%', '?') : fzf#vim#with_preview('right:50%:hidden', '?')
+endfunction
+
 let g:fzf_follow_symlinks = get(g:, 'fzf_follow_symlinks', 0)
 
 let s:has_rg = executable('rg')
