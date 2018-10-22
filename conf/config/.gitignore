@@ -2,5 +2,8 @@
 *
 
 # Except these...
-!fish/*.fish
-!fish/functions/*.fish
+!*.fish
+
+# Even in subdirs
+!*/
+
