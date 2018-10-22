@@ -353,7 +353,7 @@ let g:rg_command = '
 #command! -bang -nargs=? -complete=dir Files
 #  \ call fzf#vim#files(<q-args>, s:build_fzf_options(g:rg_command, <bang>0), <bang>0)
   
-command! -bang -nargs=* Files call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Files call fzf#vim#files('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " {{{ FZF & RIPGREP
 nmap <Leader>b :Buffers<CR>
