@@ -343,6 +343,16 @@ if executable('nc') && executable('tr') && executable('cat')
 endif
 " }}}
 
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always"
+  \ -g "!{.git,node_modules,vendor,pack,plugins}/*" '
+" Optional to add if only want certain files:
+" \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+
+# Make FZF Files command use rg
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, s:build_fzf_options(g:rg_command, <bang>0), <bang>0)
+
 " {{{ FZF & RIPGREP
 nmap <Leader>b :Buffers<CR>
 nmap <Leader>f :Files<CR>
@@ -352,13 +362,6 @@ nmap <Leader>h :History<CR>
 " Close quickfix window
 nmap <Leader>x :cclose<CR>
 nmap <Leader>c :bd<CR>
-
-
-let g:rg_command = '
-  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always"
-  \ -g "!{.git,node_modules,vendor,pack,plugins}/*" '
-" Optional to add if only want certain files:
-" \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
 
 " Bind a new Rg command that uses FZF to search
 command! -bang -nargs=* Rg
