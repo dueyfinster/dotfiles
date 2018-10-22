@@ -309,6 +309,12 @@ endif
 
 " Vim Tmux Runner settings
 nnoremap <leader>py :VtrOpenRunner {'orientation': 'h', 'percentage': 50, 'cmd': 'python3'}<cr>
+nnoremap <leader>v- :VtrOpenRunner {'orientation': 'v'}<cr>
+nnoremap <leader>v\ :VtrOpenRunner {'orientation': 'h'}<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>vs :VtrSendCommandToRunner<cr>
+
 
 " fugitive git bindings
 nnoremap <space>ga :Git add %:p<CR><CR>
