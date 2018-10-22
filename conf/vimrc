@@ -386,7 +386,7 @@ let g:fzf_follow_symlinks = get(g:, 'fzf_follow_symlinks', 0)
 let s:has_rg = executable('rg')
 
 if s:has_rg
-    let s:fzf_files_command     = 'rg --color=never --no-ignore-vcs --hidden --files'
+    let s:fzf_files_command     = 'rg --color=never --hidden --files -g "!.git/"'
     let s:fzf_all_files_command = 'rg --color=never --no-ignore --hidden --files'
 
     function! s:build_fzf_options(command, bang) abort
