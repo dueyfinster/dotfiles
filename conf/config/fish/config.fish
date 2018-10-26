@@ -25,6 +25,9 @@ abbr -a dw 'cd ~/Downloads'
 abbr -a dr 'cd ~/repos'
 abbr -a dt 'cd ~/.dotfiles'
 
+# Docker abbreviations
+abbr -a dc 'docker-compose'
+
 # Git Abbreviations
 abbr -a g 'git'
 abbr -a ga 'git add'
