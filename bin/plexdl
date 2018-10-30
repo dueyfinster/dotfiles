@@ -1,0 +1,56 @@
+#!/bin/bash
+# plexdl - Uses curl to send a magnet or youtube link to a webhook to end up in plex
+# Copyright 2018,  Neil Grogan
+# All rights reserved.
+PROGNAME=${0##*/}
+VERSION="0.1"
+
+main(){
+	check_args
+	post_webhook
+}
+
+check_args(){
+	#debug "Checking Email, URL and Text to Find are not empty"
+	if [[ -z $type || -z $uri || -z $hook ]]; then
+		error "You are missing a required argument, please see usage:"
+		echo "$(usage)"
+		exit 1
+	fi
+}
+
+post_webhook(){
+  token=$(cat ~/.webhook)
+  curl -X POST --data "token=$token" --data "type=$type" --data "uri=$uri" https://ballyda.com:8080/hooks/$hook
+}
+
+help_message() {
+	cat <<- _EOF_
+	$PROGNAME ver. $VERSION
+	Uses curl to send a magnet or youtube link to a webhook to end up in plex.
+	$(usage)
+	Options:
+	-h, --help	Display this help message and exit.
+	_EOF_
+	return
+}
+
+usage() {
+	echo -e "Usage: $PROGNAME [-m|--magnet]|[-y|--youtube] [-u|--url] <uri> [-t|--type] <type>"
+}
+
+# Parse command-line
+while [[ -n $1 ]]; do
+	case $1 in
+		-m | --magnet)	hook="add-torrent"; shift ;;
+		-y | --youtube)	hook="yt-dl"; shift ;;
+    -t | --type)	type=$2; shift ;;
+		-h | --help)	help_message; exit 0 ;;
+		-u | --uri)	uri=$2; shift ;;
+		-* | --*)	usage; exit -1 "Unknown option $1" ;;
+		*)		echo "Argument $1 to process..." ;;
+	esac
+	shift
+done
+
+main
