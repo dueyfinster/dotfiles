@@ -249,6 +249,9 @@ with a trailing =~= turd.
    (require 'helm-config)
    (require 'helm-rg)
 
+   ;; Set a path for projectile to search for projects
+   (setq projectile-project-search-path '("~/repos/" "~/.dotfiles/"))
+
    (setq helm-split-window-in-side-p t
       helm-M-x-fuzzy-match t
       helm-buffers-fuzzy-matching t
