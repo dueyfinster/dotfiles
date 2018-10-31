@@ -257,6 +257,9 @@ with a trailing =~= turd.
       projectile-completion-system 'helm)
 
    (set-face-attribute 'helm-selection nil :background "cyan")
+   ;; get rid of `find-file-read-only' and replace it with something
+   ;; more useful.
+   (global-set-key (kbd "C-x C-r") 'helm-recentf)
    (global-set-key (kbd "M-x") 'helm-M-x)
    (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
@@ -271,6 +274,9 @@ with a trailing =~= turd.
    (helm-projectile-on)
    (helm-adaptive-mode 1)
    #+END_SRC
+
+   #+RESULTS:
+   : t
 
 *** Org Mode
     Default settings for orgmode, such as where files are located:
