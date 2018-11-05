@@ -324,6 +324,7 @@ with a trailing =~= turd.
    (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)
+     (ditaa . t)
      (gnuplot . t)
      (ledger . t)
      (java . t)
