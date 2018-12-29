@@ -41,24 +41,6 @@ And force the install of missing packages.
 (setq use-package-always-ensure t)
 #+END_SRC
 
-*** OLD Packages
-   #+BEGIN_SRC emacs-lisp
-   (let* ((package--builtins nil)
-	  (packages
-	   '(auto-compile         ; automatically compile Emacs Lisp libraries
-	     gnuplot              ; GNU Charting program
-	     idle-require         ; load elisp libraries while Emacs is idle
-	     try)))        				; Display available keybindings in popup
-     (ignore-errors ;; This package is only relevant for Mac OS X.
-       (when (memq window-system '(mac ns))
-	 (push 'exec-path-from-shell packages)
-	 (push 'reveal-in-osx-finder packages))
-       (let ((packages (remove-if 'package-installed-p packages)))
-	 (when packages
-	   ;; Install uninstalled packages
-	   (package-refresh-contents)
-	   (mapc 'package-install packages)))))
-   #+END_SRC
 * Theme
  #+BEGIN_SRC emacs-lisp
 (use-package solarized-theme :config (load-theme 'solarized-dark t))
@@ -149,40 +131,30 @@ Emacs is in idle. So this is great for stuff you eventually want to load,
 but is not a high priority.
 
 #+BEGIN_SRC emacs-lisp
-(require 'idle-require)             ; Need in order to use idle-require
-
-(dolist (feature
-         '(auto-compile             ; auto-compile .el files
-           recentf))                  ; recently opened files
-  (idle-require feature))
-
-(setq idle-require-idle-delay 5)
-(idle-require-mode 1)
+(use-package recentf
+    :conf (recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+)             ; Require recent files
 #+END_SRC
-** Modes
-There are some modes that are enabled by default that I don't find
-particularly useful. We create a list of these modes, and disable all of
-these.
-
+** Disable the big fat toolbars
 #+BEGIN_SRC emacs-lisp
-(dolist (mode
-         '(tool-bar-mode                ; No toolbars, more room for text
-           scroll-bar-mode              ; No scroll bars either
-           blink-cursor-mode))          ; The blinking cursor gets old
-  (funcall mode 0))
+(tool-bar-mode -1)
+;;(menu-bar-mode -1)
 #+END_SRC
-
-Enable useful modes:
+** Disable the scroll bar
 #+BEGIN_SRC emacs-lisp
-(dolist (mode
-      '(abbrev-mode                  ; E.g. sopl -> System.out.println
-        column-number-mode           ; Show column number in mode line
-        delete-selection-mode        ; Replace selected text
-        dirtrack-mode                ; directory tracking in *shell*
-        global-prettify-symbols-mode ; Greek letters should look greek
-        recentf-mode                 ; Recently opened files
-        show-paren-mode))             ; Available keybindings in popup
-(funcall mode 1))
+(scroll-bar-mode -1)
+#+END_SRC
+** Disable splash screen
+And set it in emacs-lisp mode
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-message t)
+(setq initial-major-mode 'emacs-lisp-mode)
+#+END_SRC
+** Empty Scratch buffer
+#+BEGIN_SRC emacs-lisp
+(setq initial-scratch-message nil)
 #+END_SRC
 
 * Helm
@@ -368,10 +340,18 @@ With a twist of helm
          ("C-c w" . helm-projectile-switch-project)))
 #+END_SRC
 
+* Which Key
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :config (which-key-mode 1))
+#+END_SRC
+
 * Programming Languages & Markup
 ** EditorConfig
 #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
+    :diminish editorconfig-mode
     :config (editorconfig-mode 1))
 #+END_SRC
 ** Erlang
