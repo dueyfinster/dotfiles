@@ -9,6 +9,11 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
+;;(use-package benchmark-init
+;;  :ensure t
+;;  :config
+;;  ;; To disable collection of benchmark data after init is done.
+;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 #+END_SRC
 
 ** Security
@@ -50,43 +55,11 @@ And force the install of missing packages.
 #+BEGIN_SRC emacs-lisp
   (defun edit-config-file ()
     (interactive)
-    (find-file (concat config-load-path "configuration.org")))
+    (find-file (concat config-load-path "emacs-init.org")))
 #+END_SRC
 
 * Defaults
-** Sane Defaults
-Sets all the defaults we need
-#+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-screen t           ; No startup message
-custom-file (make-temp-file "")    ; Discard customization's
-initial-scratch-message nil       ; Clean scratch buffer
-recentf-max-saved-items 200       ; Show more recent files
-ring-bell-function 'ignore        ; Quiet
-)
-
-(setq recentf-exclude
-        '("^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))
-#+END_SRC
-
 ** Backup and autosave
-To avoid doing this each time a change is made we can add a function to
-the =after-save-hook= ensuring to always tangle and byte-compile the
-=org=-document after changes.
-
-#+BEGIN_SRC emacs-lisp
-(defun tangle-init ()
-  "If the current buffer is 'emacs-init.org' the code-blocks are
-tangled, and the tangled file is compiled."
-  (when (equal (buffer-file-name)
-               (expand-file-name (concat user-emacs-directory "emacs-init.org")))
-    ;; Avoid running hooks when tangling.
-    (let ((prog-mode-hook nil))
-      (org-babel-tangle)
-      (byte-compile-file (concat user-emacs-directory "emacs-init.el")))))
-
-(add-hook 'after-save-hook 'tangle-init)
-#+END_SRC
-
 By default, emacs writes a backup file next to the file being editing
 with a trailing =~= turd.
 #+BEGIN_SRC emacs-lisp
@@ -135,7 +108,8 @@ but is not a high priority.
     :conf (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-(add-to-list 'recentf-exclude "~/.emacs.d")
+(setq recentf-exclude
+        '("~/.emacs.d/elpa\\.*" "^/tmp\\.*" "^/private\\.*" "^/var/folders\\.*" "/TAGS$"))
 (setq-default recent-save-file "~/.emacs.d/recentf"))
 #+END_SRC
 ** Disable the big fat toolbars
@@ -162,10 +136,9 @@ And set it in emacs-lisp mode
 #+BEGIN_SRC emacs-lisp
 (use-package helm
   :ensure t
-  :defer t
   :demand
   :diminish helm-mode
-    :bind (("C-x C-r" . helm-recentf)
+  :bind (("C-x C-r" . helm-recentf)
            ("M-x" . helm-M-x)
            ("C-x C-f" . helm-find-files)
            ("C-c h" . helm-command-prefix)
@@ -228,6 +201,7 @@ Company mode provides auto completion for editing.
 Git client inside of Emacs
 #+BEGIN_SRC emacs-lisp
 (use-package magit
+    :defer 5
     :ensure t
     :init (progn
            (bind-key "C-x g" 'magit-status)
@@ -360,6 +334,7 @@ With a twist of helm
 ** Erlang
 #+BEGIN_SRC emacs-lisp
 (use-package erlang
+    :defer t
     :mode ("\\.[eh]rl\\'" . erlang-mode))
 
 (use-package company-erlang
@@ -388,4 +363,12 @@ Yet Another Markup Language
   :init
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode)))
+#+END_SRC
+* Enable =undo-tree=
+#+BEGIN_SRC emacs-lisp
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode t)
+  (setq undo-tree-visualizer-diff t))
 #+END_SRC
