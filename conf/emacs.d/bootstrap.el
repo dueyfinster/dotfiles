@@ -9,7 +9,7 @@
 ;; Heavily inspired by the great http://www.holgerschurig.de/en/emacs-efficiently-untangling-elisp/
 ;; Thanks a lot to him
 
-(defvar config-no-auto-update nil)
+(defvar config-no-auto-update t)
 (defvar config-load-path (file-name-directory (or load-file-name buffer-file-name)))
 (defvar config-org-files '("emacs-init.org" "cheatsheet.org"))
 (defvar config-use-fallback nil)
