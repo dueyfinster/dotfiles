@@ -6,9 +6,15 @@
 ** Package Repositories
 #+BEGIN_SRC emacs-lisp
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
 ;;(use-package benchmark-init
 ;;  :ensure t
 ;;  :config
@@ -16,6 +22,18 @@
 ;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 #+END_SRC
 
+** Mac OS
+#+BEGIN_SRC emacs-lisp
+(when (memq window-system '(mac ns))
+  (setq ns-pop-up-frames nil
+        x-select-enable-clIpboard t)
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :config (exec-path-from-shell-initialize))
+  (when (fboundp 'mac-auto-operator-composition-mode)
+    (mac-auto-operator-composition-mode 1)))'
+#+END_SRC
 ** Security
    Inspired by [[https://ogbe.net/emacsconfig.html][ogbe.net]] and [[https://glyph.twistedmatrix.com/2015/11/editor-malware.html][Your Text Editor Is Malware]].
 *** Check TLS
@@ -78,23 +96,6 @@ with a trailing =~= turd.
 (setq create-lockfiles nil)
 #+END_SRC
 
-** Mac OS X
-I run this configuration mostly on Mac OS X, so we need a couple of
-settings to make things work smoothly. In the package section
-=exec-path-from-shell= is included (only if you're running OS X), this is
-to include environment-variables from the shell. It makes using Emacs
-along with external processes a lot simpler. I also prefer using the
-=Command=-key as the =Meta=-key.
-
-#+BEGIN_SRC emacs-lisp
-(when (memq window-system '(mac ns))
-  (setq ns-pop-up-frames nil
-        x-select-enable-clIpboard t)
-  (exec-path-from-shell-initialize)
-  (when (fboundp 'mac-auto-operator-composition-mode)
-    (mac-auto-operator-composition-mode 1)))'
-#+END_SRC
-
 ** Require
 Some features are not loaded by default to minimize initialization time,
 so they have to be required (or loaded, if you will). =require=-calls
@@ -105,7 +106,7 @@ but is not a high priority.
 
 #+BEGIN_SRC emacs-lisp
 (use-package recentf
-    :conf (recentf-mode 1)
+    :config (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 (setq recentf-exclude
