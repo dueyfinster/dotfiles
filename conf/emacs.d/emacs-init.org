@@ -320,6 +320,7 @@ Display images inline
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
   :ensure t
+  :diminish projectile-mode
   :bind ("C-c p" . projectile-command-map)
   :config
   (projectile-mode))
