@@ -191,12 +191,13 @@ Company mode provides auto completion for editing.
 #+BEGIN_SRC emacs-lisp
 (use-package company
     :diminish company-mode
-    :bind (("C-d" . company-show-doc-buffer)
-           ("C-n" . company-select-next)
-           ("C-p" . company-select-previous)
-           ("<tab>" . company-complete))
+    :init
+  (autoload 'helm-company "helm-company") ; Not necessary if using ELPA package
+  (eval-after-load 'company
+    '(progn
+       (define-key company-mode-map (kbd "C-<tab>") 'helm-company)
+       (define-key company-active-map (kbd "C-<tab>") 'helm-company)))
     :config
-    (add-hook 'after-init-hook 'global-company-mode)
    (setq company-idle-delay 0
       company-echo-delay 0
       company-dabbrev-downcase nil
@@ -204,7 +205,9 @@ Company mode provides auto completion for editing.
       company-selection-wrap-around t
       company-transformers '(company-sort-by-occurrence
                              company-sort-by-backend-importance)))
-(use-package helm-company)
+(use-package helm-company
+     :ensure t
+     :init (autoload 'helm-company "helm-company"))
 #+END_SRC
 
 ** Enable =company-jedi=
