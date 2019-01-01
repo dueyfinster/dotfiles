@@ -361,6 +361,12 @@ With a twist of helm
 #+END_SRC
 
 * Programming Languages & Markup
+** Docker
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode
+    :mode "Dockerfile\\'")
+#+END_SRC
+* Logs
 ** EditorConfig
 #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
