@@ -319,6 +319,22 @@ Display images inline
 (setq org-startup-with-inline-images t)
 #+END_SRC
 
+* Prodigy
+Can start servers in Emacs
+#+BEGIN_SRC emacs-lisp
+(use-package prodigy
+:ensure t
+:config
+(prodigy-define-service
+  :name "blog@localhost"
+  :command "python2"
+  :args '("-m" "SimpleHTTPServer" "8000")
+  :cwd "~/repos/org-blog"
+  :tags '(file-server)
+  :stop-signal 'sigkill
+  :kill-process-buffer-on-stop t))
+#+END_SRC
+
 * Projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
@@ -351,6 +367,15 @@ With a twist of helm
     :diminish editorconfig-mode
     :config (editorconfig-mode 1))
 #+END_SRC
+
+** Emacs Lisp
+Enable eldoc
+#+BEGIN_SRC emacs-lisp
+(use-package eldoc
+  :diminish eldoc-mode
+  :config (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
+#+END_SRC
+
 ** Erlang
 #+BEGIN_SRC emacs-lisp
 (use-package erlang
