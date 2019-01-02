@@ -63,6 +63,17 @@ And force the install of missing packages.
 (require 'bind-key)
 (setq use-package-always-ensure t)
 #+END_SRC
+** My information
+ All the relevant and personal information that Emacs needs. If you are going to
+ use it, needless to say to use your own information.
+
+ #+BEGIN_SRC emacs-lisp :results silent
+ (setq user-full-name "Neil Grogan"
+       user-mail-address "neil@grogan.org"
+       calendar-latitude 53.42
+       calendar-longitude -7.94
+       calendar-location-name "Athlone, Ireland")
+ #+END_SRC
 
 * Theme
  #+BEGIN_SRC emacs-lisp
