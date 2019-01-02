@@ -363,6 +363,18 @@ With a twist of helm
          ("C-c w" . helm-projectile-switch-project)))
 #+END_SRC
 
+* Snippets
+I use =yasnippet= a lot.
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :diminish yas-minor-mode
+    :config (setq yas-snippet-dirs
+             '("~/.dotfiles/conf/emacs.d/snippets"   ;; git synced snippets
+               "~/.emacs.d/snippets"                 ;; local snippets
+             ))
+            (yas-global-mode 1))
+#+END_SRC
+
 * Which Key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
