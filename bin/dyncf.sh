@@ -14,7 +14,7 @@ function get_ipv4(){
 
 function get_ipv6(){
   # TODO
-  curl -s -X GET https://checkip.amazonaws.com | echo
+  curl -s -X GET https://checkip.amazonaws.com
 }
 
 function get_zone_id(){
@@ -22,8 +22,7 @@ function get_zone_id(){
     -H "X-Auth-Email: $2" \
     -H "X-Auth-Key: $3" \
     -H "Content-Type: application/json" \
-    | jq -r '{"result"}[] | .[0] | .id' \
-    | echo
+    | jq -r '{"result"}[] | .[0] | .id' 
 }
 
 function get_record_id(){
@@ -31,8 +30,7 @@ function get_record_id(){
     -H "X-Auth-Email: $4" \
     -H "X-Auth-Key: $5" \
     -H "Content-Type: application/json" \
-    | jq -r '{"result"}[] | .[0] | .id' \
-    | echo
+    | jq -r '{"result"}[] | .[0] | .id'
 }
 
 function get_record_value(){
@@ -40,8 +38,7 @@ function get_record_value(){
   -H "X-Auth-Email: $4" \
   -H "X-Auth-Key: $5" \
   -H "Content-Type: application/json" \
-  | jq -r '{"result"}[] | .[0] | .content' \
-  | echo
+  | jq -r '{"result"}[] | .[0] | .content'
 }
 
 function update_record_value(){
