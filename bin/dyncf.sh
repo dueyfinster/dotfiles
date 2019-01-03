@@ -8,8 +8,17 @@ PASSWORD=${2}
 zone=${3}
 dnsrecord=${4}
 
+
 function get_ipv4(){
   curl -s -X GET https://checkip.amazonaws.com | echo
+}
+
+function request(){
+  curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$1" \
+    -H "X-Auth-Email: $USERNAME" \
+    -H "X-Auth-Key: $PASSWORD" \
+    -H "Content-Type: application/json" \
+    | jq -r '{"result"}[] | .[0] | $2'
 }
 
 function get_ipv6(){
@@ -54,7 +63,7 @@ function main(){
   ip=$(get_ipv4)
   echo "Current IP is $ip"
   
-  zoneid=$(get_zone_id $zone $USERNAME $PASSWORD)
+  zoneid=$(request zones?name=$zone&status=active)
   echo "Zoneid for $zone is $zoneid"
   
   dnsrecordid=$(get_record_id $zoneid A $dnsrecord $USERNAME $PASSWORD)
