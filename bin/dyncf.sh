@@ -18,7 +18,7 @@ function request(){
     -H "X-Auth-Email: $USERNAME" \
     -H "X-Auth-Key: $PASSWORD" \
     -H "Content-Type: application/json" \
-    | jq -r '{"result"}[] | .[0] | $2'
+    | jq -r --arg selector "$2" '{"result"}[] | .[0] | $selector'
 }
 
 function get_ipv6(){
