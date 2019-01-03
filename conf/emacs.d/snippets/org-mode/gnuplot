@@ -3,5 +3,5 @@
 # key: gnuplot_
 # --
 #+BEGIN_SRC gnuplot :var $0 :results vector :colnames no :file $1
-$3
+$2
 #+END_SRC
