@@ -54,7 +54,7 @@ function update_record_value(){
 
 function main(){
   # Get the current external IP address
-  ip=$()
+  ip=$(get_ipv4)
   echo "Current IP is $ip"
   
   zoneid=$(get_zone_id $zone $USERNAME $PASSWORD)
