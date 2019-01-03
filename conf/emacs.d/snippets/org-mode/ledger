@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ledger
+# key: ledger_
+# --
+#+BEGIN_SRC ledger :cmdline $0 :results output table raw :exports none
+!include ~/.hledger.journal
+#+END_SRC
