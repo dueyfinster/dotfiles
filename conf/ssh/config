@@ -7,11 +7,6 @@ Host mango
     Hostname 150.132.76.215
     User root
 
-Host xmas
-    Hostname 10.59.140.196
-    IdentityFile ~/.ssh/id_eric_egronei
-    User root
-
 Host gerritmirror.lmera.ericsson.se
     Hostname gerritmirror.lmera.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
@@ -39,7 +34,7 @@ Host bitbucket.org
     Port 443
 
 Host home
-    Hostname ballyda.com
+    Hostname ssh.grogan.org
     ServerAliveInterval 120
     ForwardX11 yes
     IdentityFile ~/.ssh/id_personal
