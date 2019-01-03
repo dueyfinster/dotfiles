@@ -26,14 +26,6 @@ function get_ipv6(){
   curl -s -X GET https://checkip.amazonaws.com
 }
 
-function get_zone_id(){
-  curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=$1&status=active" \
-    -H "X-Auth-Email: $2" \
-    -H "X-Auth-Key: $3" \
-    -H "Content-Type: application/json" \
-    | jq -r '{"result"}[] | .[0] | .id' 
-}
-
 function get_record_id(){
   curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$1/dns_records?type=$2&name=$dnsrecord" \
     -H "X-Auth-Email: $4" \
@@ -63,7 +55,7 @@ function main(){
   ip=$(get_ipv4)
   echo "Current IP is $ip"
   
-  zoneid=$(request zones?name=$zone&status=active)
+  zoneid=$(request zones?name=$zone&status=active .id)
   echo "Zoneid for $zone is $zoneid"
   
   dnsrecordid=$(get_record_id $zoneid A $dnsrecord $USERNAME $PASSWORD)
