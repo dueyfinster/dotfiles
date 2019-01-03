@@ -46,7 +46,7 @@ function update_record_value(){
   -H "X-Auth-Email: $3" \
   -H "X-Auth-Key: $4" \
   -H "Content-Type: application/json" \
-  --data "{\"type\":\"$5\",\"name\":\"$dnsrecord\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" | jq
+  --data "{\"type\":\"$5\",\"name\":\"$dnsrecord\",\"content\":\"$6\",\"ttl\":1,\"proxied\":false}" | jq
 }
 
 function main(){
