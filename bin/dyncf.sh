@@ -45,4 +45,6 @@ curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zoneid/dns_records/$
   -H "X-Auth-Key: $PASSWORD" \
   -H "Content-Type: application/json" \
   --data "{\"type\":\"A\",\"name\":\"$dnsrecord\",\"content\":\"$ip\",\"ttl\":1,\"proxied\":false}" | jq
+else
+  echo "Two IP Address are the same, no changes needed."
 fi
