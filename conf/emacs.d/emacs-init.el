@@ -1,10 +1,5 @@
-#+TITLE: Emacs configuration file
-#+AUTHOR: Neil Grogan
-#+BABEL: :cache yes
+;; Don't edit this file, edit /Users/ngrogan/.dotfiles/conf/emacs.d/emacs-init.org instead ...
 
-* Packages
-** Package Repositories
-#+BEGIN_SRC emacs-lisp
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -20,10 +15,6 @@
 ;;  :config
 ;;  ;; To disable collection of benchmark data after init is done.
 ;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
-#+END_SRC
-
-** Mac OS
-#+BEGIN_SRC emacs-lisp
 (when (memq window-system '(mac ns))
   (setq ns-pop-up-frames nil
         x-select-enable-clIpboard t)
@@ -33,19 +24,8 @@
   :config (exec-path-from-shell-initialize))
   (when (fboundp 'mac-auto-operator-composition-mode)
     (mac-auto-operator-composition-mode 1)))'
-#+END_SRC
-** Security
-   Inspired by [[https://ogbe.net/emacsconfig.html][ogbe.net]] and [[https://glyph.twistedmatrix.com/2015/11/editor-malware.html][Your Text Editor Is Malware]].
-*** Check TLS
-#+BEGIN_SRC emacs-lisp
   (setq tls-checktrust t)
   (setq gnutls-verify-error t)
-#+END_SRC
-
-** Automatic package installation
-*** Install =use-package=
-And its dependencies if needed.
-#+BEGIN_SRC emacs-lisp
 (mapc
  (lambda (package)
    (if (not (package-installed-p package))
@@ -53,45 +33,15 @@ And its dependencies if needed.
          (package-refresh-contents)
          (package-install package))))
  '(use-package diminish bind-key))
-#+END_SRC
-*** Trigger =use-package=
-And force the install of missing packages.
-#+BEGIN_SRC emacs-lisp
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
 (setq use-package-always-ensure t)
-#+END_SRC
-** My information
- All the relevant and personal information that Emacs needs. If you are going to
- use it, needless to say to use your own information.
-
- #+BEGIN_SRC emacs-lisp :results silent
- (setq user-full-name "Neil Grogan"
-       user-mail-address "neil@grogan.org"
-       calendar-latitude 53.42
-       calendar-longitude -7.94
-       calendar-location-name "Athlone, Ireland")
- #+END_SRC
-
-* Theme
- #+BEGIN_SRC emacs-lisp
 (use-package solarized-theme :config (load-theme 'solarized-dark t))
-#+END_SRC
-
-* Quickly edit this config file
-#+BEGIN_SRC emacs-lisp
   (defun edit-config-file ()
     (interactive)
     (find-file (concat config-load-path "emacs-init.org")))
-#+END_SRC
-
-* Defaults
-** Backup and autosave
-By default, emacs writes a backup file next to the file being editing
-with a trailing =~= turd.
-#+BEGIN_SRC emacs-lisp
 ;; store all autosave files in the tmp dir
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
@@ -105,17 +55,6 @@ with a trailing =~= turd.
       version-control t)
 
 (setq create-lockfiles nil)
-#+END_SRC
-
-** Require
-Some features are not loaded by default to minimize initialization time,
-so they have to be required (or loaded, if you will). =require=-calls
-tends to lead to the largest bottleneck's in a
-configuration. =idle-require= delays the =require=-calls to a time where
-Emacs is in idle. So this is great for stuff you eventually want to load,
-but is not a high priority.
-
-#+BEGIN_SRC emacs-lisp
 (use-package recentf
     :defer 1
     :config (recentf-mode 1)
@@ -137,29 +76,12 @@ but is not a high priority.
      "^/\\(?:ssh\\|su\\|sudo\\)?:" ;; ignore tramp/ssh files
      ))
 (setq-default recent-save-file "~/.emacs.d/recentf"))
-#+END_SRC
-** Disable the big fat toolbars
-#+BEGIN_SRC emacs-lisp
 (tool-bar-mode -1)
 ;;(menu-bar-mode -1)
-#+END_SRC
-** Disable the scroll bar
-#+BEGIN_SRC emacs-lisp
 (scroll-bar-mode -1)
-#+END_SRC
-** Disable splash screen
-And set it in emacs-lisp mode
-#+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t)
 (setq initial-major-mode 'emacs-lisp-mode)
-#+END_SRC
-** Empty Scratch buffer
-#+BEGIN_SRC emacs-lisp
 (setq initial-scratch-message nil)
-#+END_SRC
-
-* Helm
-#+BEGIN_SRC emacs-lisp
 (use-package helm
   :ensure t
   :demand
@@ -187,18 +109,9 @@ And set it in emacs-lisp mode
 
 (use-package helm-rg)
 (use-package helm-system-packages)
-#+END_SRC
-
-* Evil
-#+BEGIN_SRC emacs-lisp
 (use-package evil
   :ensure t
   :config (evil-mode 1))
-#+END_SRC
-
-* Company Mode
-Company mode provides auto completion for editing.
-#+BEGIN_SRC emacs-lisp
 (use-package company
     :diminish company-mode
     :init
@@ -218,29 +131,14 @@ Company mode provides auto completion for editing.
 (use-package helm-company
      :ensure t
      :init (autoload 'helm-company "helm-company"))
-#+END_SRC
-
-** Enable =company-jedi=
-#+BEGIN_SRC emacs-lisp
   (use-package company-jedi
     :config (add-to-list 'company-backends 'company-jedi))
-#+END_SRC
-
-* Git
-Git client inside of Emacs
-#+BEGIN_SRC emacs-lisp
 (use-package magit
     :defer 5
     :ensure t
     :init (progn
            (bind-key "C-x g" 'magit-status)
            ))
-#+END_SRC
-
-#+RESULTS:
-
-Git Gutter
-#+BEGIN_SRC emacs-lisp
 (use-package git-gutter
     :ensure t
     :init
@@ -252,11 +150,6 @@ Git Gutter
                 (git-gutter:modified . "#c0c")))
      (set-face-foreground (car p) (cdr p))
      (set-face-background (car p) (cdr p))))
-#+END_SRC
-
-* Org Mode
-Default settings for orgmode, such as where files are located:
-#+BEGIN_SRC emacs-lisp
 (use-package htmlize)
 (use-package org
     :ensure t
@@ -281,20 +174,10 @@ Default settings for orgmode, such as where files are located:
                         ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-#+END_SRC
-
-Key bindings for orgmode.
-
-#+BEGIN_SRC emacs-lisp
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
-#+END_SRC
-
-Enable babel to use different languages in orgmode:
-
-#+BEGIN_SRC emacs-lisp
 (setq org-confirm-babel-evaluate nil)
 (org-babel-do-load-languages
 'org-babel-load-languages
@@ -308,32 +191,13 @@ Enable babel to use different languages in orgmode:
   (python . t)
   (ruby . t)
   (shell . t)))
-#+END_SRC
-
-When editing org-files with source-blocks, we want the source blocks to
-be themed as they would in their native mode.
-
-#+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-confirm-babel-evaluate nil
       org-edit-src-content-indentation 0)
-#+END_SRC
-
-Add org-bullets:
-#+BEGIN_SRC emacs-lisp
 (use-package org-bullets
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-#+END_SRC
-
-Display images inline
-#+BEGIN_SRC emacs-lisp
 (setq org-startup-with-inline-images t)
-#+END_SRC
-
-* Prodigy
-Can start servers in Emacs
-#+BEGIN_SRC emacs-lisp
 (use-package prodigy
 :ensure t
 :config
@@ -345,69 +209,27 @@ Can start servers in Emacs
   :tags '(file-server)
   :stop-signal 'sigkill
   :kill-process-buffer-on-stop t))
-#+END_SRC
-
-* Projectile
-#+BEGIN_SRC emacs-lisp
 (use-package projectile
   :ensure t
   :diminish projectile-mode
   :bind ("C-c p" . projectile-command-map)
   :config
   (projectile-mode))
-#+END_SRC
-
-With a twist of helm
-#+BEGIN_SRC emacs-lisp
 (use-package helm-projectile
   :bind (("C-c v" . helm-projectile)
          ("C-c C-v" . helm-projectile-ag)
          ("C-c w" . helm-projectile-switch-project)))
-#+END_SRC
-
-* Snippets
-I use =yasnippet= a lot.
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :diminish yas-minor-mode
-    :config (setq yas-snippet-dirs
-             '("~/.dotfiles/conf/emacs.d/snippets"   ;; git synced snippets
-               "~/.emacs.d/snippets"                 ;; local snippets
-             ))
-            (yas-global-mode 1))
-#+END_SRC
-
-* Which Key
-#+BEGIN_SRC emacs-lisp
 (use-package which-key
   :diminish which-key-mode
   :config (which-key-mode 1))
-#+END_SRC
-
-* Programming Languages & Markup
-** Docker
-#+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode
     :mode "Dockerfile\\'")
-#+END_SRC
-* Logs
-** EditorConfig
-#+BEGIN_SRC emacs-lisp
 (use-package editorconfig
     :diminish editorconfig-mode
     :config (editorconfig-mode 1))
-#+END_SRC
-
-** Emacs Lisp
-Enable eldoc
-#+BEGIN_SRC emacs-lisp
 (use-package eldoc
   :diminish eldoc-mode
   :config (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
-#+END_SRC
-
-** Erlang
-#+BEGIN_SRC emacs-lisp
 (use-package erlang
     :defer t
     :mode ("\\.[eh]rl\\'" . erlang-mode))
@@ -415,35 +237,14 @@ Enable eldoc
 (use-package company-erlang
   :config
 (add-hook 'erlang-mode-hook #'company-erlang-init))
-#+END_SRC
-
-** Markdown
-For editing markdown files...
-#+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
   :ensure t
   :commands markdown-mode
   :init
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
-#+END_SRC
-
-** Python
-** YAML
-Yet Another Markup Language
-#+BEGIN_SRC
-(use-package yaml-mode
-  :ensure t
-  :commands yaml-mode
-  :init
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode)))
-#+END_SRC
-* Enable =undo-tree=
-#+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode t)
   (setq undo-tree-visualizer-diff t))
-#+END_SRC
