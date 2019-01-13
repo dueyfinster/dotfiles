@@ -15,7 +15,7 @@ if test -d ~/.fzf/bin
 end
 
 # Set LEDGERFILE
-set LEDGERFILE ~/.hledger.journal
+set -x LEDGERFILE ~/.hledger.journal
 
 # Abbreviations
 abbr -a x 'exit'
