@@ -14,6 +14,9 @@ if test -d ~/.fzf/bin
   set PATH ~/.fzf/bin $PATH
 end
 
+# Set LEDGERFILE
+set LEDGERFILE ~/.hledger.journal
+
 # Abbreviations
 abbr -a x 'exit'
 
@@ -41,3 +44,9 @@ abbr -a gpl 'git pull'
 
 # Aliases
 alias e 'vim +Files'
+
+# Ledger aliases
+alias budget 'ledger -p \"this month\" --budget --monthly balance ^expenses'
+alias bal 'ledger bal ^Assets:Checking'
+alias savings 'ledger bal ^Assets:Savings'
+alias monexp 'ledger -MAn reg'
