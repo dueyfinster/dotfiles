@@ -254,6 +254,13 @@ Git Gutter
      (set-face-background (car p) (cdr p))))
 #+END_SRC
 
+* Neotree
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package neotree
+    :defer 5
+    :bind ("[f8]" . neotree-toggle))
+#+END_SRC
+
 * Org Mode
 Default settings for orgmode, such as where files are located:
 #+BEGIN_SRC emacs-lisp
