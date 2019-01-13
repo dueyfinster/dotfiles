@@ -258,7 +258,8 @@ Git Gutter
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package neotree
     :defer 5
-    :bind ("[f8]" . neotree-toggle))
+    :bind ("[f8]" . neotree-toggle)
+    :config (setq neo-smart-open t))
 #+END_SRC
 
 * Org Mode
