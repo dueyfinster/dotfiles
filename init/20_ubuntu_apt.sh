@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Update APT.
 e_header "Updating APT"
-sudo apt-get -qq update
+sudo apt -qq update
 
 # Install APT packages.
 packages=(
@@ -14,8 +14,8 @@ packages=(
   direnv
   exuberant-ctags
   fonts-mplus
-  git-core
-  silversearcher-ag
+  git
+  software-properties-common
   tmux
   vim
 )
@@ -24,5 +24,5 @@ packages=($(setdiff "${packages[*]}" "$(dpkg --get-selections | grep -v deinstal
 
 if (( ${#packages[@]} > 0 )); then
   e_header "Installing APT packages: ${packages[*]}"
-  sudo apt -yqq install  ${packages[*]}
+  sudo apt -y install  ${packages[*]}
 fi

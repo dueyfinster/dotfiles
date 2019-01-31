@@ -7,11 +7,6 @@ ignore_output() {
   "$@" > /dev/null 2>&1
 }
 
-binary_name() {
-  local version="$1"
-  echo
-}
-
 download_binary() {
   local version="$1"
   local bin_name=$(binary_name $version)
@@ -75,6 +70,7 @@ main() {
       ;;
     MINGW64_NT-10.0)
       install_windows "$version"
+      ;;
     *)
       echo "Don't know how to install rg on $dist"
       exit 1
