@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout
+      - run: bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build

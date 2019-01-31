@@ -1,3 +1,0 @@
-test:
-  override:
-    - bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
