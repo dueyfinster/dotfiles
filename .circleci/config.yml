@@ -6,7 +6,7 @@ jobs:
     docker:
       - image: ubuntu:18.04
     steps:
-      - run: apt-get update && apt-get install -y curl git
+      - run: apt-get update && apt-get install -y curl git sudo
       - run: bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
   build-local:
     environment:
@@ -14,7 +14,7 @@ jobs:
     docker:
       - image: ubuntu:18.04
     steps:
-      - run: apt-get update && apt-get install -y curl git
+      - run: apt-get update && apt-get install -y curl git sudo
       - checkout
       - run: ./bin/dotfiles
 workflows:

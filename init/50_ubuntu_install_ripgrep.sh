@@ -40,7 +40,7 @@ install_linux() {
     download_binary "$version"
     ignore_output popd
 
-    dpkg -i "$tmp_dir"/*.deb
+    sudo dpkg -i "$tmp_dir"/*.deb
 
     rm -rf $tmp_dir
   fi
