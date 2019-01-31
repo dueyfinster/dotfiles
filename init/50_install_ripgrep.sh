@@ -9,13 +9,13 @@ ignore_output() {
 
 download_binary() {
   local version="$1"
-  local bin_name=$(binary_name $version)
+  local bin_name="$2"
 
   curl \
     --location \
     --silent \
     --show-error \
-    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$bin_name" -o "$2/$bin_name"
+    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$bin_name" -o "$3/$bin_name"
 }
 
 downloaded_binary() {
