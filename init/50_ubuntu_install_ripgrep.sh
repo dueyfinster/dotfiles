@@ -1,7 +1,7 @@
 # Ubuntu-only stuff. Abort if not Ubuntu.
 is_ubuntu || return 1
 
-RG_VERSION="${1:-0.7.1}"
+RG_VERSION="${1:-0.10.0}"
 
 ignore_output() {
   "$@" > /dev/null 2>&1
@@ -9,7 +9,7 @@ ignore_output() {
 
 binary_name() {
   local version="$1"
-  echo "ripgrep-${version}-x86_64-unknown-linux-musl"
+  echo "ripgrep-${version}_amd64.deb"
 }
 
 download_binary() {
@@ -19,7 +19,7 @@ download_binary() {
     --location \
     --silent \
     --show-error \
-    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$(binary_name $version).tar.gz"
+    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$(binary_name $version)"
 }
 
 downloaded_binary() {
@@ -37,18 +37,10 @@ install_linux() {
     tmp_dir=$(mktemp --directory)
 
     ignore_output pushd $tmp_dir
-    download_binary "$version" | tar -zxf -
+    download_binary "$version"
     ignore_output popd
 
-    # binary
-    mv "$tmp_dir/$(binary_name $version)/rg" "$HOME/bin"
-
-    # man pages
-    # mv "$tmp_dir/$(binary_name $version)/rg.1" "${XDG_MAN_HOME}/man1/"
-
-    # bash completion
-    # mkdir -p "${XDG_DATA_HOME}/rg"
-    # mv "$tmp_dir/$(binary_name $version)/complete/rg.bash-completion" "${XDG_DATA_HOME}/rg"
+    dpkg -i "$tmp_dir"/*.deb
 
     rm -rf $tmp_dir
   fi
