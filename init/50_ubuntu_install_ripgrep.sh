@@ -14,12 +14,13 @@ binary_name() {
 
 download_binary() {
   local version="$1"
+  local bin_name=$(binary_name $version)
 
   curl \
     --location \
     --silent \
     --show-error \
-    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$(binary_name $version)"
+    "https://github.com/BurntSushi/ripgrep/releases/download/$version/$bin_name" -o "$2/$bin_name"
 }
 
 downloaded_binary() {
@@ -36,9 +37,7 @@ install_linux() {
 
     tmp_dir=$(mktemp --directory)
 
-    ignore_output pushd $tmp_dir
-    download_binary "$version"
-    ignore_output popd
+    download_binary "$version" "$tmp_dir"
 
     sudo dpkg -i "$tmp_dir"/*.deb
 
