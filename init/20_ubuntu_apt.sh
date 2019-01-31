@@ -1,6 +1,8 @@
 # Ubuntu-only stuff. Abort if not Ubuntu.
 is_ubuntu || return 1
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Update APT.
 e_header "Updating APT"
 sudo apt-get -qq update
@@ -22,5 +24,5 @@ packages=($(setdiff "${packages[*]}" "$(dpkg --get-selections | grep -v deinstal
 
 if (( ${#packages[@]} > 0 )); then
   e_header "Installing APT packages: ${packages[*]}"
-  sudo apt -qq install  ${packages[*]}
+  sudo apt -yqq install  ${packages[*]}
 fi
