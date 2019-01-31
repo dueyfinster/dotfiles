@@ -15,7 +15,6 @@ packages=(
   exuberant-ctags
   fonts-mplus
   git
-  software-properties-common
   tmux
   vim
 )

@@ -4,7 +4,7 @@ is_ubuntu || return 1
 e_header "Adding extra repos and packages"
 
 # Pre-requisite
-sudo apt-get install -y python-software-properties software-properties-common
+sudo apt-get install -y software-properties-common
 
 # ADD ARRAY, THEN UPDATE FOR LOOP SEQUENCE!
 
