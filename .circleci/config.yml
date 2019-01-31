@@ -1,15 +1,20 @@
 version: 2
 jobs:
   build-remote:
+    environment:
+      SHELL: /bin/bash
     docker:
       - image: ubuntu:18.04
     steps:
       - run: apt-get update && apt-get install -y curl git
       - run: bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
   build-local:
+    environment:
+      SHELL: /bin/bash
     docker:
       - image: ubuntu:18.04
     steps:
+      - run: apt-get update && apt-get install -y curl git
       - checkout
       - run: ./bin/dotfiles
 workflows:
