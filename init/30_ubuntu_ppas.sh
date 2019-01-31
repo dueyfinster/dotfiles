@@ -19,7 +19,7 @@ do
 	ppa_name=${!array[0]}
 	var=a$i[@]
 	pkgs+=${!var}
-    sudo add-apt-repository -y "${!array[0]}"
+  sudo add-apt-repository -y "${ppa_name}"
 done
 
 # Read packages as array

@@ -26,7 +26,7 @@ downloaded_binary() {
 
 install_linux() {
   local version="$1"
-  local bin_name="ripgrep-${version}_amd64.deb"
+  local bin_name="ripgrep_${version}_amd64.deb"
 
   if ! downloaded_binary $version; then
     echo "Installing rg v$version"
