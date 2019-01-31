@@ -4,6 +4,7 @@
 # All rights reserved.
 PROGNAME=${0##*/}
 VERSION="0.1"
+HOOK_URL="http://ballyda.com:8080/hooks/"
 set -e
 # Logging stuff.
 function error()    { echo -e " \033[1m\033[31m✖\033[0m  $@"; }
@@ -20,7 +21,7 @@ check_clipboard(){
     uri=$(xclip -selection clipboard -o)
   elif [[ -x $(command -v pbpaste) ]]; then
     uri=$(pbpaste)
-  elif [[ -f /dev/clipboard ]]; then
+  elif [[ -e /dev/clipboard ]]; then
     uri=$(cat /dev/clipboard)
   else
     error "Could net get the URI from the clipboard"
@@ -76,7 +77,7 @@ get_media_type(){
 
 post_webhook(){
   local token=$(cat ~/.webhook)
-  curl -X POST --data "token=$token" --data "type=$media" --data "uri=$uri" http://ballyda.com:8080/hooks/$hook
+  curl -X POST --data "token=$token" --data "type=$media" --data "uri=$uri" "$HOOK_URL$hook"
 }
 
 help_message() {
