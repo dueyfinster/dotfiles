@@ -16,8 +16,8 @@ declare -a a2=(ppa:jonathonf/vim vim)
 for i in $(seq 2) # Update Number, then done..
 do
 	array="a$i"
-	ppa_name=${!array[0]}
-	var=a$i[@]
+	ppa_name=${array[0]}
+	var=${array[@]:1}
 	pkgs+=${!var}
   sudo add-apt-repository -y "${ppa_name}"
 done
