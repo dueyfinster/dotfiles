@@ -60,7 +60,7 @@ get_hook_type(){
 }
 
 get_media_type(){
-  local t=${type,,}
+  local t=$(echo "$type" | tr '[:upper:]' '[:lower:]')
   if [[ $t == "t"* ]]; then
     media="TV Shows"
   elif [[ $t == "mu"* ]]; then
