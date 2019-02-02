@@ -21,10 +21,8 @@ err() {
 
 function get_ip(){
   if [ "$1" == "A" ]; then
-    log "Getting my IPv4 address"
     curl -4 -s -X GET https://checkip.amazonaws.com
   else
-    log "Getting my IPv6 address"
     curl -6 -s -X GET https://ifconfig.co
   fi
 }
@@ -38,7 +36,6 @@ function request(){
 }
 
 function update_record_value(){
-  log "Updating $5 address to $6"
   curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$1/dns_records/$2" \
   -H "X-Auth-Email: $3" \
   -H "X-Auth-Key: $4" \
