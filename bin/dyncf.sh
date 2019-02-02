@@ -1,16 +1,30 @@
 #!/bin/bash
 # A script to dynamically update DNS on Cloudflare
-[[ $# -lt 3 ]] && echo "Usage: $0 USERNAME PASSWORD ZONE DNSRECORD" && exit 1
+readonly SCRIPT_NAME=$(basename $0)
 
 USERNAME=${1}
 PASSWORD=${2}
 zone=${3}
 dnsrecord=${4}
 
+log() {
+  echo "$@"
+  logger -p user.notice -t $SCRIPT_NAME "$@"
+}
+
+err() {
+  echo "$@" >&2
+  logger -p user.error -t $SCRIPT_NAME "$@"
+}
+
+[[ $# -lt 3 ]] && err "Usage: $0 USERNAME PASSWORD ZONE DNSRECORD" && exit 1
+
 function get_ip(){
   if [ "$1" == "A" ]; then
+    log "Getting my IPv4 address"
     curl -4 -s -X GET https://checkip.amazonaws.com
   else
+    log "Getting my IPv6 address"
     curl -6 -s -X GET https://ifconfig.co
   fi
 }
@@ -24,6 +38,7 @@ function request(){
 }
 
 function update_record_value(){
+  log "Updating $5 address to $6"
   curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$1/dns_records/$2" \
   -H "X-Auth-Email: $3" \
   -H "X-Auth-Key: $4" \
@@ -35,23 +50,21 @@ function main(){
   for iptype in AAAA A; do
     # Get the current external IP address
     ip=$(get_ip $iptype)
-    echo "Current IP is $ip"
+    log "Current IP is $ip"
 
     zoneid=$(request "?name=$zone&status=active" ".id")
-    echo "Zoneid for $zone is $zoneid"
-
 
     dnsrecordid=$(request "$zoneid/dns_records?type=$iptype&name=$dnsrecord" ".id")
-    echo "DNSrecordid for $dnsrecord is $dnsrecordid"
 
     current_ip=$(request "$zoneid/dns_records?type=$iptype&name=$dnsrecord" ".content")
-    echo "Current $iptype on cloudflare is: $current_ip"
+    log "Current $iptype on cloudflare is: $current_ip"
 
     # update the record
     if [ "$ip" != "$current_ip" ]; then
+      log "Updating the IP address as it changed"
       update_record_value $zoneid $dnsrecordid $USERNAME $PASSWORD $iptype $ip
     else
-      echo "The Two IP Address are the same, no changes needed."
+      err "The Two IP Address are the same, no changes needed."
     fi
   done
 }
