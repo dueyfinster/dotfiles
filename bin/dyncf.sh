@@ -47,21 +47,19 @@ function main(){
   for iptype in AAAA A; do
     # Get the current external IP address
     ip=$(get_ip $iptype)
-    log "Current IP is $ip"
 
     zoneid=$(request "?name=$zone&status=active" ".id")
 
     dnsrecordid=$(request "$zoneid/dns_records?type=$iptype&name=$dnsrecord" ".id")
 
     current_ip=$(request "$zoneid/dns_records?type=$iptype&name=$dnsrecord" ".content")
-    log "Current $iptype on cloudflare is: $current_ip"
 
     # update the record
     if [ "$ip" != "$current_ip" ]; then
-      log "Updating the IP address as it changed"
+      log "Updating the $iptype address as it changed from: $ip to $current_ip"
       update_record_value $zoneid $dnsrecordid $USERNAME $PASSWORD $iptype $ip
     else
-      err "The Two IP Address are the same, no changes needed."
+      log "The Two IP Address are the same, no changes needed."
     fi
   done
 }
