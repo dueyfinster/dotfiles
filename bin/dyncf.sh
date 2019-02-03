@@ -59,7 +59,7 @@ function main(){
       log "Updating the $iptype address as it changed from: $ip to $current_ip"
       update_record_value $zoneid $dnsrecordid $USERNAME $PASSWORD $iptype $ip
     else
-      log "The Two IP Address are the same, no changes needed."
+      log "The two $iptype addresses are the same, no changes needed."
     fi
   done
 }
