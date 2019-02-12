@@ -288,6 +288,9 @@ Default settings for orgmode, such as where files are located:
                         ("~/Dropbox/org/someday.org" :level . 1)
                         ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
 
+(add-to-list 'org-file-apps '("\\.xls\\'" . default))
+(add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
+
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 #+END_SRC
 
