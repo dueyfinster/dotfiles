@@ -50,3 +50,13 @@ alias budget 'ledger -p \"this month\" --budget --monthly balance ^expenses'
 alias bal 'ledger bal ^Assets:Checking'
 alias savings 'ledger bal ^Assets:Savings'
 alias monexp 'ledger -MAn reg'
+
+if test "$TERM" = "dumb"
+  function fish_prompt
+    echo "\$ "
+  end
+
+  function fish_right_prompt; end
+  function fish_greeting; end
+  function fish_title; end
+end
