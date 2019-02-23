@@ -291,7 +291,9 @@ Default settings for orgmode, such as where files are located:
 (add-to-list 'org-file-apps '("\\.xls\\'" . default))
 (add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
 
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 #+END_SRC
 
 Key bindings for orgmode.
