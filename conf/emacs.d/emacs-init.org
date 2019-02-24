@@ -263,52 +263,70 @@ Git Gutter
 #+END_SRC
 
 * Org Mode
-Default settings for orgmode, such as where files are located:
+** Install Org, Keybindings and Preferences
 #+BEGIN_SRC emacs-lisp
 (use-package htmlize)
 (use-package org
     :ensure t
     :pin org)
-
+(use-package org-bullets
+  :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 (setq org-completion-use-ido nil)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+(setq org-startup-with-inline-images t)
+(setq org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0)
+
+;; Which files open with emacs? Or system default app...
+(add-to-list 'org-file-apps '("\\.xls\\'" . default))
+(add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
+#+END_SRC
+** Org file locations
+#+BEGIN_SRC emacs-lisp
 ;; Set to the location of your Org files on your local system
 (setq org-directory "~/Dropbox/org")
 (setq org-agenda-files '("~/Dropbox/org/inbox.org"
                       "~/Dropbox/org/gtd.org"
                       "~/Dropbox/org/tickler.org"))
 
+(setq org-refile-targets '(("~/Dropbox/org/gtd.org" :maxlevel . 3)
+                        ("~/Dropbox/org/someday.org" :level . 1)
+                        ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
+#+END_SRC
+
+** Org capture templates
+#+BEGIN_SRC emacs-lisp
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
                             (file+headline "~/Dropbox/org/inbox.org" "Tasks")
                             "* TODO %i%?")
                           ("T" "Tickler" entry
                             (file+headline "~/Dropbox/org/tickler.org" "Tickler")
                             "* %i%? \n %U")))
+#+END_SRC
 
-(setq org-refile-targets '(("~/Dropbox/org/gtd.org" :maxlevel . 3)
-                        ("~/Dropbox/org/someday.org" :level . 1)
-                        ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
-
-(add-to-list 'org-file-apps '("\\.xls\\'" . default))
-(add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
-
+** States of tasks in Org mode
+#+BEGIN_SRC emacs-lisp
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red" :weight bold)
+              ("NEXT" :foreground "blue" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
+              ("CANCELLED" :foreground "forest green" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold))))
 #+END_SRC
 
-Key bindings for orgmode.
-
+** Babel Languages
 #+BEGIN_SRC emacs-lisp
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
-#+END_SRC
-
-Enable babel to use different languages in orgmode:
-
-#+BEGIN_SRC emacs-lisp
-(setq org-confirm-babel-evaluate nil)
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((emacs-lisp . t)
@@ -323,28 +341,7 @@ Enable babel to use different languages in orgmode:
   (shell . t)))
 #+END_SRC
 
-When editing org-files with source-blocks, we want the source blocks to
-be themed as they would in their native mode.
-
-#+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t
-      org-src-tab-acts-natively t
-      org-confirm-babel-evaluate nil
-      org-edit-src-content-indentation 0)
-#+END_SRC
-
-Add org-bullets:
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-#+END_SRC
-
-Display images inline
-#+BEGIN_SRC emacs-lisp
-(setq org-startup-with-inline-images t)
-#+END_SRC
-
-Add youtube link capability:
+** Youtube link capability in org
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defvar yt-iframe-format
   ;; You may want to change your width and height.
