@@ -9,6 +9,12 @@ CI](https://circleci.com/gh/dueyfinster/dotfiles/tree/master.svg?style=svg)](htt
 bash -c "$(curl -fsSL https://bit.ly/dfdotfiles)" && source ~/.bashrc
 ```
 
+## Install without git
+
+```sh
+cd; curl -#L https://github.com/dueyfinster/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md,LICENSE}
+```
+
 ### Subdirectories
 
 * The `/backups` directory gets created when necessary. Any files in `~/` that would have been overwritten by files in `/copy` or `/link` get backed up there.
