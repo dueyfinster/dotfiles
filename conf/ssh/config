@@ -1,12 +1,3 @@
-Host lime
-    Hostname 150.132.76.214
-    IdentityFile ~/.ssh/id_eric_egronei
-    User root
-
-Host mango
-    Hostname 150.132.76.215
-    User root
-
 Host gerritmirror.lmera.ericsson.se
     Hostname gerritmirror.lmera.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
@@ -19,17 +10,24 @@ Host gerrit.ericsson.se
     Hostname gerrit.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
 
-Host hubseli
-    Hostname 150.132.76.53
-    IdentityFile ~/.ssh/id_eric_egronei
-
 Host github.com
     Hostname ssh.github.com
+    User git
+    PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_github
     Port 443
 
 Host bitbucket.org
     Hostname altssh.bitbucket.org
+    User git
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_github
+    Port 443
+
+Host gitlab.com
+    Hostname altssh.gitlab.com
+    User git
+    PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_github
     Port 443
 
