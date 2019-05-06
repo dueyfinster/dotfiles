@@ -20,6 +20,7 @@
 ;;  :config
 ;;  ;; To disable collection of benchmark data after init is done.
 ;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+(server-start)
 #+END_SRC
 
 ** Mac OS
@@ -269,6 +270,8 @@ Git Gutter
 (use-package org
     :ensure t
     :pin org)
+(use-package org-protocol
+    :ensure nil)
 (use-package org-bullets
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -293,7 +296,7 @@ Git Gutter
 ** Org file locations
 #+BEGIN_SRC emacs-lisp
 ;; Set to the location of your Org files on your local system
-(setq org-directory "~/Dropbox/org")
+(setq org-directory (expand-file-name "~/Dropbox/org/"))
 (setq org-agenda-files '("~/Dropbox/org/inbox.org"
                       "~/Dropbox/org/gtd.org"
                       "~/Dropbox/org/tickler.org"))
@@ -305,16 +308,22 @@ Git Gutter
 
 ** Org capture templates
 #+BEGIN_SRC emacs-lisp
-(setq org-capture-templates
-       '(("t" "Todo [inbox]" entry (file+headline "~/Dropbox/org/inbox.org"
+(setq org-capture-templates `(
+  ("t" "Todo [inbox]" entry (file+headline ,(concat org-directory "inbox.org")
                "Tasks") "* TODO %i%?")
-         ("m" "Meeting" entry (file+headline "~/Dropbox/org/gtd.org" "Work")
+  ("m" "Meeting" entry (file+headline ,(concat org-directory "gtd.org") "Work")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-         ("p" "Phone call" entry (file "~/Dropbox/org/gtd.org" "Work")
+  ("P" "Phone call" entry (file ,(concat org-directory "gtd.org") "Work")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-         ("T" "Tickler" entry (file+headline "~/Dropbox/org/tickler.org"
+  ("T" "Tickler" entry (file+headline ,(concat org-directory "tickler.org")
                "Tickler") "* %i%? \n %U")
-        ))
+
+  ;; Org-Protocol entries
+	("p" "Protocol" entry (file+headline ,(concat org-directory "inbox.org") "Tasks")
+        "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+	("L" "Protocol Link" entry (file+headline ,(concat org-directory "inbox.org") "Tasks")
+        "* %? [[%:link][%:description]] \nCaptured On: %U")
+))
 #+END_SRC
 
 ** States of tasks in Org mode
