@@ -39,6 +39,9 @@ Host home
     User ngrogan
 
 Host *
+    ControlMaster auto
+    ControlPath ~/.ssh/ctrl-%C
+    ControlPersist yes
     ServerAliveInterval 300
     IdentityFile ~/.ssh/id_personal
     ServerAliveCountMax 2
