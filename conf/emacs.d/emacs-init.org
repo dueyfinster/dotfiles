@@ -290,6 +290,8 @@ Git Gutter
       org-startup-with-inline-images t
       org-edit-src-content-indentation 0)
 
+(setq org-latex-pdf-process '("xelatex -interaction nonstopmode %f" "xelatex -interaction nonstopmode %f"))
+
 ;; Which files open with emacs? Or system default app...
 (add-to-list 'org-file-apps '("\\.xls\\'" . default))
 (add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
@@ -447,7 +449,6 @@ I use =yasnippet= a lot.
   (use-package dockerfile-mode
     :mode "Dockerfile\\'")
 #+END_SRC
-* Logs
 ** EditorConfig
 #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
