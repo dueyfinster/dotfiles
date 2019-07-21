@@ -310,6 +310,10 @@ Git Gutter
 ** Org capture templates
 #+BEGIN_SRC emacs-lisp
 (setq org-capture-templates `(
+  ("p" "Personal Task" entry (file+headline ,(concat org-directory "gtd.org") "Personal")
+               "* TODO %i%?")
+  ("w" "Work Task" entry (file+headline ,(concat org-directory "gtd.org") "Work")
+               "* TODO %i%?")
   ("t" "Todo [inbox]" entry (file+headline ,(concat org-directory "inbox.org")
                "Tasks") "* TODO %i%?")
   ("m" "Meeting" entry (file+headline ,(concat org-directory "gtd.org") "Work")
