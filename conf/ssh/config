@@ -1,3 +1,4 @@
+# vi:syntax=sshconfig
 Host gerritmirror.lmera.ericsson.se
     Hostname gerritmirror.lmera.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
@@ -32,6 +33,9 @@ Host gitlab.com
     Port 443
 
 Host home
+    ControlMaster auto
+    ControlPath ~/.ssh/ctrl-%C
+    ControlPersist yes
     Hostname ssh.grogan.org
     ServerAliveInterval 120
     ForwardX11 yes
@@ -39,9 +43,6 @@ Host home
     User ngrogan
 
 Host *
-    ControlMaster auto
-    ControlPath ~/.ssh/ctrl-%C
-    ControlPersist yes
     ServerAliveInterval 300
     IdentityFile ~/.ssh/id_personal
     ServerAliveCountMax 2
