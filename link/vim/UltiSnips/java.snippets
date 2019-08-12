@@ -38,6 +38,36 @@ endsnippet
 ######################
 # For / While / With #
 ######################
+snippet fore "for (each)" b
+for ($1 : $2)`!p nl(snip)`{
+	$0
+}
+endsnippet
+
+snippet fori "for" b
+for (int ${1:i} = 0; $1 < ${2:10}; $1++)`!p nl(snip)`{
+	$0
+}
+endsnippet
+
+snippet for "for" b
+for ($1; $2; $3)`!p nl(snip)`{
+	$0
+}
+endsnippet
+
+snippet while "while" b
+while ($1)`!p nl(snip)`{
+	$0
+}
+endsnippet
+
+snippet sw "switch" b
+switch ($1)`!p nl(snip)`{
+	case $2: $0
+}
+endsnippet
+
 
 ##########
 # Print	 #
