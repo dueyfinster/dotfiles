@@ -1,0 +1,493 @@
+" __      ___
+" \ \    / (_)
+"  \ \  / / _ _ __ ___  _ __ ___
+"   \ \/ / | | '_ ` _ \| '__/ __|
+"    \  /  | | | | | | | | | (__
+"     \/   |_|_| |_| |_|_|  \___|
+"
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" {{{ Minpac
+" Try to load minpac.
+silent! packadd minpac
+
+if !exists('*minpac#init')
+  " No plugins are available
+  finish
+else
+  call minpac#init()
+  call minpac#add('airblade/vim-rooter') " Changes to working dir
+  call minpac#add('editorconfig/editorconfig-vim')
+  call minpac#add('mbbill/undotree') " adds undo visualiser
+  call minpac#add('kana/vim-arpeggio') " Allows keys to be pressed at the same time
+
+  " Finding Files / Grep-like {{{
+  ""
+  call minpac#add('mhinz/vim-grepper') " All your grep needs!
+  call minpac#add('junegunn/fzf', {'do': '!./install --all'})
+  call minpac#add('junegunn/fzf.vim')
+  " }}}
+
+  " {{{ Shells and Runners
+  call minpac#add('thinca/vim-quickrun') " Run Commands Quickly
+  call minpac#add('christoomey/vim-tmux-runner') " Run Commands Quickly
+  " }}}
+
+  " Source Control & Tags {{{
+  call minpac#add('w0rp/ale') " Asynchronous Linter
+  call minpac#add('tpope/vim-fugitive') " Git support
+  call minpac#add('airblade/vim-gitgutter') " Git Gutter support
+  " call minpac#add('ludovicchabant/vim-gutentags') " regenerates CTAGS
+  call minpac#add('majutsushi/tagbar') " Viewing source tree easier
+  " }}}
+
+  call minpac#add('tpope/vim-sensible') " Sensible defaults
+  call minpac#add('tpope/vim-commentary') " Vim comments
+  call minpac#add('tpope/vim-sleuth') " automatic spacing
+  call minpac#add('tpope/vim-surround') " Adds support for modifying surrounds
+  call minpac#add('tpope/vim-unimpaired') " Adds support for quick jumps in quickfix window
+
+  " Colorschemes
+  call minpac#add('tomasr/molokai')
+  call minpac#add('altercation/vim-colors-solarized') "Solarized colourscheme
+
+  " Language Support
+  " call minpac#add('klen/python-mode') " Python lang support
+  call minpac#add('jceb/vim-orgmode') " org-mode support
+  call minpac#add('leafgarland/typescript-vim') " typescript support
+  call minpac#add('ledger/vim-ledger') " Ledger accounting support
+  call minpac#add('mitermayer/vim-prettier', {
+        \ 'do': '!npm install',
+        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] } )
+
+  packloadall
+
+  " Chords Settings {{{
+  if exists("arpeggio*")
+    call arpeggio#load()
+    let g:arpeggio_timeoutlen = 70
+
+    Arpeggio inoremap jk <ESC>
+    Arpeggio onoremap jk <ESC>
+    Arpeggio vnoremap jk <ESC>
+  endif
+  " }}}
+endif
+
+" Define user commands for updating/cleaning the plugins.
+" Each of them loads minpac, reloads .vimrc to register the
+" information of plugins, then performs the task.
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+" }}}
+
+" Map leader key
+" let mapleader = ","
+let mapleader = "\<Space>"
+
+set mouse=a " Turn mouse support on
+set nrformats= " Treat all numbers as decimal
+set nocompatible " choose no compatibility with legacy vi
+syntax enable
+set encoding=utf-8
+set nu
+set omnifunc=syntaxcomplete#Complete " Turn on autocomplete
+set showcmd " display incomplete commands
+" Don't make backups at all
+set nobackup
+set nowritebackup
+
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
+" Set Cache Settings {{{
+" let g:gutentags_ctags_exclude = =["node_modules","plugged","tmp","temp","log","vendor"]
+" let g:gutentags_cache_dir = '.git/'
+" let b:gutentags_tagfile = '.git/tags'
+" let g:gutentags_init_user_func = "SetGutentagsDirectory"
+
+" function! SetGutentagsDirectory(buffer_filename)
+"   let l:git_root=system('git rev-parse --git-dir 2>/dev/null')
+"   if v:shell_error
+"     let b:gutentags_tagfile = 'tags'
+"   else
+"     let b:gutentags_tagfile = '.git/tags'
+"   endif
+"   return 1
+" endfunction
+
+let g:fzf_tags_command = 'git ctags'
+set tags = ".git/tags"
+
+" Store persistent undo
+if has("persistent_undo")
+ set undofile
+ set undolevels=1000         " How many undos
+ set undoreload=10000        " number of lines to save for undo
+endif
+" }}}
+
+if has("unix")
+    set directory=/tmp/
+    set undodir=/tmp/
+elseif has("win32") || has("win64")
+    if isdirectory("C:/Temp")
+        set directory=C://Temp
+        set undodir=C://Temp
+    else
+        set directory=$HOME
+        set undodir=$HOME
+    endif
+endif
+
+" {{{ Spelling Settings
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd FileType gitcommit setlocal spell
+set spelllang=en_gb
+set complete+=kspell
+" nmap <silent> <leader>s :set spell!<CR>
+" }}}
+
+" colorscheme {{{
+" https://gist.github.com/XVilka/8346728#detection
+if has('termguicolors') && $COLORTERM =~# '^\(truecolor\|24bit\)$'
+  if &t_8f ==# '' || &t_8b ==# ''
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+  set termguicolors
+endif
+
+try
+  if &termguicolors || has('gui_running')
+    set background=dark
+    colorscheme solarized
+  elseif &t_Co == 256
+    set background=dark
+    colorscheme solarized
+    highlight Normal ctermbg=NONE
+    highlight nonText ctermbg=NONE
+    " let g:solarized_termtrans=1
+    " let g:solarized_termcolors=256
+  endif
+catch
+  set termguicolors&
+  colorscheme slate
+endtry
+
+map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+" }}}
+
+" PyMode {{{
+" BUG: https://github.com/klen/python-mode/issues/525
+let g:pymode_rope = 0
+let g:pymode_rope_lookup_project = 0
+" }}}
+
+
+set backspace=indent
+set backspace+=eol
+set backspace+=start
+
+" vimrc editing shortcuts {{{
+" Edit vimrc with <leader> vv
+nnoremap <leader>vh :e $MYVIMRC<CR>
+nnoremap <leader>vv :e ~/.dotfiles/conf/vimrc<CR>
+
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost vimrc source $MYVIMRC
+endif
+" }}}
+
+
+" Move to last edited line if buffer reopened
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+
+" Remap ESC to be easier to type
+inoremap kj <Esc>
+inoremap jj <Esc>
+
+" Reselect block after indent
+vnoremap < <gv
+vnoremap > >gv
+
+" Shortcut to rapidly toggle `set list`
+:nmap <leader>l :set list!<CR>
+set listchars=tab:▸\ ,eol:¬
+
+" switch to last used buffer, map to CTRL-E
+:nmap <C-e> :e#<CR>
+
+" next and previous buffers CTRL-P & CTRL-N
+:nmap <C-n> :bnext<CR>
+:nmap <C-p> :bprev<CR>
+
+" Copy and Paste / Clipboard {{{
+" Set up copy and paste
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+if has("clipboard")
+  set clipboard=unnamed " copy to the system clipboard
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
+
+" OSC52 {{{
+function! Osc52Yank()
+    let buffer=system('base64 -w0', @0)
+    let buffer=substitute(buffer, "\n$", "", "")
+    let buffer='\e]52;c;'.buffer.'\x07'
+    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape("/dev/pts/0")
+endfunction
+command! Osc52CopyYank call Osc52Yank()
+nnoremap <leader>y :Osc52CopyYank<cr>
+augroup Osc52Yank
+    autocmd!
+    autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
+augroup END
+" }}}
+
+" Don't give Search continues messages, where I need to press <enter>
+set shm+=s
+
+" wrap lines
+:nmap \w :setlocal wrap!<CR>:setlocal wrap?<CR>
+
+" Don't warn when switching unsaved buffers
+set hidden
+
+" Split Settings
+set splitbelow
+set splitright
+
+" Win Settings
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Save as root
+cmap w!! w !sudo tee % > /dev/null
+
+
+" enforce purity for arrow keys
+noremap  <Up> <Nop>
+noremap  <Down> <Nop>
+noremap  <Left> <Nop>
+noremap  <Right> <Nop>
+
+
+" TERMINAL {{{
+
+if has('terminal')
+	" Enter terminal-normal mode using two ESCs
+	tnoremap <Esc><Esc> <C-\><C-n>
+
+	" Set terminal colour
+	hi Terminal ctermbg=black
+	"  hi Terminal ctermbg=lightgrey ctermfg=blue guibg=lightgrey guifg=blue
+
+	" Create a terminal buffer in
+	"	- current window : SPACE+c
+	"	- split          : SPACE+s
+	"	- 1/5th split   : SPACE+t
+	"	- 1/3rd vsplit   : SPACE+v
+	"	- new tab        : SPACE+t
+	" nnoremap <Space>c :term ++curwin<CR>
+	" nnoremap <Space>s :term<CR>
+	nnoremap <Leader>s :execute "rightbelow" . float2nr(0.20 * winheight(0)) . "split <bar> :term ++curwin"<CR>
+	" nnoremap <Space>v :execute "rightbelow" . float2nr(0.33 * winwidth(0)) . "vsplit <bar> :term ++curwin"<CR>
+	" nnoremap <Space>t :execute ":tabnew <bar> term ++curwin"<CR>
+
+	" " Send key-sequence to a terminal window using SPACE+e
+	" command! -nargs=+ SendKeys :call term_sendkeys(bufnr("bash"), <q-args>."\<CR>")
+	" nnoremap <Space>e :SendKeys<Space>
+	" command! RepeatCommand :call term_sendkeys(bufnr("bash"), "\<C-p>\<CR>")
+	" nnoremap <Space>r :RepeatCommand<CR>
+endif
+
+" }}}
+
+" PLUGIN SETTINGS {{{
+"""""""""""""""""
+
+" Vim Tmux Runner settings
+nnoremap <leader>py :VtrOpenRunner {'orientation': 'h', 'percentage': 50, 'cmd': 'python3'}<cr>
+nnoremap <leader>v- :VtrOpenRunner {'orientation': 'v'}<cr>
+nnoremap <leader>v\ :VtrOpenRunner {'orientation': 'h'}<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>vs :VtrSendCommandToRunner<cr>
+
+
+" fugitive git bindings
+nnoremap <space>ga :Git add %:p<CR><CR>
+nnoremap <space>gs :Gstatus<CR>
+nnoremap <space>gc :Gcommit -v -q<CR>
+nnoremap <space>gt :Gcommit -v -q %:p<CR>
+nnoremap <space>gd :Gdiff<CR>
+nnoremap <space>ge :Gedit<CR>
+nnoremap <space>gr :Gread<CR>
+nnoremap <space>gw :Gwrite<CR><CR>
+nnoremap <space>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <space>gg :Ggrep<Space>
+nnoremap <space>gm :Gmove<Space>
+nnoremap <space>gb :Git branch<Space>
+nnoremap <space>go :Git checkout<Space>
+nnoremap <space>gps :! git push<CR>
+nnoremap <space>gpl :! git pull<CR>
+
+" Pastebin Settings {{{
+if executable('nc') && executable('tr') && executable('cat')
+  command! -range=% TB <line1>,<line2>w !nc termbin.com 9999 | tr -d '\n' | cat
+  command! -range=% SP  <line1>,<line2>w !curl -F 'sprunge=<-' http://sprunge.us | tr -d '\n' | xclip
+  command! -range=% CL  <line1>,<line2>w !curl -F 'clbin=<-' https://clbin.com | tr -d '\n' | xclip
+  command! -range=% VP  <line1>,<line2>w !curl -F 'text=<-' http://vpaste.net | tr -d '\n' | xclip
+  command! -range=% IX  <line1>,<line2>w !curl -F 'f:1=<-' ix.io | tr -d '\n' | xclip
+endif
+" }}}
+
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always"
+  \ -g "!{.git,node_modules,vendor,pack,plugins}/*" '
+" Optional to add if only want certain files:
+" \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+
+let g:fzf_action = {
+            \ 'ctrl-m': 'edit',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit',
+            \ 'ctrl-t': 'tabedit',
+            \ 'ctrl-o': has('mac') ? '!open' : '!xdg-open',
+            \ }
+
+let g:fzf_colors = {
+            \ 'fg':      ['fg', 'Normal'],
+            \ 'bg':      ['bg', 'Normal'],
+            \ 'hl':      ['fg', 'Comment'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'],
+\ }
+
+function! s:fzf_file_preview_options(bang) abort
+    return fzf#vim#with_preview('right:60%:hidden', '?')
+endfunction
+
+function! s:fzf_grep_preview_options(bang) abort
+    return a:bang ? fzf#vim#with_preview('up:60%', '?') : fzf#vim#with_preview('right:50%:hidden', '?')
+endfunction
+
+let g:fzf_follow_symlinks = get(g:, 'fzf_follow_symlinks', 0)
+
+let s:has_rg = executable('rg')
+
+if s:has_rg
+    let s:fzf_files_command     = 'rg --color=never --hidden --files -g "!.git/"'
+    let s:fzf_all_files_command = 'rg --color=never --no-ignore --hidden --files'
+
+    function! s:build_fzf_options(command, bang) abort
+        let cmd = g:fzf_follow_symlinks ? a:command . ' --follow' : a:command
+        return extend(s:fzf_file_preview_options(a:bang), { 'source': cmd })
+    endfunction
+
+    command! -bang -nargs=? -complete=dir Files
+                \ call fzf#vim#files(<q-args>, s:build_fzf_options(s:fzf_files_command, <bang>0), <bang>0)
+
+    command! -bang -nargs=? -complete=dir AFiles
+                \ call fzf#vim#files(<q-args>, s:build_fzf_options(s:fzf_all_files_command, <bang>0), <bang>0)
+endif
+
+" {{{ FZF & RIPGREP
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>h :History<CR>
+
+" Close quickfix window
+nmap <Leader>x :cclose<CR>
+nmap <Leader>c :bd<CR>
+
+" Bind a new Rg command that uses FZF to search
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+
+" Use Rg Command to search word under cursor
+nnoremap <C-p>a :Rg! <cword><CR>
+" }}}
+
+" Search and Replace word under cursor
+nmap <leader>w :s/\(<c-r>=expand("<cword>")<cr>\)/
+
+
+nnoremap <Leader>u :UndotreeToggle<cr>
+
+" {{{ Tagbar Plugin Settings
+nnoremap <silent> <Leader>n :TagbarToggle<CR>
+" }}}
+
+" nnoremap <F5> <esc>:w<enter>:!%:p<enter>
+" inoremap <F5> <esc>:w<enter>:!%:p<enter>
+
+autocmd filetype crontab setlocal nobackup nowritebackup
+
+au BufRead,BufNewFile *.md setlocal textwidth=80
+" Ledger files with .ldg extentions
+au BufNewFile,BufRead *.ldg,*.ledger,*.journal setf ledger
+
+if exists('+colorcolumn')
+  set colorcolumn=80
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
+
+" For local replace
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+" Open splits bottom right
+set splitbelow
+set splitright
+
+
+" Ultisnips settings {{{
+" Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+let g:snips_author="Neil Grogan"
+let g:snips_github="dueyfinster"
+let g:snips_email="neil@ngrogan.com"
+" }}}
+
+" {{{ Git Gutter
+let g:gitgutter_max_signs = 999
+nnoremap <silent> ,gg :<C-u>GitGutterToggle<CR>
+nnoremap <silent> ,gh :<C-u>GitGutterLineHighlightsToggle<CR>
+" }}}
+
