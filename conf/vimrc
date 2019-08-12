@@ -9,7 +9,9 @@ else
   call minpac#init()
   call minpac#add('lifepillar/vim-solarized8') "Solarized colours
   call minpac#add('sheerun/vim-polyglot') "Language Support
-  call minpac#add('SirVer/ultisnips') "Language Support
+  call minpac#add('SirVer/ultisnips') "Snippets 
+  call minpac#add('junegunn/fzf', {'do': '!./install --all'})
+  call minpac#add('junegunn/fzf.vim')
 endif
 
 " Define user commands for updating/cleaning the plugins.
@@ -29,6 +31,7 @@ set bg=dark "Dark background
 " Basics {{{
 filetype plugin indent on " Add ft, plugin & indent support
 syntax on "Turn on syntax highlighting
+let mapleader = "\<Space>" "Set the leader key
 set relativenumber "Relative line numbers
 set path=**
 set noswapfile "Don't use a swap file
@@ -36,7 +39,9 @@ set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
 let g:netrw_banner = 0 "No header for netrw directory mode
 let g:netrw_liststyle = 3 "Tree style dir listings
-set shell=/usr/bin/zsh
+set shell=/usr/bin/bash
+set tags=$PWD/.git/tags
+let g:fzf_tags_command = "git ctags"
 "}}}
 
 " Spacing {{{
@@ -45,6 +50,13 @@ set expandtab "Don't use tab charachter use spaces
 set shiftwidth=4 "Indenting is 4 spaces
 set softtabstop=2 "Number of spaces when pressing tab
 "}}}
+
+" Mappings {{{
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>h :History<CR>
+" }}}
 
 " Autocommands {{{
 augroup Vimrc
