@@ -19,7 +19,6 @@ command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 packloadall "Load all packages
 " }}}
 
-
 " Colors {{{
 let g:solarized_termtrans = 1 "Terminal setting for colours
 colorscheme solarized8_high "Pretty colours
@@ -29,30 +28,22 @@ set bg=dark "Dark background
 " Basics {{{
 filetype plugin indent on " Add ft, plugin & indent support
 syntax on "Turn on syntax highlighting
+set relativenumber "Relative line numbers
+set path=**
+set noswapfile "Don't use a swap file
+set hidden "Allow switching buffers without writing to disk
+set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
+let g:netrw_banner = 0 "No header for netrw directory mode
+let g:netrw_liststyle = 3 "Tree style dir listings
+set shell=/usr/bin/zsh
 "}}}
 
-
-set shiftwidth=4 "Indenting is 4 spaces
-
-set path=**
-
-set softtabstop=4 "Number of spaces when pressing tab
-
+" Spacing {{{
+set foldmethod=marker " Group folds with '{{{,}}}'
 set expandtab "Don't use tab charachter use spaces
-
-set relativenumber "Relative line numbers
-
-set noswapfile "Don't use a swap file
-
-set hidden "Allow switching buffers without writing to disk
-
-set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
-
-let g:netrw_banner = 0 "No header for netrw directory mode
-
-let g:netrw_liststyle = 3 "Tree style dir listings
-
-:set shell=/usr/bin/zsh
+set shiftwidth=4 "Indenting is 4 spaces
+set softtabstop=2 "Number of spaces when pressing tab
+"}}}
 
 " Autocommands {{{
 augroup Vimrc
