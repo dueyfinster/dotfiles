@@ -13,6 +13,7 @@ command -v ctags > /dev/null 2>&1 || exit 0
 # we can tag from submodules (the hooks/ folder is under <submodule name>/, not .git/).
 hook_dir=`dirname $0`
 git_dir=`dirname $hook_dir`
+repo_dir=`dirname $git_dir`
 tags=$git_dir/tags
 temp_tags=$tags.$$
 
@@ -21,5 +22,5 @@ if [[ "$1" == "append" ]]; then
   append_opt="-a"
 fi
 
-ctags $append_opt --tag-relative=never -Rf "$temp_tags" --exclude=.git --exclude=link/vim --exclude=link/tmux --exclude=link/tmuxifier
+ctags $append_opt --tag-relative=never -Rf "$temp_tags" --exclude=.git --exclude=link/vim --exclude=link/tmux --exclude=link/tmuxifier $repo_dir
 mv "$temp_tags" "$tags"
