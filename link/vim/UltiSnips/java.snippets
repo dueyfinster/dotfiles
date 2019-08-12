@@ -1,3 +1,6 @@
+################
+# Main / Class #
+################
 snippet class
 class ${1:`!p snip.rv = snip.basename or "Untitled"`} {
     ${0}
@@ -10,26 +13,48 @@ public static void main(String[] args){
 }
 endsnippet
 
+###########
+# Methods #
+###########
 snippet m  "method" b
 ${1:private} ${2:void} ${3:method}($4) {
 	$0
 }
 endsnippet
 
+snippet re
+return ${0};
+endsnippet
+
+#############
+# If / Else #
+#############
+snippet if "if" b
+if ($!)`!p nl(snip)`{
+    $0${VISUAL}
+}
+endsnippet
+
+######################
+# For / While / With #
+######################
+
+##########
+# Print	 #
+##########
+snippet print
+System.out.println("${0}");
+endsnippet
+
+################
+# Try / Except #
+################
 snippet try "try/catch" b
 try {
 	$1${VISUAL}
 } catch(${2:Exception} ${3:e}){
 	${4:e.printStackTrace();}
 }
-endsnippet
-
-snippet print
-System.out.println("${0}");
-endsnippet
-
-snippet re
-return ${0};
 endsnippet
 
 # vim:ft=snippets:
