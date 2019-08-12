@@ -9,6 +9,7 @@ else
   call minpac#init()
   call minpac#add('lifepillar/vim-solarized8') "Solarized colours
   call minpac#add('sheerun/vim-polyglot') "Language Support
+  call minpac#add('SirVer/ultisnips') "Language Support
 endif
 
 " Define user commands for updating/cleaning the plugins.
@@ -50,3 +51,11 @@ augroup Vimrc
   autocmd! bufwritepost vimrc source %
 augroup END
 "}}}
+
+" Snippets {{{
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" }}}
