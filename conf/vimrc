@@ -10,8 +10,7 @@ else
   call minpac#add('lifepillar/vim-solarized8') "Solarized colours
   call minpac#add('sheerun/vim-polyglot') "Language Support
   call minpac#add('SirVer/ultisnips') "Snippets 
-  call minpac#add('junegunn/fzf', {'do': '!./install --all'})
-  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('ctrlpvim/ctrlp.vim')
 endif
 
 " Define user commands for updating/cleaning the plugins.
@@ -52,10 +51,10 @@ set softtabstop=2 "Number of spaces when pressing tab
 "}}}
 
 " Mappings {{{
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>f :Files<CR>
-nmap <Leader>t :Tags<CR>
-nmap <Leader>h :History<CR>
+nmap <Leader>b :CtrlPBuffer<CR>
+nmap <Leader>f :CtrlP<CR>
+nmap <Leader>t :CtrlPTag<CR>
+nmap <Leader>h :CtrlPMRUFiles<CR>
 " }}}
 
 " Autocommands {{{
