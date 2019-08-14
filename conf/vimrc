@@ -38,6 +38,8 @@ set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
 let g:netrw_banner = 0 "No header for netrw directory mode
 let g:netrw_liststyle = 3 "Tree style dir listings
+let g:netrw_browse_split = 2 " Vertically split netrw
+let g:netrw_winsize = 20 "Netrw window size
 set shell=/usr/bin/bash
 set tags=$PWD/.git/tags
 let g:fzf_tags_command = "git ctags"
@@ -55,6 +57,7 @@ nmap <Leader>b :CtrlPBuffer<CR>
 nmap <Leader>f :CtrlP<CR>
 nmap <Leader>t :CtrlPTag<CR>
 nmap <Leader>h :CtrlPMRUFiles<CR>
+nmap <Leader>l :Lex<CR>
 " }}}
 
 " Autocommands {{{
