@@ -36,11 +36,12 @@ set path=**
 set noswapfile "Don't use a swap file
 set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
+set listchars=tab:▸\ ,eol:¬
 let g:netrw_banner = 0 "No header for netrw directory mode
 let g:netrw_liststyle = 3 "Tree style dir listings
 let g:netrw_browse_split = 2 " Vertically split netrw
 let g:netrw_winsize = 20 "Netrw window size
-set shell=/usr/bin/bash
+set shell=/bin/bash
 set tags=$PWD/.git/tags
 let g:fzf_tags_command = "git ctags"
 "}}}
@@ -53,11 +54,25 @@ set softtabstop=2 "Number of spaces when pressing tab
 "}}}
 
 " Mappings {{{
+" Normal Mode Mappings
 nmap <Leader>b :CtrlPBuffer<CR>
 nmap <Leader>f :CtrlP<CR>
 nmap <Leader>t :CtrlPTag<CR>
 nmap <Leader>h :CtrlPMRUFiles<CR>
 nmap <Leader>l :Lex<CR>
+" Toggle Whitespace
+nmap <Leader>w :set list!<CR>
+"Switch to last used buffer, map to CTRL-E
+nmap <Leader>e :e#<CR> 
+"Go to next/prev buffer
+nmap <Leader>n :bnext<CR>
+nmap <Leader>p :bprev<CR>
+
+" Insert Mode Mappings
+inoremap kj <Esc>
+inoremap jj <Esc>
+
+" Visual Mode Mappings
 " }}}
 
 " Autocommands {{{
