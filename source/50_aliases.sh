@@ -10,6 +10,12 @@ alias hist='history'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 alias c='clear'
 
+ldf(){ # Get Last downloaded file
+  local file=~/Downloads/$(ls -lt ~/Downloads/ | head -n1)
+  read -p "confirm: $file "
+  mv "$file" .
+}
+
 ytdl() {
   TOKEN=$(cat "$HOME"/.hook)
   curl -X POST --data "token=$TOKEN" --data "url=$1" https://hook.ballyda.com/hooks/yt-dl
