@@ -21,7 +21,14 @@
 ;;  ;; To disable collection of benchmark data after init is done.
 ;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 (server-start)
-(find-file "~/Dropbox/org/gtd.org")
+
+;; Set to the location of your Org files on your local system
+;; use iCloud client on Windows
+(if (eq system-type 'windows-nt)
+  (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
+  (setq org-directory (expand-file-name "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")))
+
+  (find-file (concat org-directory "gtd.org"))
 #+END_SRC
 
 ** Mac OS
@@ -298,15 +305,15 @@ Git Gutter
 #+END_SRC
 ** Org file locations
 #+BEGIN_SRC emacs-lisp
-;; Set to the location of your Org files on your local system
-(setq org-directory (expand-file-name "~/Dropbox/org/"))
-(setq org-agenda-files '("~/Dropbox/org/inbox.org"
-                      "~/Dropbox/org/gtd.org"
-                      "~/Dropbox/org/tickler.org"))
+(setq org-default-notes-file (concat org-directory "notes.org"))
 
-(setq org-refile-targets '(("~/Dropbox/org/gtd.org" :maxlevel . 3)
-                        ("~/Dropbox/org/someday.org" :level . 1)
-                        ("~/Dropbox/org/tickler.org" :maxlevel . 2)))
+(setq org-agenda-files '((concat org-directory "inbox.org")
+                      (concat org-directory "gtd.org")
+                      (concat org-directory "tickler.org")))
+
+(setq org-refile-targets '((concat org-directory "gtd.org" :maxlevel . 3)
+                        (concat org-directory "someday.org" :level . 1)
+                        (concat org-directory "tickler.org" :maxlevel . 2)))
 #+END_SRC
 
 ** Org capture templates
