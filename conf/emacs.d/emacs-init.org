@@ -306,14 +306,33 @@ Git Gutter
 ** Org file locations
 #+BEGIN_SRC emacs-lisp
 (setq org-default-notes-file (concat org-directory "notes.org"))
+#+END_SRC
 
-(setq org-agenda-files '((concat org-directory "inbox.org")
+** Org Agenda
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-files (list (concat org-directory "inbox.org")
                       (concat org-directory "gtd.org")
                       (concat org-directory "tickler.org")))
+(setq org-refile-targets
+        '((org-agenda-files :maxlevel . 1)))
 
-(setq org-refile-targets '((concat org-directory "gtd.org" :maxlevel . 3)
-                        (concat org-directory "someday.org" :level . 1)
-                        (concat org-directory "tickler.org" :maxlevel . 2)))
+(setq org-agenda-custom-commands
+  (quote (("d" todo "DELEGATED" nil)
+      ("c" todo "DONE|DEFERRED|CANCELLED" nil)
+      ("w" todo "WAITING" nil)
+      ("W" agenda "" ((org-agenda-ndays 21)))
+      ("A" agenda ""
+        ((org-agenda-skip-function
+          (lambda nil
+      (org-agenda-skip-entry-if (quote notregexp) "\\=.*\\[#A\\]")))
+        (org-agenda-ndays 1)
+        (org-agenda-overriding-header "Today's Priority #A tasks: ")))
+      ("u" alltodo ""
+        ((org-agenda-skip-function
+          (lambda nil
+      (org-agenda-skip-entry-if (quote scheduled) (quote deadline)
+              (quote regexp) "\n]+>")))
+        (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
 #+END_SRC
 
 ** Org capture templates
