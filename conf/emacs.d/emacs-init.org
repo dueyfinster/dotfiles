@@ -21,14 +21,6 @@
 ;;  ;; To disable collection of benchmark data after init is done.
 ;;  (add-hook 'after-init-hook 'benchmark-init/deactivate))
 (server-start)
-
-;; Set to the location of your Org files on your local system
-;; use iCloud client on Windows
-(if (eq system-type 'windows-nt)
-  (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
-  (setq org-directory (expand-file-name "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")))
-
-  (find-file (concat org-directory "gtd.org"))
 #+END_SRC
 
 ** Mac OS
@@ -274,14 +266,23 @@ Git Gutter
 * Org Mode
 ** Install Org, Keybindings and Preferences
 #+BEGIN_SRC emacs-lisp
-(use-package htmlize)
 (use-package org
+    :requires htmlize
     :ensure t
-    :pin org)
+    :pin org
+    :config
+     (add-to-list 'org-modules 'org-habit))
 (use-package org-protocol
     :ensure nil)
 (use-package org-bullets
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; Set to the location of your Org files on your local system
+;; use iCloud client on Windows
+(if (eq system-type 'windows-nt)
+  (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
+  (setq org-directory (expand-file-name "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")))
+
 
 ;; Set Keybindings
 (global-set-key "\C-cl" 'org-store-link)
@@ -303,6 +304,7 @@ Git Gutter
 (add-to-list 'org-file-apps '("\\.xls\\'" . default))
 (add-to-list 'org-file-apps '("\\.xlsx\\'" . default))
 #+END_SRC
+
 ** Org file locations
 #+BEGIN_SRC emacs-lisp
 (setq org-default-notes-file (concat org-directory "notes.org"))
@@ -335,8 +337,15 @@ Git Gutter
         (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
 #+END_SRC
 
+** Org Habit
+#+BEGIN_SRC emacs-lisp :tangle yes
+ (setq org-habit-following-days 30)
+ (setq org-habit-show-all-today t)
+ (setq org-habit-show-habits-only-for-today nil)
+#+END_SRC
+
 ** Org capture templates
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes
 (setq org-capture-templates `(
   ("p" "Personal Task" entry (file+headline ,(concat org-directory "gtd.org") "Personal")
                "* TODO %i%?")
@@ -414,6 +423,11 @@ Git Gutter
                    path (or desc "")))
      (latex (format "\href{%s}{%s}"
                     path (or desc "video"))))))
+#+END_SRC
+
+** Open Default Org Mode File
+#+BEGIN_SRC emacs-lisp :tangle yes
+(find-file (concat org-directory "gtd.org"))
 #+END_SRC
 
 * Prodigy
