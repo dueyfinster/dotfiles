@@ -219,6 +219,12 @@ Company mode provides auto completion for editing.
 (use-package helm-company
      :ensure t
      :init (autoload 'helm-company "helm-company"))
+
+(use-package company-lsp
+  :ensure t
+  :config
+ (push 'company-lsp company-backends)
+)
 #+END_SRC
 
 ** Enable =company-jedi=
@@ -281,7 +287,7 @@ Git Gutter
 ;; use iCloud client on Windows
 (if (eq system-type 'windows-nt)
   (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
-  (setq org-directory (expand-file-name "~/Library/Mobile Documents/iCloud~com~appsonthemove~beorg/Documents/org/")))
+  (setq org-directory (expand-file-name "~/org/")))
 
 
 ;; Set Keybindings
@@ -430,21 +436,13 @@ Git Gutter
 (find-file (concat org-directory "gtd.org"))
 #+END_SRC
 
-* Prodigy
-Can start servers in Emacs
-#+BEGIN_SRC emacs-lisp
-(use-package prodigy
-:ensure t
-:config
-(prodigy-define-service
-  :name "blog@localhost"
-  :command "python2"
-  :args '("-m" "SimpleHTTPServer" "8000")
-  :cwd "~/repos/org-blog"
-  :tags '(file-server)
-  :stop-signal 'sigkill
-  :kill-process-buffer-on-stop t))
-#+END_SRC
+* Flycheck
+  #+BEGIN_SRC emacs-lisp
+    (use-package flycheck
+      :ensure t
+      :init
+      (global-flycheck-mode t))
+  #+END_SRC
 
 * Projectile
 #+BEGIN_SRC emacs-lisp
@@ -465,15 +463,15 @@ With a twist of helm
 #+END_SRC
 
 * Snippets
-I use =yasnippet= a lot.
 #+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :diminish yas-minor-mode
-    :config (setq yas-snippet-dirs
-             '("~/.dotfiles/conf/emacs.d/snippets"   ;; git synced snippets
-               "~/.emacs.d/snippets"                 ;; local snippets
-             ))
-            (yas-global-mode 1))
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config (setq yas-snippet-dirs
+           '("~/.dotfiles/conf/emacs.d/snippets"   ;; git synced snippets
+             "~/.emacs.d/snippets"                 ;; local snippets
+           ))
+          (yas-global-mode 1))
 #+END_SRC
 
 * Which Key
@@ -483,65 +481,83 @@ I use =yasnippet= a lot.
   :config (which-key-mode 1))
 #+END_SRC
 
-* Programming Languages & Markup
-** Docker
+* Prodigy
+Can start servers in Emacs
 #+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode
-    :mode "Dockerfile\\'")
+(use-package prodigy
+:ensure t
+:config
+(prodigy-define-service
+  :name "blog@localhost"
+  :command "python2"
+  :args '("-m" "SimpleHTTPServer" "8000")
+  :cwd "~/repos/org-blog"
+  :tags '(file-server)
+  :stop-signal 'sigkill
+  :kill-process-buffer-on-stop t))
 #+END_SRC
-** EditorConfig
+* LSP
+** LSP Server
 #+BEGIN_SRC emacs-lisp
-(use-package editorconfig
-    :diminish editorconfig-mode
-    :config (editorconfig-mode 1))
-#+END_SRC
-
-** Emacs Lisp
-Enable eldoc
-#+BEGIN_SRC emacs-lisp
-(use-package eldoc
-  :diminish eldoc-mode
-  :config (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
-#+END_SRC
-
-** Erlang
-#+BEGIN_SRC emacs-lisp
-(use-package erlang
-    :defer t
-    :mode ("\\.[eh]rl\\'" . erlang-mode))
-
-(use-package company-erlang
-  :config
-(add-hook 'erlang-mode-hook #'company-erlang-init))
-#+END_SRC
-
-** Markdown
-For editing markdown files...
-#+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
+(use-package lsp-mode
   :ensure t
-  :commands markdown-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+  :commands lsp
+  :custom
+  (lsp-auto-guess-root nil)
+  (lsp-prefer-flymake nil) ; Use flycheck instead of flymake
+  :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
+  :hook ((python-mode c-mode c++-mode) . lsp))
 #+END_SRC
 
-** Python
-** YAML
-Yet Another Markup Language
-#+BEGIN_SRC
-(use-package yaml-mode
-  :ensure t
-  :commands yaml-mode
-  :init
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode)))
-#+END_SRC
-* Enable =undo-tree=
+** LSP UI
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree
-  :diminish undo-tree-mode
+(use-package lsp-ui
+  :after lsp-mode
+  :diminish
+  :commands lsp-ui-mode
+  :custom-face
+  (lsp-ui-doc-background ((t (:background nil))))
+  (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c u" . lsp-ui-imenu))
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-header t)
+  (lsp-ui-doc-include-signature t)
+  (lsp-ui-doc-position 'top)
+  (lsp-ui-doc-border (face-foreground 'default))
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-sideline-show-code-actions nil)
   :config
-  (global-undo-tree-mode t)
-  (setq undo-tree-visualizer-diff t))
+  ;; Use lsp-ui-doc-webkit only in GUI
+  (setq lsp-ui-doc-use-webkit t)
+  ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
+  ;; https://github.com/emacs-lsp/lsp-ui/issues/243
+  (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
+    (setq mode-line-format nil)))
+#+END_SRC
+
+** LSP DAP
+#+BEGIN_SRC emacs-lisp
+(use-package dap-mode
+  :ensure t :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+#+END_SRC
+
+** LSP Languages
+*** LSP Java
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-java :ensure t :after lsp
+  :config (add-hook 'java-mode-hook 'lsp))
+#+END_SRC
+
+*** LSP Python
+#+BEGIN_SRC emacs-lisp
+(setq lsp-python-executable-cmd "python3")
+(setq python-shell-interpreter "python3")
 #+END_SRC
