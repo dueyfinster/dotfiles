@@ -114,3 +114,7 @@ setprompt () {
 setprompt
 
 unset git_prompt setprompt
+
+source $HOME/.variables
+source $HOME/.functions
+source $HOME/.aliases
