@@ -1,11 +1,3 @@
-# Set up the prompt
-
-autoload -Uz promptinit
-promptinit
-prompt adam1
-
-setopt histignorealldups sharehistory
-
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
@@ -14,15 +6,6 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
-# Use modern completion system
-autoload -Uz compinit
-compinit
-
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
 local DIR_PATH="$HOME/.dotfiles/conf/dircolors.256dark"
 if type dircolors > /dev/null 2>&1; then
     eval $(dircolors "$DIR_PATH")
@@ -30,14 +13,104 @@ elif type gdircolors > /dev/null 2>&1; then
     eval $(gdircolors "$DIR_PATH")
     alias ls="ls -G"
 fi
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
 
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+#autocompletion
+setopt AUTOLIST
+autoload -U compinit
+compinit
+
+setopt extended_glob
+setopt prompt_subst
+
+# ~/.shell/prompt.zsh
+
+# solarized colors {{{
+# http://ethanschoonover.com/solarized
+
+autoload -U colors && colors
+
+typeset -lA solarized
+solarized[BASE03]=$'\e[38;5;234m'
+solarized[BASE02]=$'\e[38;5;235m'
+solarized[BASE01]=$'\e[38;5;240m'
+solarized[BASE00]=$'\e[38;5;241m'
+solarized[BASE0]=$'\e[38;5;244m'
+solarized[BASE1]=$'\e[38;5;245m'
+solarized[BASE2]=$'\e[38;5;254m'
+solarized[BASE3]=$'\e[38;5;230m'
+solarized[YELLOW]=$'\e[38;5;136m'
+solarized[ORANGE]=$'\e[38;5;166m'
+solarized[RED]=$'\e[38;5;160m'
+solarized[MAGENTA]=$'\e[38;5;125m'
+solarized[VIOLET]=$'\e[38;5;61m'
+solarized[BLUE]=$'\e[38;5;33m'
+solarized[CYAN]=$'\e[38;5;37m'
+solarized[GREEN]=$'\e[38;5;64m'
+RESET_COLOR="%{$terminfo[sgr0]%}"
+
+# }}}
+
+setopt prompt_subst
+
+function git_prompt {
+    local GIT_SYMBOL="%%{$solarized[GREEN]%%}± "
+    local DIRTY_COLOR="%%{$solarized[YELLOW]%%}"
+    local CLEAN_COLOR="%%{$solarized[GREEN]%%}"
+    local UNMERGED_COLOR="%%{$solarized[RED]%%}"
+
+    case "$PWD" in
+        /mnt/*|/Volumes/*) return ;;
+    esac
+
+    git rev-parse --git-dir > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        return
+    fi
+
+    local ref
+    ref=${$(command git symbolic-ref HEAD 2> /dev/null)#refs/heads/} || \
+        ref=${$(command git rev-parse HEAD 2>/dev/null)[1][1,7]} || \
+        return
+
+    local branchcolor
+    if [[ `git ls-files -u >& /dev/null` == '' ]]; then  # in a merge?
+      git diff --quiet >& /dev/null
+      if [[ $? == 1 ]]; then
+        branchcolor=$DIRTY_COLOR
+      else
+        git diff --cached --quiet >& /dev/null
+        if [[ $? == 1 ]]; then
+          branchcolor=$DIRTY_COLOR
+        else
+          branchcolor=$CLEAN
+        fi
+      fi
+    else
+      branchcolor=$UNMERGED_COLOR
+    fi
+    print -Pn '%%{${solarized[BASE0]}%%}('
+    print -Pn '${GIT_SYMBOL}%%{$branchcolor%%}%50>..>${ref}%<<'
+    print -Pn '%%{${solarized[BASE0]}%%}) '
+}
+
+function user_color {
+  if [[ "$SSH_TTY" ]]; then
+    usercolor=${solarized[CYAN]};
+  elif [[ "$USER" == "root" ]]; then
+    usercolor=${solarized[RED]};
+	else
+    usercolor=${solarized[ORANGE]};
+  fi
+}
+
+setprompt () {
+    local MAX_DIR_LEN=45
+    user_color
+    PROMPT='$(git_prompt)'"%{${solarized[BASE0]}%}%(!.#.>)${RESET_COLOR} "
+    RPROMPT='%{${usercolor}%}%n${RESET_COLOR}@%{${solarized[YELLOW]}%}%m:%{${solarized[GREEN]}%}%45<...<%~%<<${RESET_COLOR}'
+    PS2='(%_)${RESET_COLOR} '
+}
+
+setprompt
+
+unset git_prompt setprompt
