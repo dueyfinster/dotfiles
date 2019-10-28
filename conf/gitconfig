@@ -3,22 +3,22 @@
 [alias]
 	a = add -A
 	c = commit -m
-  ca = commit --amend
+        ca = commit --amend
 	co = checkout
-  d = diff
-  ds = diff --staged
-  f = fetch
-  l = log
-  lo = log --pretty=oneline
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        d = diff
+        ds = diff --staged
+        f = fetch
+        l = log
+        lo = log --pretty=oneline
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	last = log -1 HEAD
 	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
 	reviewmaster = push origin HEAD:refs/for/master
-  r = rebase
+        r = rebase
 	s = status
 	p = push
 	pf = push --force
-  pl = pull
+        pl = pull
 	ctags = !.git/hooks/ctags
 # [commit]
 #	  gpgsign = true
