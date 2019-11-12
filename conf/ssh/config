@@ -15,21 +15,21 @@ Host github.com
     Hostname ssh.github.com
     User git
     PreferredAuthentications publickey
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_git
     Port 443
 
 Host bitbucket.org
     Hostname altssh.bitbucket.org
     User git
     PreferredAuthentications publickey
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_git
     Port 443
 
 Host gitlab.com
     Hostname altssh.gitlab.com
     User git
     PreferredAuthentications publickey
-    IdentityFile ~/.ssh/id_github
+    IdentityFile ~/.ssh/id_git
     Port 443
 
 Host home
