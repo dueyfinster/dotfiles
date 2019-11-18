@@ -16,6 +16,7 @@ end
 
 # Set LEDGERFILE
 set -xU LEDGERFILE ~/.hledger.journal
+set -xU EDITOR vim
 
 # Abbreviations
 abbr -a x 'exit'
