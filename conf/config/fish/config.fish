@@ -42,6 +42,7 @@ abbr -a gs 'git status'
 abbr -a gp 'git push'
 abbr -a gpl 'git pull'
 
+abbr -a tx 'tmuxinator'
 # Aliases
 alias e 'vim +Files'
 
