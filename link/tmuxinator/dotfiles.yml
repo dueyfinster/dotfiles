@@ -40,5 +40,8 @@ root: ~/.dotfiles
 # attach: false
 
 windows:
-  - editor: vim
-  - shell: ls
+  - haskell:
+      layout: 770f,80x23,0,0[80x6,0,0,3,80x16,0,7,4]
+      panes:
+        - git status
+        - vim
