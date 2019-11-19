@@ -139,14 +139,10 @@ but is not a high priority.
      ))
 (setq-default recent-save-file "~/.emacs.d/recentf"))
 #+END_SRC
-** Disable the big fat toolbars
+** Disable GUI Elements
 #+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
-;;(menu-bar-mode -1)
-#+END_SRC
-** Disable the scroll bar
-#+BEGIN_SRC emacs-lisp
-(scroll-bar-mode -1)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+END_SRC
 ** Disable splash screen
 And set it in emacs-lisp mode
