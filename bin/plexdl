@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/bash -x
 # plexdl - Uses curl to send a magnet or youtube link to a webhook to end up in plex
 # Copyright 2018,  Neil Grogan
 # All rights reserved.
 PROGNAME=${0##*/}
 VERSION="0.1"
-HOOK_URL="http://ballyda.com:8080/hooks/"
+HOOK_URL="https://hooks.ballyda.com/hooks/"
 set -e
 # Logging stuff.
 function error()    { echo -e " \033[1m\033[31m✖\033[0m  $@"; }
