@@ -61,14 +61,16 @@ get_hook_type(){
 
 get_media_type(){
   local t=$(echo "$type" | tr '[:upper:]' '[:lower:]')
-  if [[ $t == "t"* ]]; then
-    media="TV Shows"
+  if [[ $t == "tv"* ]]; then
+    media="tv"
   elif [[ $t == "mu"* ]]; then
-    media="Music"
+    media="music"
   elif [[ $t == "mo"* ]]; then
-    media="Movies"
-  elif [[ $t == "v"* ]]; then
-    media="Video"
+    media="movies"
+  elif [[ $t == "ta"* ]]; then
+    media="talks"
+  elif [[ $t == "au"* ]]; then
+    media="audio"
   else
     error "I cannot work out a valid media type for: $t"
     exit 1
