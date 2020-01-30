@@ -339,6 +339,23 @@ Git Gutter
         (org-agenda-overriding-header "Unscheduled TODO entries: "))))))
 #+END_SRC
 
+** Org Tags
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-tag-alist '(
+  (:startgroup . nil)
+    ("home" . ?h)
+    ("work" . ?w)
+  (:endgroup . nil)
+  (:startgroup . nil)
+    ("@errands" . ?e)
+    ("@house" . ?s)
+    ("@now" . ?n)
+    ("@online" . ?o)
+    ("@phone" . ?p)
+    ("@office" . ?f)
+  (:endgroup . nil)
+))
+#+END_SRC
 ** Org Habit
 #+BEGIN_SRC emacs-lisp :tangle yes
  (setq org-habit-following-days 30)
