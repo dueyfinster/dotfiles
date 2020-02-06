@@ -155,6 +155,14 @@ And set it in emacs-lisp mode
 (setq initial-scratch-message nil)
 #+END_SRC
 
+* PDF Tools
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools
+  :if (not (string-equal system-type "windows-nt"))
+  :mode (("\\.pdf\\'" . pdf-view-mode))
+  :functions (pdf-tools-disable-cursor pdf-tools-advice-evil-refresh-cursor))
+#+END_SRC
+
 * Helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
