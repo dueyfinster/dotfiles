@@ -4,7 +4,7 @@
 
 * Packages
 ** Package Repositories
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -24,7 +24,7 @@
 #+END_SRC
 
 ** Mac OS
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (when (memq window-system '(mac ns))
   (setq ns-pop-up-frames nil
         x-select-enable-clIpboard t)
@@ -38,7 +38,7 @@
 ** Security
    Inspired by [[https://ogbe.net/emacsconfig.html][ogbe.net]] and [[https://glyph.twistedmatrix.com/2015/11/editor-malware.html][Your Text Editor Is Malware]].
 *** Check TLS
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
   (setq tls-checktrust t)
   (setq gnutls-verify-error t)
 #+END_SRC
@@ -46,7 +46,7 @@
 ** Automatic package installation
 *** Install =use-package=
 And its dependencies if needed.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (mapc
  (lambda (package)
    (if (not (package-installed-p package))
@@ -57,7 +57,7 @@ And its dependencies if needed.
 #+END_SRC
 *** Trigger =use-package=
 And force the install of missing packages.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
@@ -68,7 +68,7 @@ And force the install of missing packages.
  All the relevant and personal information that Emacs needs. If you are going to
  use it, needless to say to use your own information.
 
- #+BEGIN_SRC emacs-lisp :results silent
+ #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
  (setq user-full-name "Neil Grogan"
        user-mail-address "neil@grogan.org"
        calendar-latitude 53.42
@@ -77,12 +77,12 @@ And force the install of missing packages.
  #+END_SRC
 
 * Theme
- #+BEGIN_SRC emacs-lisp
+ #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package solarized-theme :config (load-theme 'solarized-dark t))
 #+END_SRC
 
 * Quickly edit this config file
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
   (defun edit-config-file ()
     (interactive)
     (find-file (concat config-load-path "emacs-init.org")))
@@ -92,7 +92,7 @@ And force the install of missing packages.
 ** Backup and autosave
 By default, emacs writes a backup file next to the file being editing
 with a trailing =~= turd.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 ;; store all autosave files in the tmp dir
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
@@ -116,7 +116,7 @@ configuration. =idle-require= delays the =require=-calls to a time where
 Emacs is in idle. So this is great for stuff you eventually want to load,
 but is not a high priority.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package recentf
     :defer 1
     :config (recentf-mode 1)
@@ -140,23 +140,23 @@ but is not a high priority.
 (setq-default recent-save-file "~/.emacs.d/recentf"))
 #+END_SRC
 ** Disable GUI Elements
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 #+END_SRC
 ** Disable splash screen
 And set it in emacs-lisp mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq inhibit-startup-message t)
 (setq initial-major-mode 'emacs-lisp-mode)
 #+END_SRC
 ** Empty Scratch buffer
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq initial-scratch-message nil)
 #+END_SRC
 
 * PDF Tools
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package pdf-tools
   ;  :if (not (string-equal system-type "windows-nt"))
   :mode (("\\.pdf\\'" . pdf-view-mode))
@@ -164,7 +164,7 @@ And set it in emacs-lisp mode
 #+END_SRC
 
 * Helm
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package helm
   :ensure t
   :demand
@@ -195,15 +195,20 @@ And set it in emacs-lisp mode
 #+END_SRC
 
 * Evil
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package evil
   :ensure t
-  :config (evil-mode 1))
+  :config   (evil-mode 1)
+            (define-key evil-ex-map "b " 'helm-mini)
+            (define-key evil-ex-map "e" 'helm-find-files)
+            (define-key evil-ex-map "x" 'helm-M-x)
+            (define-key evil-ex-map "g" 'helm-projectile-rg)
+            (define-key evil-ex-map "f" 'helm-projectile-find-file))
 #+END_SRC
 
 * Company Mode
 Company mode provides auto completion for editing.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package company
     :diminish company-mode
     :init
@@ -232,14 +237,14 @@ Company mode provides auto completion for editing.
 #+END_SRC
 
 ** Enable =company-jedi=
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
   (use-package company-jedi
     :config (add-to-list 'company-backends 'company-jedi))
 #+END_SRC
 
 * Git
 Git client inside of Emacs
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package magit
     :defer 5
     :ensure t
@@ -251,7 +256,7 @@ Git client inside of Emacs
 #+RESULTS:
 
 Git Gutter
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package git-gutter
     :ensure t
     :init
@@ -266,7 +271,7 @@ Git Gutter
 #+END_SRC
 
 * Neotree
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (use-package neotree
     :defer 5
     :bind ([f8] . neotree-toggle)
@@ -275,7 +280,7 @@ Git Gutter
 
 * Org Mode
 ** Install Org, Keybindings and Preferences
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package org
     :requires htmlize
     :ensure t
@@ -316,12 +321,12 @@ Git Gutter
 #+END_SRC
 
 ** Org file locations
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq org-default-notes-file (concat org-directory "notes.org"))
 #+END_SRC
 
 ** Org Agenda
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq org-agenda-files (list (concat org-directory "inbox.org")
                       (concat org-directory "gtd.org")
                       (concat org-directory "tickler.org")))
@@ -348,7 +353,7 @@ Git Gutter
 #+END_SRC
 
 ** Org Tags
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (setq org-tag-alist '(
   (:startgroup . nil)
     ("home" . ?h)
@@ -365,14 +370,14 @@ Git Gutter
 ))
 #+END_SRC
 ** Org Habit
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
  (setq org-habit-following-days 30)
  (setq org-habit-show-all-today t)
  (setq org-habit-show-habits-only-for-today nil)
 #+END_SRC
 
 ** Org capture templates
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (setq org-capture-templates `(
   ("p" "Personal Task" entry (file+headline ,(concat org-directory "gtd.org") "Personal")
                "* TODO %i%?")
@@ -396,7 +401,7 @@ Git Gutter
 #+END_SRC
 
 ** States of tasks in Org mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
@@ -413,7 +418,7 @@ Git Gutter
 #+END_SRC
 
 ** Babel Languages
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (org-babel-do-load-languages
 'org-babel-load-languages
 '((emacs-lisp . t)
@@ -429,7 +434,7 @@ Git Gutter
 #+END_SRC
 
 ** Youtube link capability in org
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (defvar yt-iframe-format
   ;; You may want to change your width and height.
   (concat "<iframe width=\"440\""
@@ -453,12 +458,12 @@ Git Gutter
 #+END_SRC
 
 ** Open Default Org Mode File
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (find-file (concat org-directory "gtd.org"))
 #+END_SRC
 
 * Flycheck
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
     (use-package flycheck
       :ensure t
       :init
@@ -466,7 +471,7 @@ Git Gutter
   #+END_SRC
 
 * Projectile
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package projectile
   :ensure t
   :diminish projectile-mode
@@ -476,7 +481,7 @@ Git Gutter
 #+END_SRC
 
 With a twist of helm
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package helm-projectile
   :bind (("C-c v" . helm-projectile)
          ("C-c C-v" . helm-projectile-ag)
@@ -484,7 +489,7 @@ With a twist of helm
 #+END_SRC
 
 * Snippets
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -496,7 +501,7 @@ With a twist of helm
 #+END_SRC
 
 * Which Key
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package which-key
   :diminish which-key-mode
   :config (which-key-mode 1))
@@ -504,7 +509,7 @@ With a twist of helm
 
 * Prodigy
 Can start servers in Emacs
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package prodigy
 :ensure t
 :config
@@ -519,7 +524,7 @@ Can start servers in Emacs
 #+END_SRC
 * LSP
 ** LSP Server
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package lsp-mode
   :ensure t
   :commands lsp
@@ -531,7 +536,7 @@ Can start servers in Emacs
 #+END_SRC
 
 ** LSP UI
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package lsp-ui
   :after lsp-mode
   :diminish
@@ -562,7 +567,7 @@ Can start servers in Emacs
 #+END_SRC
 
 ** LSP DAP
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package dap-mode
   :ensure t :after lsp-mode
   :config
@@ -572,13 +577,13 @@ Can start servers in Emacs
 
 ** LSP Languages
 *** LSP Java
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package lsp-java :ensure t :after lsp
   :config (add-hook 'java-mode-hook 'lsp))
 #+END_SRC
 
 *** LSP Python
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (setq lsp-python-executable-cmd "python3")
 (setq python-shell-interpreter "python3")
 #+END_SRC
