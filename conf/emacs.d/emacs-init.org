@@ -307,6 +307,7 @@ Git Gutter
 
 ;; Set Preferences
 (setq org-completion-use-ido nil
+      org-startup-truncated nil
       org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-confirm-babel-evaluate nil
