@@ -1,0 +1,120 @@
+* Setup
+#+BEGIN_SRC emacs-lisp
+  (use-package cheatsheet
+    :config
+    (setq cheatsheet--group-face '(:foreground "spring green"))
+    (setq cheatsheet--key-face '(:foreground "orchid")))
+#+END_SRC
+
+* Common
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add :group 'Common
+                :key "C-c r"
+                :description "Revert buffer")
+(cheatsheet-add :group 'Common
+                :key "C-c q"
+                :description "Turn on/off autofill mode")
+(cheatsheet-add :group 'Common
+                :key "C-x u"
+                :description "Show the undo-tree")
+(cheatsheet-add :group 'Common
+                :key "M-y"
+                :description "Show the kill-ring")
+(cheatsheet-add :group 'Common
+                :key "C-x r l"
+                :description "Show the bookmarks")
+(cheatsheet-add :group 'Common
+                :key "C-c s"
+                :description "Swoop search through buffer")
+(cheatsheet-add :group 'Common
+                :key "C-x w"
+                :description "Read news and RSS feeds")
+(cheatsheet-add :group 'Common
+                :key "C-c SPC"
+                :description "Jump to char")
+(cheatsheet-add :group 'Common
+                :key "C-c C-d"
+                :description "Hungry delete")
+(cheatsheet-add :group 'Common
+                :key "C-c i"
+                :description "Ciel kill")
+(cheatsheet-add :group 'Common
+                :key "C-M-h"
+                :description "Select region")
+(cheatsheet-add :group 'Common
+                :key "C-c +"
+                :description "Increment number at point")
+(cheatsheet-add :group 'Common
+                :key "C-c -"
+                :description "Decrement number at point")
+#+END_SRC
+
+* Org
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add :group 'Org
+                :key "C-c c"
+                :description "Org Capture")
+(cheatsheet-add :group 'Org
+                :key "C-c ^"
+                :description "Org sort")
+(cheatsheet-add :group 'Org
+                :key "C-c C-t"
+                :description "Org cycle todo")
+(cheatsheet-add :group 'Org
+                :key "C-c '"
+                :description "Edit code block")
+(cheatsheet-add :group 'Org
+                :key "C-c C-c"
+                :description "Evaluate source block")
+(cheatsheet-add :group 'Org
+                :key "C-c C-o"
+                :description "Show source block eval result")
+#+END_SRC
+* Projectile
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add :group 'Projectile
+                :key "C-c v"
+                :description "Find file in project")
+(cheatsheet-add :group 'Projectile
+                :key "C-c C-v"
+                :description "Find word in project")
+(cheatsheet-add :group 'Projectile
+                :key "C-c C-v C-w"
+                :description "Find word under cursor in project")
+(cheatsheet-add :group 'Projectile
+                :key "C-c w"
+                :description "Switch project")
+#+END_SRC
+* Emacs Lisp
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add :group 'Emacs-Lisp
+                :key "C-x C-e"
+                :description "Evaluate sexp")
+(cheatsheet-add :group 'Emacs-Lisp
+                :key "C-c x"
+                :description "Evaluate buffer")
+(cheatsheet-add :group 'Emacs-Lisp
+                :key "C-c X"
+                :description "Evaluate region")
+(cheatsheet-add :group 'Emacs-Lisp
+                :key "C-h f"
+                :description "Describe function")
+(cheatsheet-add :group 'Emacs-Lisp
+                :key "C-h v"
+                :description "Describe variable")
+#+END_SRC
+* Code
+#+BEGIN_SRC emacs-lisp
+(cheatsheet-add :group 'Code
+                :key "C-c C-i"
+                :description "List classes and functions in buffer via imenu")
+(cheatsheet-add :group 'Code
+                :key "C-x g"
+                :description "Summon Magit")
+(cheatsheet-add :group 'Code
+                :key "C-c f"
+                :description "Flycheck the buffer")
+(cheatsheet-add :group 'Code
+                :key "C-x C-;"
+                :description "Comment out current line")
+#+END_SRC

@@ -2,14 +2,13 @@
 ;;
 ;; Author: Adrien Brochard
 ;; URL:    https://github.com/abrochard/emacs-config
-;;
 ;; kickstart the config by pulling the latest
 ;; and tangle the org files into .el
 ;;
 ;; Heavily inspired by the great http://www.holgerschurig.de/en/emacs-efficiently-untangling-elisp/
 ;; Thanks a lot to him
-
-(defvar config-no-auto-update t)
+;;; Code:
+(defvar config-no-auto-update nil)
 (defvar config-load-path (file-name-directory (or load-file-name buffer-file-name)))
 (defvar config-org-files '("emacs-init.org" "cheatsheet.org"))
 (defvar config-use-fallback nil)
@@ -56,7 +55,7 @@
 
 (defun bootstrap-config ()
   "Pull latest config and tangle if needed."
-  (if (not config-no-auto-update)
+  (unless config-no-auto-update
       (shell-command (concat "cd " config-load-path " && git pull")))
   (dolist (file config-org-files)
     (let ((orgfile (concat config-load-path file))
@@ -68,7 +67,7 @@
 
 (defun bootstrap-config-fallback ()
   "Just in case."
-  (if (not config-no-auto-update)
+  (unless config-no-auto-update
       (shell-command (concat "cd " config-load-path " && git pull")))
   (package-initialize)
   (require 'org)
@@ -80,4 +79,4 @@
     (bootstrap-config)
   (bootstrap-config-fallback))
 
-;; bootstrap.el ends here
+;;; bootstrap.el ends here
