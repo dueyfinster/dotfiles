@@ -108,6 +108,20 @@ with a trailing =~= turd.
 (setq create-lockfiles nil)
 #+END_SRC
 
+** Desktop Save Mode
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Load desktop buffers lazily.
+  (setq desktop-lazy-idle-delay 2)
+  (setq desktop-lazy-verbose nil)
+  (setq desktop-restore-eager 0)
+
+  ;; Always save the desktop.
+  (setq desktop-save t)
+
+  ;; Enable desktop.
+  (desktop-save-mode t)
+#+END_SRC
+
 ** Require
 Some features are not loaded by default to minimize initialization time,
 so they have to be required (or loaded, if you will). =require=-calls
@@ -264,6 +278,7 @@ Git Gutter
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package git-gutter
     :ensure t
+    :defer 5
     :init
       (global-git-gutter-mode t)
     :diminish git-gutter-mode
@@ -391,8 +406,8 @@ Git Gutter
                "* TODO %i%?")
   ("w" "Work Task" entry (file+headline ,(concat org-directory "gtd.org") "Work")
                "* TODO %i%?")
-  ("t" "Todo [inbox]" entry (file+headline ,(concat org-directory "inbox.org")
-               "Tasks") "* TODO %i%?")
+  ("t" "Todo [inbox]" entry (file+headline ,(concat org-directory "inbox.org") ,(format "%s %s" (format-time-string "%Y")(format-time-string "%B"))) 
+"* TODO %i%?\n %U")
   ("m" "Meeting" entry (file+headline ,(concat org-directory "gtd.org") "Work")
                "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
   ("P" "Phone call" entry (file ,(concat org-directory "gtd.org") "Work")
