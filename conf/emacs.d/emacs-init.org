@@ -160,6 +160,8 @@ And set it in emacs-lisp mode
 (use-package pdf-tools
   ;  :if (not (string-equal system-type "windows-nt"))
   :mode (("\\.pdf\\'" . pdf-view-mode))
+  :magic ("%PDF" . pdf-view-mode)
+  :config (pdf-tools-install :no-query)
   :functions (pdf-tools-disable-cursor pdf-tools-advice-evil-refresh-cursor))
 #+END_SRC
 
@@ -169,11 +171,12 @@ And set it in emacs-lisp mode
   :ensure t
   :demand
   :diminish helm-mode
+  :after (evil)
   :bind (("C-x C-r" . helm-recentf)
            ("M-x" . helm-M-x)
            ("C-x C-f" . helm-find-files)
            ("C-c h" . helm-command-prefix)
-           ("<tab>" . helm-execute-persistent-action)
+           ;;("<tab>" . helm-execute-persistent-action)
            ("C-i" . helm-execute-persistent-action)
            ("C-z" . helm-select-action))
 
@@ -186,24 +189,26 @@ And set it in emacs-lisp mode
                   helm-move-to-line-cycle-in-source t
                   projectile-completion-system 'helm)
 
+            ;;Bindings for evil mode
+            (define-key evil-ex-map "b " 'helm-mini)
+            (define-key evil-ex-map "e" 'helm-find-files)
+            (define-key evil-ex-map "x" 'helm-M-x)
+            (define-key evil-ex-map "g" 'helm-projectile-rg)
+            (define-key evil-ex-map "f" 'helm-projectile-find-file)
+
             (set-face-attribute 'helm-selection nil :background "cyan")
             (helm-mode 1)
             (helm-adaptive-mode 1))
 
-(use-package helm-rg)
-(use-package helm-system-packages)
+(use-package helm-rg
+           :after (helm))
 #+END_SRC
 
 * Evil
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package evil
   :ensure t
-  :config   (evil-mode 1)
-            (define-key evil-ex-map "b " 'helm-mini)
-            (define-key evil-ex-map "e" 'helm-find-files)
-            (define-key evil-ex-map "x" 'helm-M-x)
-            (define-key evil-ex-map "g" 'helm-projectile-rg)
-            (define-key evil-ex-map "f" 'helm-projectile-find-file))
+  :config   (evil-mode 1))
 #+END_SRC
 
 * Company Mode
@@ -274,8 +279,10 @@ Git Gutter
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code  
 (use-package neotree
     :defer 5
+    :after evil
     :bind ([f8] . neotree-toggle)
-    :config (setq neo-smart-open t))
+    :config (setq neo-smart-open t)
+             (define-key evil-normal-state-map (kbd "C-<tab>") 'neotree-toggle))
 #+END_SRC
 
 * Org Mode
@@ -485,7 +492,7 @@ With a twist of helm
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package helm-projectile
   :bind (("C-c v" . helm-projectile)
-         ("C-c C-v" . helm-projectile-ag)
+         ("C-c C-v" . helm-projectile-rg)
          ("C-c w" . helm-projectile-switch-project)))
 #+END_SRC
 
@@ -513,6 +520,7 @@ Can start servers in Emacs
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package prodigy
 :ensure t
+:defer t
 :config
 (prodigy-define-service
   :name "blog@localhost"
@@ -528,6 +536,7 @@ Can start servers in Emacs
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package lsp-mode
   :ensure t
+  :defer t
   :commands lsp
   :custom
   (lsp-auto-guess-root nil)
@@ -536,10 +545,28 @@ Can start servers in Emacs
   :hook ((python-mode c-mode c++-mode) . lsp))
 #+END_SRC
 
+** LSP Company
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package company-lsp :ensure t
+  :after (lsp-mode company)
+  :defer t
+  :config
+  (progn
+    (setq company-lsp-async t)))
+#+END_SRC
+
+** LSP Helm
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package helm-lsp :ensure t
+  :after (lsp-mode helm)
+  :defer t)
+#+END_SRC
+
 ** LSP UI
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package lsp-ui
   :after lsp-mode
+  :defer t
   :diminish
   :commands lsp-ui-mode
   :custom-face
@@ -570,7 +597,8 @@ Can start servers in Emacs
 ** LSP DAP
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (use-package dap-mode
-  :ensure t :after lsp-mode
+  :ensure t 
+  :after lsp-mode
   :config
   (dap-mode t)
   (dap-ui-mode t))
@@ -579,8 +607,9 @@ Can start servers in Emacs
 ** LSP Languages
 *** LSP Java
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
-(use-package lsp-java :ensure t :after lsp
-  :config (add-hook 'java-mode-hook 'lsp))
+(use-package lsp-java :ensure t :after lsp-mode
+  :hook ((java-mode . lsp-mode)
+         (java-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-lsp)))))
 #+END_SRC
 
 *** LSP Python
