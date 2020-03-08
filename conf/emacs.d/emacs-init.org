@@ -103,6 +103,7 @@ with a trailing =~= turd.
       delete-old-versions t
       kept-new-versions 24
       kept-old-versions 12
+      global-auto-revert-mode 1
       version-control t)
 
 (setq create-lockfiles nil)
@@ -157,6 +158,7 @@ but is not a high priority.
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+;;(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 #+END_SRC
 ** Disable splash screen
 And set it in emacs-lisp mode
