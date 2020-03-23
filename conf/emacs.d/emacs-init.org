@@ -316,18 +316,11 @@ Git Gutter
 (use-package org-bullets
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;; Set to the location of your Org files on your local system
-;; use iCloud client on Windows
-(if (eq system-type 'windows-nt)
-  (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
-  (setq org-directory (expand-file-name "~/org/")))
-
-
 ;; Set Keybindings
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cb" 'org-switchb)
 
 ;; Set Preferences
 (setq org-completion-use-ido nil
@@ -347,16 +340,27 @@ Git Gutter
 
 ** Org file locations
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
+;; Set to the location of your Org files on your local system
+;; use iCloud client on Windows
+(if (eq system-type 'windows-nt)
+  (setq org-directory (expand-file-name "C:/Users/egronei/iCloudDrive/iCloud~com~appsonthemove~beorg/org/"))
+  (setq org-directory (expand-file-name "~/org/")))
+
+
 (setq org-default-notes-file (concat org-directory "notes.org"))
+(setq org-inbox-path (concat org-directory "inbox.org"))
+(setq org-gtd-path (concat org-directory "gtd.org"))
+(setq org-tickler-path (concat org-directory "tickler.org"))
+(setq org-someday-path (concat org-directory "someday.org"))
 #+END_SRC
 
 ** Org Agenda
 #+BEGIN_SRC emacs-lisp :tangle yes :results silent :exports code 
-(setq org-agenda-files (list (concat org-directory "inbox.org")
-                      (concat org-directory "gtd.org")
-                      (concat org-directory "tickler.org")))
-(setq org-refile-targets
-        '((org-agenda-files :maxlevel . 1)))
+(setq org-agenda-files (cons org-inbox-path
+                          (cons org-gtd-path org-tickler-path)))
+(setq org-refile-targets '((org-gtd-path :maxlevel . 1)
+                           (org-tickler-path :level . 2)
+                           (org-someday-path :maxlevel . 2)))
 
 (setq org-agenda-custom-commands
   (quote (("d" todo "DELEGATED" nil)
