@@ -22,7 +22,6 @@ set -xU EDITOR vim
 abbr -a x 'exit'
 
 # Directory Shortcuts
-abbr -a dx 'cd ~/Dropbox'
 abbr -a de 'cd ~/Desktop'
 abbr -a do 'cd ~/Documents'
 abbr -a dw 'cd ~/Downloads'
