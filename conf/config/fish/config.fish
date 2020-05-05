@@ -9,6 +9,7 @@ set -g theme_color_scheme solarized-dark
 set -g __fish_git_prompt_show_informative_status 1
 
 # Set path
+set PATH ~/bin $PATH
 set PATH ~/.dotfiles/bin $PATH
 if test -d ~/.fzf/bin
   set PATH ~/.fzf/bin $PATH
