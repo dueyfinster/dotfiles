@@ -14,21 +14,21 @@ Host gerrit.ericsson.se
 Host github.com
     Hostname ssh.github.com
     User git
-    PreferredAuthentications publickey
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_git
     Port 443
 
 Host bitbucket.org
     Hostname altssh.bitbucket.org
     User git
-    PreferredAuthentications publickey
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_git
     Port 443
 
 Host gitlab.com
     Hostname altssh.gitlab.com
     User git
-    PreferredAuthentications publickey
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_git
     Port 443
 
@@ -39,6 +39,7 @@ Host home
     Hostname ssh.grogan.org
     ServerAliveInterval 120
     ForwardX11 yes
+    IdentitiesOnly yes
     IdentityFile ~/.ssh/id_personal
     User ngrogan
 
