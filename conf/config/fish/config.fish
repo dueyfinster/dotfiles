@@ -33,6 +33,9 @@ abbr -a dt 'cd ~/.dotfiles'
 abbr -a dc 'docker-compose'
 
 # Git Abbreviations
+abbr -a k 'kubectl'
+
+# Git Abbreviations
 abbr -a g 'git'
 abbr -a ga 'git add'
 abbr -a gc 'git commit -m'
