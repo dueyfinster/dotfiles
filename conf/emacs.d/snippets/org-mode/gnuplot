@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: gnuplot
-# key: gnuplot_
-# --
-#+BEGIN_SRC gnuplot :var $0 :results vector :colnames no :file $1
-$2
-#+END_SRC
