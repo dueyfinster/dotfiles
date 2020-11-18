@@ -1,0 +1,33 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: Update Submodules
+    image: alpine/git
+    commands:
+      - git submodule update --init --recursive
+  - name: Test Dotfiles Install
+    image: ubuntu:20.04
+    commands:
+      - apt-get -y update && apt-get install -y git
+      - chmod +x ./bin/dotfiles
+      - ./bin/dotfiles
+  - name: Slack Notifications
+    image: plugins/slack
+    settings:
+      channel: dev
+      link_names: true
+      template: >
+        {{#failure build.status}}
+          Broken build of `{{repo.name}}:{{build.branch}}` {{build.author}} with <${DRONE_COMMIT_LINK}|#{{truncate build.commit 8}}> <@neil>
+          :new: :zombie: {{build.message}}
+        {{/failure}}
+        :stopwatch: {{ since build.started}}
+        :gear: {{build.link}}
+    environment:
+      SLACK_WEBHOOK:
+        from_secret: slack_webhook
+    when:
+      status: failure
