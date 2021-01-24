@@ -38,5 +38,5 @@
 	templatedir = ~/.dotfiles/conf/git_template
 [core]
 	excludesfile = ~/.dotfiles/conf/gitexcludes
-[url “https://github.com/“]
+[url "https://github.com/"]
     pushInsteadOf = ssh://git@github.com/
