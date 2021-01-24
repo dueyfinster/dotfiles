@@ -14,6 +14,16 @@ steps:
       - apt-get -y update && apt-get install -y git
       - chmod +x ./bin/dotfiles
       - ./bin/dotfiles
+  - name: Trigger Ansible Deployment
+    image: plugins/downstream
+    settings:
+      server:
+        from_secret: drone_server
+      token:
+        from_secret: drone_token
+      fork: true
+      repositories:
+      - dueyfinster/ansible
   - name: Slack Notifications
     image: plugins/slack
     settings:
