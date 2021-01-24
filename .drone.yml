@@ -17,6 +17,7 @@ steps:
   - name: Trigger Ansible Deployment
     image: plugins/downstream
     settings:
+      last_successful: true
       server:
         from_secret: drone_server
       token:
