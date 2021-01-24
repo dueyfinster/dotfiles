@@ -32,6 +32,18 @@ Host gitlab.com
     IdentityFile ~/.ssh/id_git
     Port 443
 
+Host dokku
+    Hostname groganburners.ie
+    User dokku
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_pers_old
+
+Host gbs
+    Hostname groganburners.ie
+    User ubuntu
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_pers_old
+
 Host home
     ControlMaster auto
     ControlPath ~/.ssh/ctrl-%C
