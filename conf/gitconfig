@@ -40,3 +40,4 @@
 	excludesfile = ~/.dotfiles/conf/gitexcludes
 [url "https://github.com/"]
     pushInsteadOf = ssh://git@github.com/
+
