@@ -17,12 +17,10 @@ steps:
   - name: Trigger Ansible Deployment
     image: plugins/downstream
     settings:
-      last_successful: true
       server:
         from_secret: drone_server
       token:
         from_secret: drone_token
-      fork: true
       repositories:
       - dueyfinster/ansible
   - name: Slack Notifications
