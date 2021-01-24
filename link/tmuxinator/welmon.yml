@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/welmon.yml
 
 name: welmon
-root: /media/home/Cloud/FMDav/welmon
+root: ~/repos/welmon
 
 # Optional tmux socket
 # socket_name: foo
@@ -41,7 +41,7 @@ startup_window: incoming
 
 windows:
   - incoming:
-      root: /media/home/Cloud/FMDav/welmon/incoming
+      root: ~/repos/welmon/incoming
       layout: main-vertical
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
@@ -52,11 +52,11 @@ windows:
           #  - server: bundle exec rails s
           #- logs: tail -f log/development.log
   - web:
-      root: /media/home/Cloud/FMDav/welmon/web
+      root: ~/repos/welmon/web
       panes:
         - vim export.py static/index*
   - build:
-      root: /media/home/Cloud/FMDav/welmon/web
+      root: ~/repos/welmon/web
       panes:
         - rg --files static/ index.html | entr python3 export.py
 

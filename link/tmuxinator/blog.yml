@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/blog.yml
 
 name: blog
-root: ~/repos/dueyfinster.github.io
+root: ~/repos/neilgrogan.com
 
 # Optional tmux socket
 # socket_name: foo
@@ -41,4 +41,4 @@ root: ~/repos/dueyfinster.github.io
 
 windows:
   - editor: vim
-  - server: bundle exec jekyll server --drafts -H 0.0.0.0 -I -l --livereload-port 4001 --livereload-min-delay 0 --livereload-max-delay 1 
+  - server: hugo server -DF --bind 0.0.0.0

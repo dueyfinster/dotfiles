@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/docs.yml
 
 name: docs
-root: /media/home/Cloud/FMDav/docs
+root: ~/repos/docs
 
 # Optional tmux socket
 # socket_name: foo
@@ -41,3 +41,4 @@ root: /media/home/Cloud/FMDav/docs
 
 windows:
   - editor: vim
+  - server: hugo server -DF --bind 0.0.0.0
