@@ -3,5 +3,5 @@ backups/
 *~
 caches/
 tags
-link/tmux/plugins
-link/vim/pack/minpac/start
+.tmux/plugins
+.vim/pack/minpac/start
