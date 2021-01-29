@@ -7,3 +7,7 @@
 # Even in subdirs
 !*/
 
+!/alacritty/*
+
+!/.gitignore
+
