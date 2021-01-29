@@ -1,4 +1,4 @@
-[submodule "link/vim/pack/minpac/opt/minpac"]
-	path = link/vim/pack/minpac/opt/minpac
+[submodule ".vim/pack/minpac/opt/minpac"]
+	path = .vim/pack/minpac/opt/minpac
 	url = https://github.com/k-takata/minpac.git
 	ignore = untracked
