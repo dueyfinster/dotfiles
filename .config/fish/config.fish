@@ -16,7 +16,7 @@ if test -d ~/.fzf/bin
 end
 
 # Set LEDGERFILE
-set -xU LEDGERFILE ~/.hledger.journal
+set -xU LEDGERFILE ~/repos/welmon/hledger.journal
 set -xU EDITOR vim
 
 # Abbreviations
