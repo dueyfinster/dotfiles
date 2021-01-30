@@ -1,23 +1,18 @@
 " {{{ Minpac
 " Try to load minpac.
-silent! packadd minpac
+packadd minpac
 
-if !exists('*minpac#init')
-  " No plugins are available
-  finish
-else
-  call minpac#init()
-  call minpac#add('lifepillar/vim-solarized8') "Solarized colours
-  call minpac#add('sheerun/vim-polyglot') "Language Support
-  call minpac#add('SirVer/ultisnips') "Snippets 
-  call minpac#add('ctrlpvim/ctrlp.vim')
-  call minpac#add('junegunn/fzf')
-  call minpac#add('junegunn/fzf.vim')
+call minpac#init()
+call minpac#add('lifepillar/vim-solarized8') "Solarized colours
+call minpac#add('sheerun/vim-polyglot') "Language Support
+call minpac#add('SirVer/ultisnips') "Snippets 
+call minpac#add('ctrlpvim/ctrlp.vim')
+call minpac#add('junegunn/fzf')
+call minpac#add('junegunn/fzf.vim')
 
-  call minpac#add('prabirshrestha/async.vim') " Jobs between Vim/NeoVim for Vim LSP
-  call minpac#add('prabirshrestha/vim-lsp') " Language Server protocol
-  call minpac#add('thomasfaingnaert/vim-lsp-ultisnips') " UltiSnips for Language Server protocol
-endif
+call minpac#add('prabirshrestha/async.vim') " Jobs between Vim/NeoVim for Vim LSP
+call minpac#add('prabirshrestha/vim-lsp') " Language Server protocol
+call minpac#add('thomasfaingnaert/vim-lsp-ultisnips') " UltiSnips for Language Server protocol
 
 " Define user commands for updating/cleaning the plugins.
 " Each of them loads minpac, reloads .vimrc to register the
@@ -54,6 +49,7 @@ set noswapfile "Don't use a swap file
 set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
 set listchars=tab:▸\ ,eol:¬
+let g:ctrlp_show_hidden = 1
 let g:netrw_banner = 0 "No header for netrw directory mode
 let g:netrw_liststyle = 3 "Tree style dir listings
 let g:netrw_browse_split = 2 " Vertically split netrw
