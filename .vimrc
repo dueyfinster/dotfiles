@@ -11,8 +11,8 @@ else
   call minpac#add('sheerun/vim-polyglot') "Language Support
   call minpac#add('SirVer/ultisnips') "Snippets 
   call minpac#add('ctrlpvim/ctrlp.vim')
-  call minpac#add(‘junegunn/fzf’)
-  call minpac#add(‘junegunn/fzf.vim’)
+  call minpac#add('junegunn/fzf')
+  call minpac#add('junegunn/fzf.vim')
 
   call minpac#add('prabirshrestha/async.vim') " Jobs between Vim/NeoVim for Vim LSP
   call minpac#add('prabirshrestha/vim-lsp') " Language Server protocol
