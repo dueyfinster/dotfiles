@@ -47,8 +47,8 @@ abbr -a gp 'git push'
 abbr -a gpl 'git pull'
 
 abbr -a tx 'tmuxinator'
+
 # Aliases
-alias e 'vim +Files'
 
 # Ledger aliases
 alias budget 'ledger -p \"this month\" --budget --monthly balance ^expenses'
