@@ -1,5 +1,6 @@
 [user]
 	name = Neil Grogan
+	email = neil@grogan.org
 [alias]
 	a = add -A
 	c = commit -m
