@@ -47,8 +47,8 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - hledger -f kbc.csv print
-        - vim common.rules kbc.csv.rules
+        - hledger -f ptsb.csv print
+        - vim common.rules ptsb.csv.rules
           #  - server: bundle exec rails s
           #- logs: tail -f log/development.log
   - web:
