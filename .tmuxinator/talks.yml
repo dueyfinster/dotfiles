@@ -40,4 +40,4 @@ root: /media/video/talks
 # attach: false
 
 windows:
-  - download: youtube-dl --format "bestvideo+bestaudio[ext=m4a]/bestvideo+bestaudio/best" --merge-output-format mp4 ""
+  - download: yt-dlp --format "bestvideo[ext=mp4][vcodec!*=av01]+bestaudio[ext=m4a]/bestvideo+bestaudio/best" --merge-output-format mp4 --add-metadata ""
