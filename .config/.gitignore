@@ -11,3 +11,9 @@
 
 !/.gitignore
 
+!/bash/completions/*
+
+!/dircolors/*
+
+!/git/*
+
