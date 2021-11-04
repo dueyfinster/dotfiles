@@ -1,4 +1,4 @@
-source "$HOME/.dotfiles/conf/bash_prompt.sh"
+source "$HOME/.dotfiles/config/bash/bash_prompt.sh"
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
@@ -19,7 +19,7 @@ bind -x '"\C-p": vim $(fzf);'
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
-  eval $(dircolors "$HOME/.conf/dircolors/dircolors.256dark")
+  eval $(dircolors "$HOME/.config/dircolors/dircolors.256dark")
 fi
 
 if [ -x "$(command -v direnv)" ]; then
