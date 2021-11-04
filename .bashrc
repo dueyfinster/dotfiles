@@ -1,4 +1,4 @@
-source "$HOME/.dotfiles/config/bash/bash_prompt.sh"
+source "$HOME/.dotfiles/.config/bash/bash_prompt.sh"
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
@@ -29,7 +29,7 @@ fi
 # Source all files in "completion"
 function completion() {
   local file
-  for file in $HOME/.config/bash/completion/*; do
+  for file in $HOME/.config/bash/completions/*; do
     source "$file"
   done
 }
