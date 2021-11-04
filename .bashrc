@@ -19,7 +19,7 @@ bind -x '"\C-p": vim $(fzf);'
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
-  eval $(dircolors "$HOME/.dotfiles/conf/dircolors.256dark")
+  eval $(dircolors "$HOME/.conf/dircolors/dircolors.256dark")
 fi
 
 if [ -x "$(command -v direnv)" ]; then
@@ -29,7 +29,7 @@ fi
 # Source all files in "completion"
 function completion() {
   local file
-  for file in $HOME/.dotfiles/conf/bash-completion.d/*; do
+  for file in $HOME/.config/bash/completion/*; do
     source "$file"
   done
 }

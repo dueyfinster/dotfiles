@@ -36,9 +36,9 @@
 [credential]
 	helper = cache --timeout=3600
 [init]
-	templatedir = ~/.dotfiles/conf/git_template
+	templatedir = ~/.config/git/git_template
 [core]
-	excludesfile = ~/.dotfiles/conf/gitexcludes
+	excludesfile = ~/.config/git/gitexcludes
 [url "https://github.com/"]
     pushInsteadOf = ssh://git@github.com/
 
