@@ -2,3 +2,6 @@
 	path = .vim/pack/minpac/opt/minpac
 	url = https://github.com/k-takata/minpac.git
 	ignore = untracked
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
