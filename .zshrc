@@ -15,21 +15,6 @@ elif type gdircolors > /dev/null 2>&1; then
     alias ls="ls -G"
 fi
 
-#autocompletion
-setopt AUTOLIST
-setopt extended_glob
-setopt prompt_subst
-
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-else
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
-
-autoload -Uz compinit
-compinit
-
 # ~/.shell/prompt.zsh
 
 # solarized colors {{{
@@ -115,14 +100,22 @@ setprompt
 
 unset git_prompt setprompt
 
-# MacOS
-if [[ -a /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
+#autocompletion
+setopt AUTOLIST
+setopt extended_glob
+setopt prompt_subst
 
-# Linux
-if [[ -a /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -Uz compinit
+compinit
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 source $HOME/.variables
