@@ -6,7 +6,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
-local DIR_PATH="$HOME/.dotfiles/conf/dircolors.256dark"
+local DIR_PATH="$HOME/.dotfiles/.config/dircolors/dircolors.256dark"
 export PATH="$HOME/bin:$HOME/.dotfiles/bin:$PATH"
 if type dircolors > /dev/null 2>&1; then
     eval $(dircolors "$DIR_PATH")
@@ -17,11 +17,16 @@ fi
 
 #autocompletion
 setopt AUTOLIST
-autoload -U compinit
-compinit
-
 setopt extended_glob
 setopt prompt_subst
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+autoload -Uz compinit
+compinit
 
 # ~/.shell/prompt.zsh
 
@@ -107,9 +112,8 @@ function user_color {
 setprompt () {
     local MAX_DIR_LEN=45
     user_color
-    PROMPT='$(git_prompt)'"%{${solarized[BASE0]}%}%(!.#.>)${RESET_COLOR} "
-    RPROMPT='%{${usercolor}%}%n${RESET_COLOR}@%{${solarized[YELLOW]}%}%m:%{${solarized[GREEN]}%}%45<...<%~%<<${RESET_COLOR}'
-    PS2='(%_)${RESET_COLOR} '
+    PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
+    PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt)${RESET_COLOR}'
 }
 
 setprompt
