@@ -23,6 +23,8 @@ setopt prompt_subst
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
   source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+else
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 autoload -Uz compinit
