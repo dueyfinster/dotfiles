@@ -101,21 +101,14 @@ function git_prompt {
     print -Pn '%%{${solarized[BASE0]}%%}) '
 }
 
-function user_color {
-  if [[ "$SSH_TTY" ]]; then
-    usercolor=${solarized[CYAN]};
-  elif [[ "$USER" == "root" ]]; then
-    usercolor=${solarized[RED]};
-	else
-    usercolor=${solarized[ORANGE]};
-  fi
-}
-
 setprompt () {
-    local MAX_DIR_LEN=45
-    user_color
+  if [[ $SSH_CONNECTION ]]; then
+    #at remote session
+    PROMPT="%{$fg_bold[magenta]%}%m %(?:%{$fg_bold[green]%}➜:%{$fg_bold[red]%}➜)"
+  else
     PROMPT="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
-    PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt)${RESET_COLOR}'
+  fi
+  PROMPT+=' %{$fg[cyan]%}%c%{$reset_color%} $(git_prompt)${RESET_COLOR}'
 }
 
 setprompt
