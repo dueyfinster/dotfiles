@@ -7,10 +7,19 @@
     - vim
     - minimal
 
-- name: "Install vimrc"
+- name: "Copy vimrc"
   ansible.builtin.copy:
     src: files/vimrc
     dest: "~/.vimrc"
+    mode: 0644
+  tags:
+    - vim
+    - minimal
+
+- name: "Copy gvimrc"
+  ansible.builtin.copy:
+    src: files/gvimrc
+    dest: "~/.gvimrc"
     mode: 0644
   tags:
     - vim
@@ -39,6 +48,14 @@
     repo=https://github.com/k-takata/minpac
     dest=~/.vim/pack/minpac/opt/minpac
   when: not stat_minpac_result.stat.exists
+  tags:
+    - vim
+    - minimal
+
+- name: "Copy UltiSnips"
+  ansible.builtin.copy:
+    src: files/UltiSnips
+    dest: "~/.vim/"
   tags:
     - vim
     - minimal
