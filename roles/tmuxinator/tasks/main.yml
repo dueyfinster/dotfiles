@@ -6,10 +6,17 @@
   tags:
     - tmuxinator
 
-- name: Create .tmux directory
+- name: Create tmuxinator directory
   file:
     path: ~/.tmuxinator
     state: directory
-  register: tmuxinatordir_result
   tags:
     - tmuxinator
+
+- name: "Copy tmuxinator files"
+  ansible.builtin.copy:
+    src: files/tmuxinator/
+    dest: "~/.tmuxinator/"
+    mode: 0644
+  tags:
+    - mutt

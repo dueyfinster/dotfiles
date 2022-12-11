@@ -6,11 +6,13 @@
 
   roles:
     - role: bash
+    - role: dircolors
     - role: fish
     - role: git
     - role: scripts
     - role: shell
     - role: ssh
     - role: tmux
+    - role: tmuxinator
     - role: vim
     - role: zsh
