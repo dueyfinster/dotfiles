@@ -1,23 +1,47 @@
-# Ledger aliases {{{
-alias budget="ledger -f $LEDGERFILE -p \"this month\" --budget --monthly balance ^expenses"
-alias bal="ledger -f $LEDGERFILE  bal ^Assets:Checking"
-alias savings="ledger -f $LEDGERFILE  bal ^Assets:Savings"
-alias monexp="ledger -f $LEDGERFILE -MAn reg"
-# }}}
-
-alias vb="vim $LEDGERFILE"
-alias hist='history'
+alias h='history'
 alias j='jobs'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 alias c='clear'
-alias tx='tmuxinator'
-alias k='kubectl'
 
 # Get all git aliases and make them shell aliases {{{
 alias g='git'
 for al in `git config --get-regexp '^alias\.' | sed -e 's/^alias\.//' -e 's/\ .*//'`; do
       alias g$al="git $al"
 done
+# }}}
+
+# Tmuxinator aliases {{{
+alias txs='tmuxinator start'
+alias txo='tmuxinator open'
+alias txn='tmuxinator new'
+alias txl='tmuxinator list'
+# }}}
+
+# Docker aliases {{{
+alias d='docker'
+alias dps='docker ps'
+alias dlo='docker container logs'
+alias dpu='docker pull'
+alias drit='docker container run -it'
+alias drm='docker container rm'
+alias dxc='docker container exec'
+alias dxcit='docker container exec -it'
+
+alias dc='docker-compose'
+alias dcud='docker-compose up -d'
+# }}}
+
+# Kubernetes aliases {{{
+alias k='kubectl'
+# Execute a kubectl command against all namespaces
+alias kca='_kca(){ kubectl "$@" --all-namespaces;  unset -f _kca; }; _kca'
+
+# Apply a YML file
+alias kaf='kubectl apply -f'
+
+# Drop into an interactive terminal on a container
+alias keti='kubectl exec -t -i'
+
 # }}}
 
 # Shell & System {{{
@@ -33,6 +57,14 @@ alias tms='ps -ef | grep'
 alias httpserv="python -m SimpleHTTPServer" # Serve current directory as a webpage
 alias downweb='wget --random-wait -r -p -e robots=off -U mozilla $1' # download an entire website (takes url as argument)
 
+
+# Ledger aliases {{{
+alias vb="vim $LEDGERFILE"
+alias budget="ledger -f $LEDGERFILE -p \"this month\" --budget --monthly balance ^expenses"
+alias bal="ledger -f $LEDGERFILE  bal ^Assets:Checking"
+alias savings="ledger -f $LEDGERFILE  bal ^Assets:Savings"
+alias monexp="ledger -f $LEDGERFILE -MAn reg"
+# }}}
 
 #
 # REPO Commands

@@ -43,14 +43,6 @@ ssh() {
 dshell(){
  docker exec -i -t $1 /bin/bash
 }
-
-function d(){
-  docker "$@"
-}
-
-function dc(){
-  docker-compose "$@"
-}
 # }}}
 
 ldf(){ # Get Last downloaded file
