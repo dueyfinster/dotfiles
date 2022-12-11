@@ -1,0 +1,44 @@
+---
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: present
+  tags:
+    - git
+    - minimal
+
+- name: "Copy gitignore_global"
+  ansible.builtin.copy:
+    src: files/gitignore_global
+    dest: "~/.gitignore_global"
+    mode: 0644
+  tags:
+    - git
+    - minimal
+
+- name: "Copy gitconfig"
+  ansible.builtin.copy:
+    src: files/gitconfig
+    dest: "~/.gitconfig"
+    mode: 0644
+  tags:
+    - git
+    - minimal
+  
+- name: "Copy gitexcludes"
+  ansible.builtin.copy:
+    src: files/gitexcludes
+    dest: "~/.gitexcludes"
+    mode: 0644
+  tags:
+    - git
+    - minimal
+
+- name: "Copy git_template"
+  ansible.builtin.copy:
+    src: files/git_template
+    dest: "~/.git_template"
+    mode: 0644
+  tags:
+    - git
+    - minimal

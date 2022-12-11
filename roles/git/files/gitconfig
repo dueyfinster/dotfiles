@@ -1,0 +1,44 @@
+[user]
+	name = Neil Grogan
+	email = neil@grogan.org
+[alias]
+	a = add -A
+	c = commit -m
+    ca = commit --amend
+	co = checkout
+	d = diff
+	ds = diff --staged
+	f = fetch
+	l = log
+	lo = log --pretty=oneline
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	last = log -1 HEAD
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
+	reviewmaster = push origin HEAD:refs/for/master
+    r = rebase
+	s = status
+	p = push
+	pf = push --force
+    pl = pull
+	ctags = !.git/hooks/ctags
+# [commit]
+#	  gpgsign = true
+[push]
+	default = simple
+[pull]
+	rebase = true
+[status]
+  short = true
+[color]
+	ui = auto
+[grep]
+	patternType = perl
+[credential]
+	helper = cache --timeout=3600
+[init]
+	templatedir = ~/.git_template
+[core]
+	excludesfile = ~/.gitexcludes
+[url "https://github.com/"]
+    pushInsteadOf = ssh://git@github.com/
+

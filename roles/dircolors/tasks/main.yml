@@ -1,0 +1,15 @@
+---
+- name: Install dircolors
+  ansible.builtin.package:
+    name: dircolors
+    state: present
+  tags:
+    - dircolors
+
+- name: "Copy dircolors config"
+  ansible.builtin.copy:
+    src: files/dircolors.256dark
+    dest: "~/.config/dircolors/"
+    mode: 0644
+  tags:
+    - dircolors

@@ -1,0 +1,4 @@
+---
+ansible_user: egronei
+ansible_group: staff
+dotfiles_repo: https://github.com/dueyfinster/dotfiles.git

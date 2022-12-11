@@ -1,0 +1,16 @@
+---
+- hosts: all
+
+  vars_files:
+    - default.config.yml
+
+  roles:
+    - role: bash
+    - role: fish
+    - role: git
+    - role: scripts
+    - role: shell
+    - role: ssh
+    - role: tmux
+    - role: vim
+    - role: zsh

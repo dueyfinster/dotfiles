@@ -1,0 +1,8 @@
+---
+- name: "Copy minttyrc"
+  ansible.builtin.copy:
+    src: files/minttyrc
+    dest: "~/.minttyrc"
+    mode: 0644
+  tags:
+    - mintty

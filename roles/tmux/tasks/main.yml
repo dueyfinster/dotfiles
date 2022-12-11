@@ -1,0 +1,38 @@
+---
+- name: Install tmux
+  ansible.builtin.package:
+    name: tmux
+    state: present
+  tags:
+    - tmux
+
+- name: "Install tmux.conf"
+  ansible.builtin.copy:
+    src: files/tmux.conf
+    dest: "~/.tmux.conf"
+    mode: 0644
+  tags:
+    - tmux
+
+- name: Create .tmux directory
+  file:
+    path: ~/.tmux
+    state: directory
+  register: tmuxdir_result
+  tags:
+    - tmux
+
+- name: Check if tpm exists
+  stat:
+    path: ~/.tmux/plugins/tpm
+  register: stat_tpm_result
+  tags:
+    - tmux
+
+- name: Cloning tpm
+  git:
+    repo=https://github.com/tmux-plugins/tpm
+    dest=~/.tmux/plugins/tpm
+  when: not stat_tpm_result.stat.exists
+  tags:
+    - tmux

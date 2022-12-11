@@ -1,0 +1,15 @@
+---
+- name: Install alacritty
+  ansible.builtin.package:
+    name: alacritty
+    state: present
+  tags:
+    - alacritty
+
+- name: "Install alacritty config"
+  ansible.builtin.copy:
+    src: files/alacritty.yml
+    dest: "~/.config/alacritty/"
+    mode: 0644
+  tags:
+    - alacritty

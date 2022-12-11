@@ -1,0 +1,15 @@
+---
+- name: Install screen
+  ansible.builtin.package:
+    name: screen
+    state: present
+  tags:
+    - screen
+
+- name: "Copy screen config"
+  ansible.builtin.copy:
+    src: files/screenrc
+    dest: "~/.screenrc"
+    mode: 0644
+  tags:
+    - screen

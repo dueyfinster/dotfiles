@@ -1,0 +1,23 @@
+---
+- name: Install mutt
+  ansible.builtin.package:
+    name: mutt
+    state: present
+  tags:
+    - mutt
+
+- name: "Copy mutt config"
+  ansible.builtin.copy:
+    src: files/muttrc
+    dest: "~/.muttrc"
+    mode: 0644
+  tags:
+    - mutt
+
+- name: "Copy mutt passwords"
+  ansible.builtin.copy:
+    src: files/passwords.gpg
+    dest: "~/.mutt/"
+    mode: 0644
+  tags:
+    - mutt

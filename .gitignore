@@ -1,0 +1,7 @@
+.DS_Store
+backups/
+*~
+caches/
+tags
+.tmux/plugins
+.vim/pack/minpac/start

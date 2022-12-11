@@ -1,0 +1,34 @@
+#!/usr/bin/expect
+ 
+  
+set timeout 60
+set flag [lindex $argv 0];
+set ip [lindex $argv 1];
+set password "ap"
+   
+spawn ssh ap@"$flag"
+    
+expect "yes/no" {
+	send "yes\r"
+	expect "*?assword" { send "$password\r" }
+	} "*?assword" { send "$password\r" }
+
+
+if {"-s" == "$flag" } {
+	expect "*$ " { send "sudo -s\r" }
+	expect "*?assword" { send "$password\r" }
+	expect "# " 
+}
+
+if {"-r" == "$flag" } {
+	expect "*$ " { send "cd ap-dashboard\r" }
+	expect "*$ " { send "git fetch origin && git rebase origin/master\r" }
+        expect "*$ " { send "./run-docker.sh\r" }
+        expect "*$ " { send "curl -i -d '{\"auth_token\": \"AP\", \"event\": \"reload\"}' http://localhost:3030/dashboards/dash-front\r" }
+        expect "*$ " { send "curl -i -d '{\"auth_token\": \"AP\", \"event\": \"reload\"}' http://localhost:3030/dashboards/dash-back\r" }
+        expect "*$ " { send "sleep 20\r" }
+	expect "*$ " { send "service dashboard restart\r" }
+	expect "*$ " { send "exit\r" }
+}
+
+interact

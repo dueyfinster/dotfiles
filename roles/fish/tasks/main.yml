@@ -1,0 +1,22 @@
+---
+- name: Install fish shell
+  ansible.builtin.package:
+    name: fish
+    state: present
+  tags:
+    - fish
+
+- name: Check if fish directory exists in config
+  stat:
+    path: ~/.config/fish
+  register: stat_fish_result
+  tags:
+    - fish
+
+- name: Copy fish config
+  copy:
+    src: files/fish
+    dest: ~/.config/
+    force: true
+  tags:
+    - fish

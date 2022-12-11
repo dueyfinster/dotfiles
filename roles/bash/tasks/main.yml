@@ -1,0 +1,44 @@
+---
+- name: Install bash
+  ansible.builtin.package:
+    name: bash
+    state: present
+  tags:
+    - bash
+    - minimal
+
+- name: "Copy bashrc"
+  ansible.builtin.copy:
+    src: files/bashrc
+    dest: "~/.bashrc"
+    mode: 0644
+  tags:
+    - bash
+    - minimal
+
+- name: "Copy bash_prompt"
+  ansible.builtin.copy:
+    src: files/bash_prompt.sh
+    dest: "~/.config/bash/"
+    mode: 0644
+  tags:
+    - bash
+    - minimal
+
+- name: "Copy bash_profile"
+  ansible.builtin.copy:
+    src: files/bash_profile
+    dest: "~/.bash_profile"
+    mode: 0644
+  tags:
+    - bash
+    - minimal
+  
+- name: "Copy bash completions"
+  ansible.builtin.copy:
+    src: files/completions
+    dest: "~/.config/bash/"
+    mode: 0644
+  tags:
+    - bash
+    - minimal

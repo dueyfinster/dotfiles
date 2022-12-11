@@ -1,0 +1,14 @@
+#!/bin/sh
+# Quick shortcut to platform specific copy
+source dotfiles
+
+if is_ubuntu; then
+  COMMAND='xclip -selection clipboard'
+  alias paste='xclip -selection clipboard -o'
+elif is_osx; then
+  COMMAND='pbcopy'
+elif is_win; then
+  COMMAND='/dev/clipboard'
+fi
+
+exec "$COMMAND"

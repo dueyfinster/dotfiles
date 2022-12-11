@@ -1,0 +1,52 @@
+---
+- name: Copy aliases file
+  copy:
+    src: files/aliases
+    dest: ~/.aliases
+    mode: '0700'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    backup: true
+    force: true
+  tags:
+    - shell
+    - minimal
+
+- name: Copy functions file
+  copy:
+    src: files/functions
+    dest: ~/.functions
+    mode: '0700'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    backup: true
+    force: true
+  tags:
+    - shell
+    - minimal
+
+- name: Copy variables file
+  copy:
+    src: files/variables
+    dest: ~/.variables
+    mode: '0700'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    backup: true
+    force: true
+  tags:
+    - shell
+    - minimal
+
+- name: Copy inputrc file
+  copy:
+    src: files/inputrc
+    dest: ~/.inputrc
+    mode: '0700'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_group }}"
+    backup: true
+    force: true
+  tags:
+    - shell
+    - minimal

@@ -1,0 +1,15 @@
+---
+- name: Install irssi
+  ansible.builtin.package:
+    name: irssi
+    state: present
+  tags:
+    - irssi
+
+- name: "Install irssi config"
+  ansible.builtin.copy:
+    src: files/config
+    dest: "~/.irssi/"
+    mode: 0644
+  tags:
+    - irssi

@@ -1,0 +1,26 @@
+---
+# - name: Install ssh
+#   ansible.builtin.package:
+#     name: ssh
+#     state: present
+#   tags:
+#     - ssh
+#     - minimal
+
+- name: Check if ssh directory exists
+  stat:
+    path: ~/.ssh/
+  register: stat_ssh_result
+  tags:
+    - ssh
+    - minimal
+
+- name: Copy ssh config
+  copy:
+    src: files/config
+    dest: ~/.ssh/config
+    force: true
+    backup: true
+  tags:
+    - ssh
+    - minimal

@@ -1,0 +1,15 @@
+---
+- name: Install tmuxinator
+  ansible.builtin.package:
+    name: tmuxinator
+    state: present
+  tags:
+    - tmuxinator
+
+- name: Create .tmux directory
+  file:
+    path: ~/.tmuxinator
+    state: directory
+  register: tmuxinatordir_result
+  tags:
+    - tmuxinator

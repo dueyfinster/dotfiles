@@ -1,0 +1,44 @@
+---
+- name: Install vim
+  ansible.builtin.package:
+    name: vim
+    state: present
+  tags:
+    - vim
+    - minimal
+
+- name: "Install vimrc"
+  ansible.builtin.copy:
+    src: files/vimrc
+    dest: "~/.vimrc"
+    mode: 0644
+  tags:
+    - vim
+    - minimal
+
+- name: Create .vim directory
+  file:
+    path: ~/.vim
+    state: directory
+  register: vimdir_result
+  tags:
+    - vim
+    - minimal
+
+
+- name: Check if minpac exists
+  stat:
+    path: ~/.vim/pack/minpac/opt/minpac
+  register: stat_minpac_result
+  tags:
+    - vim
+    - minimal
+
+- name: Cloning minpac
+  git:
+    repo=https://github.com/k-takata/minpac
+    dest=~/.vim/pack/minpac/opt/minpac
+  when: not stat_minpac_result.stat.exists
+  tags:
+    - vim
+    - minimal

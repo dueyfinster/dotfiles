@@ -1,0 +1,36 @@
+# This file contains snippets that are always defined.
+
+##########################
+# VIM MODELINE GENERATOR #
+##########################
+# See advice on `:help 'tabstop'` for why these values are set. Uses second
+# modeline form ('set') to work in languages with comment terminators
+# (/* like C */).
+snippet modeline "Vim modeline"
+vim`!v ':set '. (&expandtab ? printf('et sw=%i ts=%i', &sw, &ts) : printf('noet sts=%i sw=%i ts=%i', &sts, &sw, &ts)) . (&tw ? ' tw='. &tw : '') . ':'`
+endsnippet
+
+#########
+# DATES #
+#########
+snippet date "YYYY-MM-DD" w
+`!v strftime("%Y-%m-%d")`
+endsnippet
+
+snippet ddate "Month DD, YYYY" w
+`!v strftime("%b %d, %Y")`
+endsnippet
+
+snippet diso "ISO format datetime" w
+`!v strftime("%Y-%m-%d %H:%M:%S%z")`
+endsnippet
+
+snippet time "hh:mm" w
+`!v strftime("%H:%M")`
+endsnippet
+
+snippet datetime "YYYY-MM-DD hh:mm" w
+`!v strftime("%Y-%m-%d %H:%M")`
+endsnippet
+
+# vim:ft=snippets:
