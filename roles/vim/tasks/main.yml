@@ -45,7 +45,7 @@
 
 - name: Cloning minpac
   git:
-    repo=https://github.com/k-takata/minpac
+    repo={{ minpac_url }}
     dest=~/.vim/pack/minpac/opt/minpac
   when: not stat_minpac_result.stat.exists
   tags:
