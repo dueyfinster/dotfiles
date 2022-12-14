@@ -6,10 +6,14 @@ Host gerritmirror.lmera.ericsson.se
 Host gerritmirror-ha.lmera.ericsson.se
     Hostname gerritmirror-ha.lmera.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
+    PubkeyAcceptedAlgorithms +ssh-rsa
+    HostkeyAlgorithms +ssh-rsa
 
 Host gerrit.ericsson.se
     Hostname gerrit.ericsson.se
     IdentityFile ~/.ssh/id_eric_egronei
+    PubkeyAcceptedAlgorithms +ssh-rsa
+    HostkeyAlgorithms +ssh-rsa
 
 Host github.com
     Hostname ssh.github.com
