@@ -1,24 +1,31 @@
 " {{{ Minpac
 " Try to load minpac.
-packadd minpac
 
-call minpac#init()
-call minpac#add('lifepillar/vim-solarized8') "Solarized colours
-call minpac#add('sheerun/vim-polyglot') "Language Support
-call minpac#add('SirVer/ultisnips') "Snippets 
-call minpac#add('ctrlpvim/ctrlp.vim')
-call minpac#add('junegunn/fzf')
-call minpac#add('junegunn/fzf.vim')
+function! InitPack() abort
+    packadd minpac
 
-call minpac#add('prabirshrestha/async.vim') " Jobs between Vim/NeoVim for Vim LSP
-call minpac#add('prabirshrestha/vim-lsp') " Language Server protocol
-call minpac#add('thomasfaingnaert/vim-lsp-ultisnips') " UltiSnips for Language Server protocol
+    call minpac#init()
+    call minpac#add('lifepillar/vim-solarized8') "Solarized colours
+    call minpac#add('sheerun/vim-polyglot') "Language Support
+    call minpac#add('SirVer/ultisnips') "Snippets 
+    call minpac#add('ctrlpvim/ctrlp.vim')
+    call minpac#add('junegunn/fzf')
+    call minpac#add('junegunn/fzf.vim')
 
-" Define user commands for updating/cleaning the plugins.
+    call minpac#add('prabirshrestha/async.vim') " Jobs between Vim/NeoVim for Vim LSP
+    call minpac#add('prabirshrestha/vim-lsp') " Language Server protocol
+    call minpac#add('thomasfaingnaert/vim-lsp-ultisnips') " UltiSnips for Language Server protocol
+
+endfunction
+
+" Define user commands for updating/cleaning the packages
 " Each of them loads minpac, reloads .vimrc to register the
 " information of plugins, then performs the task.
-command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
-command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PackClean   call InitPack() | call minpac#clean()
+command! PackSetup   call InitPack() | call minpac#update('', { 'do': 'quit! | quit!' })
+command! PackStatus  call InitPack() | call minpac#status()
+command! PackUpdate  call InitPack() | call minpac#update('', { 'do': 'call minpac#status() | quit! | quit!' })
+
 packloadall "Load all packages
 " }}}
 
