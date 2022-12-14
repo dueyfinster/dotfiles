@@ -34,7 +34,7 @@
 
 - name: Cloning oh-my-zsh
   git:
-    repo=https://github.com/robbyrussell/oh-my-zsh
+    repo={{ oh_my_zsh_url }}
     dest=~/.oh-my-zsh
   when: not stat_oh_my_zsh_result.stat.exists
   tags:
@@ -49,7 +49,7 @@
 
 - name: Cloning zsh-autosuggestions
   git:
-    repo=https://github.com/zsh-users/zsh-autosuggestions
+    repo={{ zsh_autosuggestions_url }}
     dest=~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   when: not stat_oh_my_zsh_autosuggestions_result.stat.exists
   tags:
@@ -64,7 +64,7 @@
 
 - name: Cloning zsh-completions
   git:
-    repo=https://github.com/zsh-users/zsh-completions
+    repo={{ zsh_completions_url }}
     dest=~/.oh-my-zsh/custom/plugins/zsh-completions
   when: not stat_oh_my_zsh_completions_result.stat.exists
   tags:
