@@ -56,6 +56,9 @@
   ansible.builtin.command:
     cmd: vim +PackSetup
     creates: ~/.vim/pack/minpac/start
+  tags:
+    - vim
+    - minimal
 
 - name: "Copy UltiSnips"
   ansible.builtin.copy:
