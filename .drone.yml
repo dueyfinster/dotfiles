@@ -1,42 +1,28 @@
----
 kind: pipeline
-type: docker
 name: default
 
 steps:
-  - name: Update Submodules
-    image: alpine/git
-    commands:
-      - git submodule update --init --recursive
-  - name: Test Dotfiles Install
-    image: ubuntu:20.04
-    commands:
-      - apt-get -y update && apt-get install -y git
-      - chmod +x ./bin/dotfiles
-      - ./bin/dotfiles
-  #- name: Trigger Ansible Deployment
-    #image: plugins/downstream
-    #settings:
-      #server:
-        #from_secret: drone_server
-      #token:
-        #from_secret: drone_token
-      #repositories:
-      #- dueyfinster/ansible
-  - name: Slack Notifications
-    image: plugins/slack
-    settings:
-      channel: dev
-      link_names: true
-      template: >
-        {{#failure build.status}}
-          Broken build of `{{repo.name}}:{{build.branch}}` {{build.author}} with <${DRONE_COMMIT_LINK}|#{{truncate build.commit 8}}> <@neil>
-          :new: :zombie: {{build.message}}
-        {{/failure}}
-        :stopwatch: {{ since build.started}}
-        :gear: {{build.link}}
-    environment:
-      SLACK_WEBHOOK:
-        from_secret: slack_webhook
-    when:
-      status: failure
+- name: Check Ansible Playbook Syntax
+  image: plugins/ansible:1
+  settings:
+    playbook: main.yml
+    galaxy: molecule/default/requirements.yml
+    inventory: inventory
+    syntax_check: true
+    private_key:
+      from_secret: ansible_ssh_key
+    user:
+      from_secret: ansible_user
+
+- name: Apply Ansible Playbook
+  image: plugins/ansible:1
+  settings:
+    playbook: main.yml
+    galaxy: molecule/default/requirements.yml
+    inventory: inventory
+    private_key:
+      from_secret: ansible_ssh_key
+    user:
+      from_secret: ansible_user
+    extra_vars:
+      from_secret: ansible_password
