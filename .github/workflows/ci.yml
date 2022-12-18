@@ -5,6 +5,7 @@ name: CI
   push:
     branches:
       - master
+      - ansible
 
 jobs:
 
