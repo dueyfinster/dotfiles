@@ -212,23 +212,6 @@ setopt prompt_subst
 autoload -Uz compinit
 compinit
 
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-else
-  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  if [[ -f /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
-    source /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-    bindkey '^[[A' history-substring-search-up
-    bindkey '^[[B' history-substring-search-down
-  fi
-fi
-
 source $HOME/.variables
 source $HOME/.functions
 source $HOME/.aliases
