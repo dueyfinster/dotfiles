@@ -1,0 +1,14 @@
+---
+- name: Check if Karabiner config directory exists in home
+  stat:
+    path: ~/.config/karabiner
+  register: stat_bin_result
+  tags:
+    - karabiner
+
+- name: Copy Karabiner JSON config to home
+  copy:
+    src: files/karabiner.json
+    dest: ~/.config/karabiner.json
+  tags:
+    - karabiner
