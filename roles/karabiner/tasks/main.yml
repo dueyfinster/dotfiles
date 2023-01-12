@@ -9,6 +9,6 @@
 - name: Copy Karabiner JSON config to home
   copy:
     src: files/karabiner.json
-    dest: ~/.config/karabiner.json
+    dest: ~/.config/karabiner/karabiner.json
   tags:
     - karabiner
