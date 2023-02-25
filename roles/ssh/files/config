@@ -71,6 +71,20 @@ Host home
     IdentitiesOnly yes
     IdentityFile ~/.ssh/id_personal
     User ngrogan
+    
+Host gratia
+    HostName gratia.local
+    ProxyJump home
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_personal
+    User ngrogan
+
+Host rpi41
+    HostName rpi41.local
+    ProxyJump home
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_personal
+    User ngrogan
 
 Host *
     ServerAliveInterval 300
