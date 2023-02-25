@@ -26,3 +26,60 @@ steps:
       from_secret: ansible_user
     extra_vars:
       from_secret: ansible_password
+
+- name: Push notification on failure
+    image: plugins/webhook
+    settings:
+      urls: https://ntfy.sh
+      headers:
+        - Priority=urgent
+      content_type: application/json
+      template: |
+        {
+          "topic": "droneci",
+          "message": "Build {{ build.status }} for {{ repo.name }}",
+          "actions": [{
+              "action": "view",
+              "label": "Open Build",
+              "url": "{{ build.link }}",
+              "clear": true
+            }]
+        }
+    when:
+      status: [ changed, failure ]
+      
+  - name: Email Notification
+    image: drillster/drone-email
+    environment:
+      EMAIL_HOST:
+        from_secret: EMAIL_SMTP_HOST
+      EMAIL_USERNAME:
+        from_secret: EMAIL_USER
+      EMAIL_PASSWORD:
+        from_secret: EMAIL_PASS
+    settings:
+      from:
+        from_secret: EMAIL_FROM
+      branch:
+        - develop
+        - master
+    when:
+      status: [ changed, failure ]
+
+  - name: Slack Notifications
+    image: plugins/slack
+    settings:
+      channel: dev
+      link_names: true
+      template: >
+        {{#failure build.status}}
+          Broken build of `{{repo.name}}:{{build.branch}}` {{build.author}} with <${DRONE_COMMIT_LINK}|#{{truncate build.commit 8}}> <@neil>
+          :new: :zombie: {{build.message}}
+        {{/failure}}
+        :stopwatch: {{ since build.started}}
+        :gear: {{build.link}}
+    environment:
+      SLACK_WEBHOOK:
+        from_secret: slack_webhook
+    when:
+      status: [ changed, failure ]
