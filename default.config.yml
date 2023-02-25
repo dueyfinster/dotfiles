@@ -1,4 +1,3 @@
 ---
-ansible_user: egronei
-ansible_group: staff
+ansible_group: "{{ ansible_user_id }}"
 dotfiles_repo: https://github.com/dueyfinster/dotfiles.git

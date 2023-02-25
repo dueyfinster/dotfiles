@@ -20,3 +20,8 @@ export LESS="FRXgq"
 # don't store less search history
 LESSHISTFILE=/dev/null
 # }}}
+
+# Erlang VM settings {{{
+export ERL_AFLAGS="-kernel shell_history enabled"
+# }}}
+#

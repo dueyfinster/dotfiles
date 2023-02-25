@@ -4,7 +4,7 @@
     src: files/aliases
     dest: ~/.aliases
     mode: '0700'
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_user_id }}"
     group: "{{ ansible_group }}"
     backup: true
     force: true
@@ -17,7 +17,7 @@
     src: files/functions
     dest: ~/.functions
     mode: '0700'
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_user_id }}"
     group: "{{ ansible_group }}"
     backup: true
     force: true
@@ -30,7 +30,7 @@
     src: files/variables
     dest: ~/.variables
     mode: '0700'
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_user_id }}"
     group: "{{ ansible_group }}"
     backup: true
     force: true
@@ -43,7 +43,7 @@
     src: files/inputrc
     dest: ~/.inputrc
     mode: '0700'
-    owner: "{{ ansible_user }}"
+    owner: "{{ ansible_user_id }}"
     group: "{{ ansible_group }}"
     backup: true
     force: true

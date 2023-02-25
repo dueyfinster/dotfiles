@@ -4,6 +4,13 @@
   vars_files:
     - default.config.yml
 
+  pre_tasks:
+    - name: Load OS-specific variables
+      include_vars: '{{ ansible_facts.distribution }}.yml'
+      tags:
+      - shell
+      - minimal
+
   roles:
     - role: bash
     - role: dircolors
