@@ -1,4 +1,13 @@
 ---
+- name: Change user shell to zsh 
+  become: yes
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/zsh
+  tags:
+    - shell
+    - minimal
+ 
 - name: Copy aliases file
   copy:
     src: files/aliases
