@@ -6,7 +6,6 @@
     shell: /bin/zsh
   tags:
     - shell
-    - minimal
  
 - name: Copy aliases file
   copy:

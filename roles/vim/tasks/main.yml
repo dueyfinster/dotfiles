@@ -5,7 +5,6 @@
     state: present
   tags:
     - vim
-    - minimal
 
 - name: "Copy vimrc"
   ansible.builtin.copy:
@@ -58,7 +57,6 @@
     creates: ~/.vim/pack/minpac/start
   tags:
     - vim
-    - minimal
 
 - name: "Copy UltiSnips"
   ansible.builtin.copy:

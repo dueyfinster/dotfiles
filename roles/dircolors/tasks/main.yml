@@ -12,6 +12,7 @@
     state: directory
   tags:
     - dircolors
+    - minimal
 
 - name: "Copy dircolors config"
   ansible.builtin.copy:
@@ -20,3 +21,4 @@
     mode: 0644
   tags:
     - dircolors
+    - minimal

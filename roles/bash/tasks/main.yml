@@ -5,7 +5,6 @@
     state: present
   tags:
     - bash
-    - minimal
 
 - name: "Copy bashrc"
   ansible.builtin.copy:

@@ -5,7 +5,6 @@
     state: present
   tags:
     - git
-    - minimal
 
 - name: "Copy gitignore_global"
   ansible.builtin.copy:
