@@ -47,14 +47,14 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - hledger -f ptsb.csv print
+        - ls *.rules | entr -cp hledger -f ptsb.csv print | grep -B 2 -A 0 unknown
         - vim common.rules ptsb.csv.rules
           #  - server: bundle exec rails s
           #- logs: tail -f log/development.log
-  - web:
+  - cli:
       root: ~/repos/welmon/web
       panes:
-        - vim export.py static/index*
+        - git status
   - build:
       root: ~/repos/welmon/web
       panes:
