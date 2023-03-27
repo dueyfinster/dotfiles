@@ -42,12 +42,12 @@ startup_window: incoming
 windows:
   - incoming:
       root: ~/repos/welmon/incoming
-      layout: main-vertical
+      layout: even-horizontal
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - ls *.rules | entr -cp hledger -f ptsb.csv print | grep -B 2 -A 0 unknown
+        - ls *.rules | entr -c bash -c "hledger -f ptsb.csv print | grep -B 2 -A 0 unknown"
         - vim common.rules ptsb.csv.rules
           #  - server: bundle exec rails s
           #- logs: tail -f log/development.log
