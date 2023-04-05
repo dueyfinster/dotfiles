@@ -5,6 +5,10 @@ export HISTSIZE='32768';
 export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth';
+# Append to History
+shopt -s histappend
+# Run History append after each prompt - so history is shared between currently open shells
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 export TERM="screen-256color"
 
