@@ -1,0 +1,6 @@
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
+[submodule "vim/.vim/pack/minpac/opt/minpac"]
+	path = vim/.vim/pack/minpac/opt/minpac
+	url = https://github.com/k-takata/minpac.git
