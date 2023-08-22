@@ -1,9 +1,0 @@
-if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=Inconsolata\ 16
-  elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h16
-  elseif has("gui_win32")
-    set guifont=Consolas:h14:cANSI
-  endif
-endif
