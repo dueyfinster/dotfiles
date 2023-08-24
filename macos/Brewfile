@@ -1,5 +1,4 @@
-brew "bash"
-
+# Brew Installs - see: https://github.com/Homebrew/homebrew-bundle
 brew "bash"
 brew "coreutils"
 brew "exercism"
@@ -18,3 +17,49 @@ brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-history-substring-search"
 brew "zsh-syntax-highlighting"
+
+# Cask Installs
+cask "anki"
+cask "crossover"
+cask "docker"
+cask "drawio"
+cask "eclipse-jee"
+cask "emacs"
+cask "firefox"
+cask "google-chrome"
+cask "hazel"
+cask "intellij-idea-ce"
+cask "plex"
+cask "sonos"
+cask "spotify"
+cask "synology-drive"
+cask "steam"
+cask "vagrant"
+cask "virtualbox"
+cask "virtualbox-extension-pack"
+cask "visual-studio-code"
+cask "vlc"
+
+# Mac App Store Install
+mas "Instapaper Save", id: 1481302432
+mas "Xcode", id: 497799835
+mas "Kindle", id: 405399194
+mas "Drafts", id: 1435957248
+mas "Keynote", id: 409183694
+mas "Texpad", id: 458866234
+mas "Instapaper", id: 288545208
+mas "Things", id: 904280696
+mas "Deliveries", id: 290986013
+mas "PCalc", id: 403504866
+mas "Pages", id: 409201541
+mas "Reeder", id: 1529448980
+mas "Amphetamine", id: 937984704
+mas "Bitwarden", id: 1352778147
+mas "Numbers", id: 409203825 
+
+
+# 'whalebrew install'
+# whalebrew "whalebrew/wget"
+
+# 'vscode --install-extension'
+# vscode "GitHub.codespaces"
