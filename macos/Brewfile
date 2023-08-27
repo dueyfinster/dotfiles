@@ -41,22 +41,22 @@ cask "visual-studio-code"
 cask "vlc"
 
 # Mac App Store Install
-mas "Instapaper Save", id: 1481302432
-mas "Xcode", id: 497799835
-mas "Kindle", id: 405399194
-mas "Drafts", id: 1435957248
-mas "Keynote", id: 409183694
-mas "Texpad", id: 458866234
-mas "Instapaper", id: 288545208
-mas "Things", id: 904280696
+mas "Amphetamine", id: 937984704
+mas "Bitwarden", id: 1352778147
+mas "bookmarker for pinboard", id: 1451400394
 mas "Deliveries", id: 290986013
+mas "Drafts", id: 1435957248
+mas "Instapaper", id: 288545208
+mas "Instapaper Save", id: 1481302432
+mas "Keynote", id: 409183694
+mas "Kindle", id: 405399194
+mas "Numbers", id: 409203825
 mas "PCalc", id: 403504866
 mas "Pages", id: 409201541
 mas "Reeder", id: 1529448980
-mas "Amphetamine", id: 937984704
-mas "Bitwarden", id: 1352778147
-mas "Numbers", id: 409203825 
-
+mas "Texpad", id: 458866234
+mas "Things", id: 904280696
+mas "Xcode", id: 497799835
 
 # 'whalebrew install'
 # whalebrew "whalebrew/wget"
