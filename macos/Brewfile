@@ -1,4 +1,12 @@
-# Brew Installs - see: https://github.com/Homebrew/homebrew-bundle
+# Brewfile - see: https://github.com/Homebrew/homebrew-bundle
+
+# Brew Taps
+tap "homebrew/bundle"
+tap "homebrew/cask-drivers"
+tap "homebrew/cask-fonts"
+tap "homebrew/services"
+
+# Brew Installs
 brew "bash"
 brew "coreutils"
 brew "exercism"
