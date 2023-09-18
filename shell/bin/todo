@@ -1,0 +1,12 @@
+#!/bin/bash
+# A script to create org mode todo on command line
+SED=sed
+
+if [ "$(uname)" == "Darwin" ]; then
+    SED=gsed
+fi
+
+if [[ ! -z $@ ]]; then
+    $SED --in-place 's/^\(* Personal .*\)$/\1\n** TODO '"$(echo ${@})"'/g' \
+        "$HOME/org/gtd.org"
+fi
