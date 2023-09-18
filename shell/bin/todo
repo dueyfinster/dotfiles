@@ -6,7 +6,10 @@ if [ "$(uname)" == "Darwin" ]; then
     SED=gsed
 fi
 
-if [[ ! -z $@ ]]; then
+if [ "$1" == "-w" ]; then
+    $SED --in-place 's/^\(* Work .*\)$/\1\n** TODO '"$(echo ${@})"'/g' \
+        "$HOME/org/gtd.org"
+else
     $SED --in-place 's/^\(* Personal .*\)$/\1\n** TODO '"$(echo ${@})"'/g' \
         "$HOME/org/gtd.org"
 fi
