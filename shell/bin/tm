@@ -1,39 +1,43 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# A script to create or attach to a TMUX session based on the list of repository folders on disk. Will use Tmuxinator if a session name matches.
 
-# # abort if we're already inside a TMUX session
-# [ "$TMUX" == "" ] || exit 0
-# # startup a "default" session if non currently exists
-# # tmux has-session -t _default || tmux new-session -s _default -d
-
-# # present menu for user to choose which workspace to open
-# PS3="Please choose your session: "
-# options=($(tmux list-sessions -F "#S" 2>/dev/null) "New Session" "bash")
-# echo " "
-# echo "Available sessions"
-# echo "------------------"
-# echo " "
-# select opt in "${options[@]}"
-# do
-# 	case $opt in
-# 		"New Session")
-# 			read -p "Enter new session name: " SESSION_NAME
-# 			tmux new -s "$SESSION_NAME"
-# 			break
-# 			;;
-# 		"bash")
-# 			bash --login
-# 			break;;
-# 		*)
-# 			tmux attach-session -t $opt
-# 			break
-# 			;;
-# 	esac
-# done
-
-[[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-
-if [ $1 ]; then
-	 tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/work ~/personal ~/projects -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
-session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmuxn_proj=$(tmuxinator list -n | tail -n +2)
+
+tmux_running=$(pgrep tmux)
+
+start_new_session(){
+    if [[ " $tmuxn_proj " =~ "$selected_name" ]]; then
+      tmuxinator start "$selected_name" --no-attach # force disable attaching
+    else
+      tmux new-session -s $selected_name -c $selected
+    fi
+}
+
+# Check if TMUX is running
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    start_new_session
+    tmux attach-session
+else
+    if ! tmux has-session -t=$selected_name 2> /dev/null; then
+        start_new_session
+        tmux attach-session
+    fi
+
+    if [[ ! -z $TMUX ]]; then
+        tmux switch-client -t "$selected_name"
+    else
+        tmux new-session -A -s $selected_name -c $selected
+    fi
+fi
+
