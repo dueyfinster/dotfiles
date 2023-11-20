@@ -76,13 +76,3 @@ alias monexp="ledger -f $LEDGERFILE -MAn reg"
 # alias rep_update_all="find "$REPOS_HOME"/* -maxdepth 1 -type d -name .git -execdir git com \; -execdir git rebase origin/master \;"
 # alias rep_update_ap="find "$REPOS_HOME"/ap* -maxdepth 1 -type d -name .git -execdir git checkout master \; -execdir git rebase origin/master \;"
 # alias killjboss="ps -ef | grep java | grep -v grep | grep jboss | awk '{print $2}' | xargs kill -9"
-
-REPOS_HOME="${HOME}/repos"
-
-repo_folders=("$REPOS_HOME"/*)
-repo_folders+=("$OTHER_REPOS"/*)
-for dir in "${repo_folders[@]}";
-do
-  FOLDER_NAME=$(basename $dir)
-  alias "$FOLDER_NAME"="cd $dir"
-done

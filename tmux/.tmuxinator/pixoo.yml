@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/welmon.yml
 
 name: pixoo
-root: ~/repos/pixoo64-bustimes
+root: ~/personal/pixoo64-bustimes
 
 # Optional tmux socket
 # socket_name: foo
@@ -41,7 +41,7 @@ startup_window: editor
 
 windows:
   - editor:
-      root: ~/repos/pixoo64-bustimes
+      root: ~/personal/pixoo64-bustimes
       layout: even-horizontal
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
@@ -49,11 +49,11 @@ windows:
       panes:
         - vim main.py
   - cli:
-      root: ~/repos/pixoo64-bustimes
+      root: ~/personal/pixoo64-bustimes
       panes:
         - git status
   - build:
-      root: ~/repos/pixoo64-bustimes
+      root: ~/personal/pixoo64-bustimes
       panes:
         - python3 -m venv env
         - pip install -r requirements.txt

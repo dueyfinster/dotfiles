@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/ardeo.yml
 
 name: ardeo
-root: ~/repos/ardeo
+root: ~/personal/ardeo
 
 # Optional tmux socket
 # socket_name: foo
@@ -41,7 +41,7 @@ root: ~/repos/ardeo
 
 windows:
   - dashboard:
-      root: ~/repos/ardeo
+      root: ~/personal/ardeo
       layout: 93bc,83x22,0,0[83x4,0,0,2,83x18,0,5,3]
       panes:
         - server:

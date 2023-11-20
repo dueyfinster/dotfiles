@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/resume.yml
 
 name: resume
-root: ~/repos/resume
+root: ~/personal/resume
 
 # Optional tmux socket
 # socket_name: foo

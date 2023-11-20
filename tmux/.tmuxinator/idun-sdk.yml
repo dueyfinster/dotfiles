@@ -1,7 +1,7 @@
 # ~/.tmuxinator/dashboard.yml
 
-name: work
-root: ~/repos/
+name: idun-sdk
+root: ~/work/idun-sdk
 
 # Optional tmux socket
 # socket_name: foo
@@ -28,22 +28,12 @@ root: ~/repos/
 # post: tmux -CC attach -t dashboard
 
 windows:
-  - dashboard:
-      root: ~/repos/dashboard
+  - docs:
+      root: ~/work/idun-sdk/euisdk-docs/public/docs/
       layout: 93bc,83x22,0,0[83x4,0,0,2,83x18,0,5,3]
       panes:
-        - logs:
-          - ./run-docker.sh
-          - docker logs -f dashing
-        - editor:
-          - vim jobs/
-  - ap:
-      root: ~/repos/ap
-      panes:
-        -
-  - dotfiles:
-      root: ~/.dotfiles
-      layout: even-vertical
-      panes:
-        -
         - vim
+  - build:
+      root: ~/work/idun-sdk/euisdk-docs
+      panes:
+        - npm start

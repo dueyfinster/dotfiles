@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/blog.yml
 
 name: blog
-root: ~/repos/neilgrogan.com
+root: ~/personal/neilgrogan.com
 
 # Optional tmux socket
 # socket_name: foo

@@ -1,7 +1,7 @@
 # /home/ngrogan/.tmuxinator/docs.yml
 
 name: docs
-root: ~/repos/docs
+root: ~/personal/docs
 
 # Optional tmux socket
 # socket_name: foo
