@@ -1,6 +1,6 @@
 # /home/ngrogan/.tmuxinator/dotfiles.yml
 
-name: dotfiles
+name: _dotfiles
 root: ~/.dotfiles
 
 # Optional tmux socket

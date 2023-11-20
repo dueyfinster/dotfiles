@@ -4,7 +4,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/work ~/personal ~/projects -mindepth 1 -maxdepth 1 -type d -exec echo {} \; 2>/dev/null | fzf)
+    selected=$(find ~/work ~/personal ~/projects -mindepth 1 -maxdepth 1 -type d -exec echo {} \; 2>/dev/null | cat - <(echo "$HOME/.dotfiles") | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -12,6 +12,7 @@ if [[ -z $selected ]]; then
 fi
 
 selected_name=$(basename "$selected" | tr . _)
+echo "$selected_name"
 tmuxn_proj=$(tmuxinator list -n | tail -n +2)
 
 tmux_running=$(pgrep tmux)
