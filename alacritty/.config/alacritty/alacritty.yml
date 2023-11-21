@@ -1,3 +1,5 @@
+font:
+  size: 16.0
 schemes:
     # Colors (Solarized Dark)
     solarized_dark: &solarized_dark
