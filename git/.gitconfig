@@ -39,6 +39,7 @@
 	templatedir = ~/.git_template
 [core]
 	excludesfile = ~/.gitexcludes
-[url "https://github.com/"]
-    pushInsteadOf = ssh://git@github.com/
+[url "git@github.com:"]
+    pushInsteadOf = git://github.com/
+    pushInsteadOf = https://github.com/
 
