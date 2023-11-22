@@ -57,7 +57,10 @@ set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
 set listchars=tab:▸\ ,eol:¬
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore = {
+      \ 'dir':  '\v[\/](\.git|\.hg|\.svn)$',
+      \ 'file': '\.pyc$\|\.pyo$',
+      \ }
 let g:netrw_banner = 0 "No header for netrw directory mode
 let g:netrw_liststyle = 3 "Tree style dir listings
 let g:netrw_browse_split = 2 " Vertically split netrw
