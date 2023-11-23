@@ -113,7 +113,7 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 local DIR_PATH="$HOME/.config/dircolors/dircolors.256dark"
-export PATH="$HOME/bin:$HOME/.dotfiles/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 if type dircolors > /dev/null 2>&1; then
     eval $(dircolors "$DIR_PATH")
 elif type gdircolors > /dev/null 2>&1; then
