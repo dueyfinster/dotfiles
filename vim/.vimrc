@@ -97,8 +97,9 @@ nmap <Leader>p :bprev<CR>
 map <Leader>ga :Git add %<cr>
 map <Leader>gc :Git commit<cr>
 map <Leader>gd :Git diff<cr>
-map <Leader>gs :Git status<cr>
 map <Leader>gp :Git push<cr>
+map <Leader>gr :Git checkout %<cr>
+map <Leader>gs :Git status<cr>
 
 " Insert Mode Mappings
 inoremap kj <Esc>
