@@ -7,6 +7,7 @@ function! InitPack() abort
     call minpac#init()
     call minpac#add('lifepillar/vim-solarized8') "Solarized colours
     call minpac#add('sheerun/vim-polyglot') "Language Support
+    call minpac#add('tpope/vim-fugitive') "Git support
     call minpac#add('SirVer/ultisnips') "Snippets 
     call minpac#add('ctrlpvim/ctrlp.vim')
     call minpac#add('junegunn/fzf')
