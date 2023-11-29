@@ -100,6 +100,7 @@ nmap <Leader>w :set list!<CR>
 map <Leader>ga :Git add %<cr>
 map <Leader>gc :Git commit<cr>
 map <Leader>gd :Git diff<cr>
+map <Leader>gg :Git<cr>
 map <Leader>gp :Git push<cr>
 map <Leader>gr :Git checkout %<cr>
 map <Leader>gs :Git status<cr>
