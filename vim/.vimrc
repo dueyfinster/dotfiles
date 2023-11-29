@@ -9,6 +9,8 @@ function! InitPack() abort
     call minpac#add('sheerun/vim-polyglot') "Language Support
     call minpac#add('tpope/vim-fugitive') "Git support
     call minpac#add('SirVer/ultisnips') "Snippets 
+    call minpac#add('mbbill/undotree') " Undo tree of changes
+    " Fuzzy Find
     call minpac#add('ctrlpvim/ctrlp.vim')
     call minpac#add('junegunn/fzf')
     call minpac#add('junegunn/fzf.vim')
@@ -81,17 +83,18 @@ set softtabstop=2 "Number of spaces when pressing tab
 " Mappings {{{
 " Normal Mode Mappings
 nmap <Leader>b :CtrlPBuffer<CR>
+"Switch to last used buffer, map to CTRL-E
+nmap <Leader>e :e#<CR> 
 nmap <Leader>f :CtrlP<CR>
 nmap <Leader>t :CtrlPTag<CR>
 nmap <Leader>h :CtrlPMRUFiles<CR>
 nmap <Leader>l :Lex<CR>
-" Toggle Whitespace
-nmap <Leader>w :set list!<CR>
-"Switch to last used buffer, map to CTRL-E
-nmap <Leader>e :e#<CR> 
 "Go to next/prev buffer
 nmap <Leader>n :bnext<CR>
 nmap <Leader>p :bprev<CR>
+nmap <Leader>u :UndotreeToggle<CR>
+" Toggle Whitespace
+nmap <Leader>w :set list!<CR>
 
 "" Git fugitive plugin mappings
 map <Leader>ga :Git add %<cr>
