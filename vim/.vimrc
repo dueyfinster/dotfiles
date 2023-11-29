@@ -93,6 +93,12 @@ nmap <Leader>e :e#<CR>
 nmap <Leader>n :bnext<CR>
 nmap <Leader>p :bprev<CR>
 
+"" Git fugitive plugin mappings
+map <Leader>ga :Git add %<cr>
+map <Leader>gs :Git status<cr>
+map <Leader>gc :Git commit<cr>
+map <Leader>gp :Git push<cr>
+
 " Insert Mode Mappings
 inoremap kj <Esc>
 inoremap jj <Esc>
