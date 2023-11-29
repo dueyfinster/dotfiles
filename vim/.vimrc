@@ -74,7 +74,7 @@ let g:fzf_tags_command = "git ctags"
 " Spacing {{{
 set foldmethod=marker " Group folds with '{{{,}}}'
 set expandtab "Don't use tab charachter use spaces
-set shiftwidth=4 "Indenting is 4 spaces
+set shiftwidth=2 "Indenting is 4 spaces
 set softtabstop=2 "Number of spaces when pressing tab
 "}}}
 
@@ -106,18 +106,18 @@ inoremap kj <Esc>
 inoremap jj <Esc>
 
 " Visual Mode Mappings
+vnoremap <Leader>Y \+y
 " }}}
 
 " Autocommands {{{
-augroup Vimrc
-  autocmd! bufwritepost vimrc source %
-augroup END
-
-" Uncomment the following to have Vim jump to the last position when reopening a file
 if has("autocmd")
+    " Uncomment the following to have Vim jump to the last position when reopening a file
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
         \| exe "normal! g`\"" | endif
-    autocmd VimResized * wincmd =
+    " resize windows equally on viewport change
+    autocmd VimResized * wincmd = 
+    " Source vimrc when changed
+    autocmd! bufwritepost vimrc source %
 endif
 "}}}
 
@@ -132,7 +132,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " Search {{{
 " External program to use for grep command
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-  set grepformat=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set grepformat=%f:%l:%c:%m
 endif
 " }}}
