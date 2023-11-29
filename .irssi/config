@@ -1,7 +1,7 @@
 servers = (
   { 
-    address = "chat.freenode.net";
-    chatnet = "Freenode";
+    address = "irc.libera.chat";
+    chatnet = "Libera";
     port = "6667";
   },
   { address = "irc.oftc.net"; chatnet = "OFTC"; port = "6667"; },
@@ -9,7 +9,7 @@ servers = (
 );
 
 chatnets = {
-  Freenode = {
+  Libera = {
     type = "IRC";
     nick = "dueyfinster";
     max_kicks = "1";
@@ -33,8 +33,8 @@ chatnets = {
 };
 
 channels = (
-  { name = "#ubuntu"; chatnet = "Freenode"; autojoin = "No"; },
-  { name = "#irssi"; chatnet = "Freenode"; autojoin = "No"; },
+  { name = "#ubuntu"; chatnet = "Libera"; autojoin = "No"; },
+  { name = "#irssi"; chatnet = "Libera"; autojoin = "No"; },
   { name = "#linode"; chatnet = "OFTC"; autojoin = "Yes"; },
   { name = "#twitlive"; chatnet = "Twit"; autojoin = "Yes"; }
 );
