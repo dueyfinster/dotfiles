@@ -59,6 +59,7 @@ set noswapfile "Don't use a swap file
 set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
 set listchars=tab:▸\ ,eol:¬
+set foldlevel=1
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
       \ 'dir':  '\v[\/](\.git|\.hg|\.svn)$',
