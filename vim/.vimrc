@@ -85,13 +85,8 @@ set softtabstop=2 "Number of spaces when pressing tab
 
 " Mappings {{{
 " Normal Mode Mappings
-nmap <Leader>b :CtrlPBuffer<CR>
 "Switch to last used buffer, map to CTRL-E
 nmap <Leader>e :e#<CR> 
-nmap <Leader>f :CtrlP<CR>
-nmap <Leader>t :CtrlPTag<CR>
-nmap <Leader>h :CtrlPMRUFiles<CR>
-nmap <Leader>l :Lex<CR>
 "Go to next/prev buffer
 nmap <Leader>n :bnext<CR>
 nmap <Leader>p :bprev<CR>
@@ -99,7 +94,25 @@ nmap <Leader>u :UndotreeToggle<CR>
 " Toggle Whitespace
 nmap <Leader>w :set list!<CR>
 
-"" Git fugitive plugin mappings
+" File Ex /Ctrl-p fuzzy find mappings {{{
+nmap <Leader>fb :CtrlPBuffer<CR>
+nmap <Leader>ff :CtrlP<CR>
+nmap <Leader>ft :CtrlPTag<CR>
+nmap <Leader>fr :CtrlPMRUFiles<CR>
+nmap <Leader>fx :Lex<CR>
+" }}}
+
+" term mappings {{{
+" vim-powered terminal in split window
+map <Leader>t :term ++close<cr>
+tmap <Leader>t <c-w>:term ++close<cr>
+
+" vim-powered terminal in new tab
+map <Leader>T :tab term ++close<cr>
+tmap <Leader>T <c-w>:tab term ++close<cr>
+" }}}
+
+"" Git fugitive plugin mappings {{{
 map <Leader>ga :Git add %<cr>
 map <Leader>gc :Git commit<cr>
 map <Leader>gd :Git diff<cr>
@@ -116,6 +129,7 @@ function! ToggleGStatus()
 endfunction
 command ToggleGStatus :call ToggleGStatus()
 nmap <Leader>gg :ToggleGStatus<CR>
+" }}}
 
 " Insert Mode Mappings
 inoremap kj <Esc>
