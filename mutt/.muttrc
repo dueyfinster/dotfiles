@@ -1,24 +1,22 @@
+
 # .muttrc
 # ================  IMAP ====================
-source "gpg -d ~/.dotfiles/conf/mutt/passwords.gpg |"
-set folder = imaps://imap.gmail.com:993/
-set spoolfile = +INBOX
-# set record = "+[Gmail]/Sent Mail"
-set postponed = "+[Gmail]/Drafts"
-# set spoolfile = imaps://imaps-proxy.messagingengine.com:443/INBOX
-# set folder = imaps://imaps-proxy.messagingengine.com:443
-# set record = "=INBOX.Sent"
-# set postponed = "=INBOX.Drafts"
-set trash = "=Trash"
-mailboxes = "="
+source "gpg -d ~/.dotfiles/mutt/.mutt/passwords.gpg |"
+set spoolfile="imaps://imap.fastmail.com"
+set folder="imaps://imap.fastmail.com/INBOX"
+set record="+Sent Items"
+set postponed="+Drafts"
+set read_inc=1000
+set write_inc=1000
+set mbox="+Archive"
+set mail_check = 5
 
 # ================  SMTP  ====================
-set smtp_url = "smtps://$imap_user@smtp.gmail.com:465"
+set smtp_url = "smtps://$imap_user@smtp.fastmail.com:465"
 # activate TLS if available on the server
 set ssl_starttls = yes
 set smtp_pass = "$imap_pass"
 set record = ""
-# set smtp_url = "smtps://$imap_user:$imap_pass@smtps-proxy.messagingengine.com:443"
 
 # ================  Composition  ====================
 set editor = "vim"
