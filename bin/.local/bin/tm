@@ -12,33 +12,29 @@ if [[ -z $selected ]]; then
 fi
 
 selected_name=$(basename "$selected" | tr . _)
-echo "$selected_name"
-tmuxn_proj=$(tmuxinator list -n | tail -n +2)
-
 tmux_running=$(pgrep tmux)
 
-start_new_session(){
-    if [[ " $tmuxn_proj " =~ "$selected_name" ]]; then
-      tmuxinator start "$selected_name" --no-attach # force disable attaching
-    else
-      tmux new-session -s $selected_name -c $selected
-    fi
-}
-
-# Check if TMUX is running
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    start_new_session
-    tmux attach-session
-else
-    if ! tmux has-session -t=$selected_name 2> /dev/null; then
-        start_new_session
-        tmux attach-session
-    fi
-
-    if [[ ! -z $TMUX ]]; then
-        tmux switch-client -t "$selected_name"
-    else
-        tmux new-session -A -s $selected_name -c $selected
-    fi
+  tmuxinator_project=$(tmuxinator list | grep $selected_name)
+  if [[ -n $tmuxinator_project ]]; then
+    tmuxinator start $selected_name
+  else
+    tmux new-session -s $selected_name -c $selected
+  fi
+  exit 0
 fi
 
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+  tmuxinator_project=$(tmuxinator list | grep $selected_name)
+  if [[ -n $tmuxinator_project ]]; then
+    tmuxinator start $selected_name
+  else
+    tmux new-session -ds $selected_name -c $selected
+  fi
+fi
+
+if [[ -z $TMUX ]] && [[ ! -z $tmux_running ]]; then
+  tmux attach-session -t $selected_name
+else
+  tmux switch-client -t $selected_name
+fi
