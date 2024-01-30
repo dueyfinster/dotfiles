@@ -46,3 +46,9 @@ completion
 source $HOME/.variables
 source $HOME/.functions
 source $HOME/.aliases
+
+
+# Source local config - if it exists
+if [[ -f "${HOME}/.bashrc.local" ]]; then
+  source "${HOME}/.bashrc.local"
+fi

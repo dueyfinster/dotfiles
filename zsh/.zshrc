@@ -218,3 +218,8 @@ compinit
 source $HOME/.variables
 source $HOME/.functions
 source $HOME/.aliases
+
+# Source local config - if it exists
+if [[ -f "${HOME}/.zshrc.local" ]]; then
+  source "${HOME}/.zshrc.local"
+fi
