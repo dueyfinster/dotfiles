@@ -3,6 +3,7 @@ vim.keymap.set("n", "<Leader>gc", ":Git commit<CR>", {})
 vim.keymap.set("n", "<Leader>gco", ":Git checkout<CR>", {})
 vim.keymap.set("n", "<leader>gp",":Git push<CR>", {})
 vim.keymap.set("n", "<leader>gpl",":Git pull<CR>", {})
+vim.keymap.set("n", "<leader>gs",":Git<CR>", {})
 
 vim.api.nvim_command("augroup FugitiveToggle")
 vim.api.nvim_command("au!")
