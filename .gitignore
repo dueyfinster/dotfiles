@@ -5,3 +5,4 @@ caches/
 tags
 .tmux/plugins
 .vim/pack/minpac/start
+stow/
