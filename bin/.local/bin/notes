@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+NOTES_DIR="$HOME/notes/"
+choice="$(find $NOTES_DIR -name "*.org" -maxdepth 1 -type f -exec basename {} \; | fzf)"
+[ -f "$NOTES_DIR/$choice" ] && $EDITOR "$NOTES_DIR/$choice"
