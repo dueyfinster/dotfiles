@@ -2,7 +2,7 @@
 # vim: set fdm=marker:
 
 export LEDGERFILE="$HOME/.hledger.journal"
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # enable ls colors {{{
 export CLICOLOR=1
