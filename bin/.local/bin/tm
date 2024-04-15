@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # A script to create or attach to a TMUX session based on the list of repository folders on disk. Will use Tmuxinator if a session name matches.
+set -Eeo pipefail
+DEFAULT_TMUXINATOR_SESSION="code"
 
 if [[ $# -eq 1 ]]; then
     selected=$1
@@ -13,28 +15,32 @@ fi
 
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
+tmuxinator_project=$(tmuxinator list | grep $selected_name)
 
+# Not in TMUX and it's not running
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmuxinator_project=$(tmuxinator list | grep $selected_name)
   if [[ -n $tmuxinator_project ]]; then
     tmuxinator start $selected_name
   else
-    tmux new-session -s $selected_name -c $selected
+    # tmux new-session -s $selected_name -c $selected
+    tmuxinator start $DEFAULT_TMUXINATOR_SESSION $selected_name $selected
   fi
-  exit 0
 fi
 
+# TMUX doesn't have a session with name we selected
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-  tmuxinator_project=$(tmuxinator list | grep $selected_name)
   if [[ -n $tmuxinator_project ]]; then
     tmuxinator start $selected_name
   else
-    tmux new-session -ds $selected_name -c $selected
+    # tmux new-session -s $selected_name -c $selected
+    tmuxinator start $DEFAULT_TMUXINATOR_SESSION $selected_name $selected
   fi
 fi
 
+# Not in TMUX now but it's running in background
 if [[ -z $TMUX ]] && [[ ! -z $tmux_running ]]; then
   tmux attach-session -t $selected_name
 else
+  # We're in tmux - so switch
   tmux switch-client -t $selected_name
 fi
