@@ -4,6 +4,3 @@
 [submodule "vim/.vim/pack/minpac/opt/minpac"]
 	path = vim/.vim/pack/minpac/opt/minpac
 	url = https://github.com/k-takata/minpac.git
-[submodule "nvim/.local/share/nvim/site/pack/packer/start/packer.nvim"]
-	path = nvim/.local/share/nvim/site/pack/packer/start/packer.nvim
-	url = https://github.com/wbthomason/packer.nvim
