@@ -34,24 +34,24 @@ return {
 
     return {
 
-      {"n", "<leader>a", function() harpoon:list():append() end, desc = ""},
-      {"n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = ""},
+      {"<leader>a", function() harpoon:list():add() end, desc = ""},
+      {"<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "Open harpoon menu"},
 
-      {"n", ";a", function() harpoon:list():select(1) end, desc = ""},
-      {"n", ";s", function() harpoon:list():select(2) end, desc = ""},
-      {"n", ";d", function() harpoon:list():select(3) end, desc = ""},
-      {"n", ";f", function() harpoon:list():select(4) end, desc = ""},
+      {";a", function() harpoon:list():select(1) end, desc = "Harpoon buffer 1"},
+      {";s", function() harpoon:list():select(2) end, desc = "Harpoon buffer 2"},
+      {";d", function() harpoon:list():select(3) end, desc = "Harpoon buffer 3"},
+      {";f", function() harpoon:list():select(4) end, desc = "Harpoon buffer 4"},
 
-      {"n", "<leader>ha", function() harpoon:list():prepend() end, desc = ""},
-      {"n", "<leader>hA", function() harpoon:list():append() end, desc = ""},
-      {"n", "<leader>hr", function() harpoon:list():remove() end, desc = ""},
-      {"n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = ""},
+      {"<leader>ha", function() harpoon:list():prepend() end, desc = "Prepend file to harpoon"},
+      {"<leader>hA", function() harpoon:list():append() end, desc = "Append file to harpoon"},
+      {"<leader>hr", function() harpoon:list():remove() end, desc = "Remove file from harpoon"},
+      {"<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc = "toggle harpoon"},
 
       -- Toggle previous & next buffers stored within Harpoon list
-      {"n", "]h", function() harpoon:list():next() end, desc = ""},
-      {"n", "[h", function() harpoon:list():prev() end, desc = ""},
-      {"n", "]H", function() harpoon:list():select(harpoon:list():length()) end, desc = ""},
-      {"n", "[H", function() harpoon:list():select(1) end, desc = ""},
+      {"]h", function() harpoon:list():next() end, desc = ""},
+      {"[h", function() harpoon:list():prev() end, desc = ""},
+      {"]H", function() harpoon:list():select(harpoon:list():length()) end, desc = ""},
+      {"[H", function() harpoon:list():select(1) end, desc = ""},
 
       -- Harpoon marked files 1 through 4
       {"<a-1>", function() harpoon:list():select(1) end, desc ="Harpoon buffer 1"},
@@ -65,7 +65,7 @@ return {
 
       -- Harpoon user interface.
       {"<a-7>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, desc ="Harpoon Toggle Menu"},
-      {"<a-8>", function() harpoon:list():append() end, desc ="Harpoon add file"},
+      {"<a-8>", function() harpoon:list():add() end, desc ="Harpoon add file"},
 
       -- Use Telescope as Harpoon user interface.
       {"<a-9>", function() toggle_telescope(harpoon:list() )end, desc ="Open Harpoon window"},
