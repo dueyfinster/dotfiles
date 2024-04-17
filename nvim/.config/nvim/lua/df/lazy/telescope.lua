@@ -4,26 +4,95 @@ return {
   tag = "0.1.5",
 
   dependencies = {
-      "nvim-lua/plenary.nvim"
+    "nvim-lua/plenary.nvim"
   },
 
-  config = function()
-      require('telescope').setup({})
+  keys = function()
+    local builtin = require('telescope.builtin')
 
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
-      vim.keymap.set('n', '<C-p>', builtin.git_files, {})
-      vim.keymap.set('n', '<leader>pws', function()
+    return {
+      {
+        '<leader>pf',
+        function() builtin.find_files() end,
+        desc = "Find files in Project"
+      },
+      {
+        '<leader>pg',
+        function() builtin.git_files() end,
+        desc = "Find Git files in Project"
+      },
+      {
+        '<C-p>',
+        function() builtin.git_files() end,
+        desc = "Search Git files"
+      },
+      {
+        '<leader>pws',
+        function()
           local word = vim.fn.expand("<cword>")
           builtin.grep_string({ search = word })
-      end)
-      vim.keymap.set('n', '<leader>pWs', function()
+        end,
+        desc = "Find word under cursor"
+      },
+      {
+        '<leader>pWs',
+        function()
           local word = vim.fn.expand("<cWORD>")
           builtin.grep_string({ search = word })
-      end)
-      vim.keymap.set('n', '<leader>ps', function()
-          builtin.grep_string({ search = vim.fn.input("Grep > ") })
-      end)
-      vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-  end
+        end,
+        desc = "Find word under cursor"
+      },
+      {
+        '<leader>pg',
+        function() builtin:live_grep() end,
+        desc = "Live Grep for a string"
+      },
+      {
+        '<leader>ps',
+        function()
+          builtin:grep_string({ search = vim.fn.input("Grep > ") })
+        end,
+        desc = "Grep for a string"
+      },
+
+      {
+        '<leader>vb',
+        function() builtin.buffers() end,
+        desc = "Search buffers"
+      },
+      {
+        '<leader>vj',
+        function() builtin.jumplist() end,
+        desc = "Search Jumplist"
+      },
+      {
+        '<leader>vk',
+        function() builtin.keymaps() end,
+        desc = "Search keymaps"
+      },
+      {
+        '<leader>vm',
+        function() builtin.marks() end,
+        desc = "Search marks"
+      },
+      {
+        '<leader>vo',
+        function() builtin.oldfiles() end,
+        desc = "Search recent files"
+      },
+      {
+        '<leader>vr',
+        function() builtin:registers() end,
+        desc = "Search registers"
+      },
+      {
+        '<leader>vh',
+        function() builtin:help_tags() end,
+        desc = "Search help tags"
+      },
+    }
+  end,
+  config = function()
+    require('telescope').setup({})
+  end,
 }
