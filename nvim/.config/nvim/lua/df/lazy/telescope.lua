@@ -93,6 +93,40 @@ return {
     }
   end,
   config = function()
-    require('telescope').setup({})
+    require("telescope").setup({
+      defaults = {
+        file_ignore_patterns = {
+          "node_modules",
+          ".docker",
+          ".git",
+          "^.git/",
+          "^./.git/",
+          "^node_modules/",
+          "^build/",
+          "^dist/",
+          "^target/",
+          "^vendor/",
+          "^lazy%-lock%.json$",
+          "^package%-lock%.json$",
+        },
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--hidden",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--trim",
+        },
+      },
+      pickers = {
+        find_files = {
+          -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+        },
+      },
+    })
   end,
 }
