@@ -1,6 +1,6 @@
-# /home/ngrogan/.tmuxinator/blog.yml
+# /home/ngrogan/.tmuxinator/neilgrogan_com.yml
 
-name: blog
+name: neilgrogan_com
 root: ~/personal/neilgrogan.com
 
 # Optional tmux socket
@@ -40,5 +40,5 @@ root: ~/personal/neilgrogan.com
 # attach: false
 
 windows:
-  - editor: vim
+  - editor: nvim
   - server: hugo server -DF --bind 0.0.0.0
