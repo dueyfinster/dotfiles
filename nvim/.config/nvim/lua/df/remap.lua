@@ -36,9 +36,13 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- Quickfix window navigation
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "]q", "<cmd>cnext<CR>zz", { desc = "Next Quickfix" })
+vim.keymap.set("n", "[q", "<cmd>cprev<CR>zz", { desc = "Previous Quickfix" })
+--
 -- Location list navigation
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+
 
 -- replace word you have selected
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
