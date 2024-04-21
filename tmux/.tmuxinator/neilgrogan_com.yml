@@ -41,4 +41,4 @@ root: ~/personal/neilgrogan.com
 
 windows:
   - editor: nvim
-  - server: hugo server -DF --bind 0.0.0.0
+  - server: hugo server -DF --bind 192.168.1.141 --baseURL http://192.168.1.141/
