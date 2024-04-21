@@ -25,3 +25,5 @@ LESSHISTFILE=/dev/null
 export ERL_AFLAGS="-kernel shell_history enabled"
 # }}}
 #
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules,pack,minpac,vendor,plugins}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
