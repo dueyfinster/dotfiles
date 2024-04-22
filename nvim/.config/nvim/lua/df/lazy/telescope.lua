@@ -98,7 +98,6 @@ return {
         file_ignore_patterns = {
           "node_modules",
           ".docker",
-          ".git",
           "^.git/",
           "^./.git/",
           "^node_modules/",
