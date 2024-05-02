@@ -46,6 +46,46 @@
             ]
           },
           {
+            "description": "Hyper Key",
+            "manipulators": [
+              {
+                "description": "Hyper Key",
+                "from": {
+                   "key_code": "left_command",
+                   "modifiers": {
+                     "optional": [
+                       "left_shift",
+                       "left_option",
+                       "left_control"
+                     ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 1
+                    }
+                  }
+                ],
+                "to_after_key_up": [
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 0
+                    }
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "escape"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
             "description": "Hyper Key + spacebar",
             "manipulators": [
               {
