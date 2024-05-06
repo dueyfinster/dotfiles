@@ -51,14 +51,23 @@
               {
                 "description": "Hyper Key",
                 "from": {
-                   "key_code": "left_command",
-                   "modifiers": {
-                    "mandatory": [
-                     "left_shift",
-                     "left_option",
-                     "left_control"
-                    ]
-                  }
+									"simultaneous": [
+											{
+													"key_code": "left_command",
+											},
+											{
+													"key_code": "left_shift"
+											},
+											{
+													"key_code": "left_option"
+											},
+											{
+													"key_code": "left_control"
+											}
+									],
+									"modifiers": {
+											"optional": ["any"]
+									},
                 },
                 "to": [
                   {
@@ -74,11 +83,6 @@
                       "name": "hyper",
                       "value": 0
                     }
-                  }
-                ],
-                "to_if_alone": [
-                  {
-                    "key_code": "escape"
                   }
                 ],
                 "type": "basic"
