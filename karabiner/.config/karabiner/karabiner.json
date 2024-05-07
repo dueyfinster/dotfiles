@@ -245,7 +245,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open https://www.rte.ie/"
+                                        "shell_command": "open https://www.guardian.co.uk"
                                     }
                                 ],
                                 "type": "basic"
@@ -366,6 +366,30 @@
                                 "to": [
                                     {
                                         "shell_command": "open https://eteamspace.internal.ericsson.com/display/IDUN/IDUN+Home"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "hyper_sublayer_b",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "Open MySupport",
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open https://ericsson-dwp.onbmc.com/dwp/app/"
                                     }
                                 ],
                                 "type": "basic"
