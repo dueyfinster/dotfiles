@@ -54,6 +54,13 @@ return {
         end,
         desc = "Grep for a string"
       },
+      {
+        '<space>/',
+        function()
+          builtin:current_buffer_fuzzy_find()
+        end,
+        desc = "Current Buffer Fuzzy Find"
+      },
 
       {
         '<leader>vb',
