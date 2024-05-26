@@ -1,33 +1,51 @@
-vim.opt.guicursor = ""
+local opt = vim.opt
 
-vim.opt.nu = true
-vim.opt.relativenumber = true
+opt.guicursor = ""
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- line numbers
+opt.nu = true
+opt.relativenumber = true
 
-vim.opt.smartindent = true
+opt.tabstop = 4
+opt.softtabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
 
-vim.opt.wrap = false
+-- splits
+opt.splitbelow = true
+opt.splitright = true
 
-vim.opt.swapfile = false
-vim.opt.backup = false
+opt.smartindent = true
+
+opt.wrap = false
+
+opt.swapfile = false
+opt.backup = false
 local home = os.getenv("HOME")
-vim.opt.undodir = string.format("%s/.local/share/nvim/undo/", home)
-vim.opt.undofile = true
+opt.undodir = string.format("%s/.local/share/nundo/", home)
+opt.undofile = true
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+opt.hlsearch = false
+opt.incsearch = true
 
-vim.opt.termguicolors = true
+opt.inccommand = "split"
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+--  search settings
+opt.smartcase = true
+opt.ignorecase = true
 
-vim.opt.updatetime = 50
+opt.termguicolors = true
 
-vim.opt.colorcolumn = "80"
+opt.scrolloff = 8
+opt.signcolumn = "yes"
+opt.isfname:append("@-@")
 
+opt.updatetime = 50
+
+opt.colorcolumn = "80"
+
+opt.signcolumn = "yes"
+opt.shada = { "'10", "<0", "s10", "h" }
+
+-- Don't have `o` add a comment
+opt.formatoptions:remove "o"
