@@ -1,86 +1,101 @@
+live_config_reload = true
+
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[[colors.indexed_colors]]
+color = "0xF8BD96"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xF5E0DC"
+index = 17
+
 [colors.bright]
-black = "0x002b36"
-blue = "0x839496"
-cyan = "0x93a1a1"
-green = "0x586e75"
-magenta = "0x6c71c4"
-red = "0xcb4b16"
-white = "0xfdf6e3"
-yellow = "0x657b83"
+black = "0x988BA2"
+blue = "0x96CDFB"
+cyan = "0x89DCEB"
+green = "0xABE9B3"
+magenta = "0xF5C2E7"
+red = "0xF28FAD"
+white = "0xD9E0EE"
+yellow = "0xFAE3B0"
 
 [colors.cursor]
-cursor = "0x839496"
-text = "0x002b36"
+cursor = "0xF5E0DC"
+text = "0x1E1D2F"
 
 [colors.normal]
-black = "0x073642"
-blue = "0x268bd2"
-cyan = "0x2aa198"
-green = "0x859900"
-magenta = "0xd33682"
-red = "0xdc322f"
-white = "0xeee8d5"
-yellow = "0xb58900"
+black = "0x6E6C7E"
+blue = "0x96CDFB"
+cyan = "0x89DCEB"
+green = "0xABE9B3"
+magenta = "0xF5C2E7"
+red = "0xF28FAD"
+white = "0xD9E0EE"
+yellow = "0xFAE3B0"
 
 [colors.primary]
-background = "0x002b36"
-foreground = "0xcccccc"
+background = "0x1E1D2F"
+foreground = "0xD9E0EE"
+
+[cursor]
+blink_interval = 500
+blink_timeout = 5
+unfocused_hollow = false
+
+[cursor.style]
+blinking = "Off"
+shape = "Block"
+
+[env]
+TERM = "xterm-256color"
 
 [font]
-size = 16.0
+size = 18
 
-[schemes.solarized_dark.bright]
-black = "0x002b36"
-blue = "0x839496"
-cyan = "0x93a1a1"
-green = "0x586e75"
-magenta = "0x6c71c4"
-red = "0xcb4b16"
-white = "0xfdf6e3"
-yellow = "0x657b83"
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
 
-[schemes.solarized_dark.cursor]
-cursor = "0x839496"
-text = "0x002b36"
+[font.glyph_offset]
+x = 0
+y = 0
 
-[schemes.solarized_dark.normal]
-black = "0x073642"
-blue = "0x268bd2"
-cyan = "0x2aa198"
-green = "0x859900"
-magenta = "0xd33682"
-red = "0xdc322f"
-white = "0xeee8d5"
-yellow = "0xb58900"
+[font.italic]
+family = "JetBrainsMono Nerd Font"
 
-[schemes.solarized_dark.primary]
-background = "0x002b36"
-foreground = "0xcccccc"
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
 
-[schemes.solarized_light.bright]
-black = "0x002b36"
-blue = "0x839496"
-cyan = "0x93a1a1"
-green = "0x586e75"
-magenta = "0x6c71c4"
-red = "0xcb4b16"
-white = "0xfdf6e3"
-yellow = "0x657b83"
+[font.offset]
+x = 0
+y = 0
 
-[schemes.solarized_light.cursor]
-cursor = "0x657b83"
-text = "0xfdf6e3"
+[mouse]
+hide_when_typing = true
 
-[schemes.solarized_light.normal]
-black = "0x073642"
-blue = "0x268bd2"
-cyan = "0x2aa198"
-green = "0x859900"
-magenta = "0xd33682"
-red = "0xdc322f"
-white = "0xeee8d5"
-yellow = "0xb58900"
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
 
-[schemes.solarized_light.primary]
-background = "0xfdf6e3"
-foreground = "0x666666"
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[window]
+#decorations = "full"
+dynamic_title = true
+#startup_mode = "Maximized"
+
+[window.dimensions]
+#columns = 160
+#lines = 80
+
+[window.padding]
+x = 4
+y = 4
