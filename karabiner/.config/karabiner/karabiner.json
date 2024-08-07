@@ -669,7 +669,7 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Open Microsoft Teams (work or school).app",
+                                "description": "Open Microsoft Teams.app",
                                 "from": {
                                     "key_code": "e",
                                     "modifiers": {
@@ -680,7 +680,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Microsoft Teams (work or school).app'"
+                                        "shell_command": "open -a 'Microsoft Teams.app'"
                                     }
                                 ],
                                 "type": "basic"
