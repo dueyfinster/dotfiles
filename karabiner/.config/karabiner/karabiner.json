@@ -645,7 +645,7 @@
                                         "value": 1
                                     }
                                 ],
-                                "description": "Open -a 'iTerm.app'",
+                                "description": "Open -a 'Alacritty.app'",
                                 "from": {
                                     "key_code": "t",
                                     "modifiers": {
@@ -656,7 +656,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'iTerm.app'"
+                                        "shell_command": "open -a 'Alacritty.app'"
                                     }
                                 ],
                                 "type": "basic"
