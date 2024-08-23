@@ -62,4 +62,4 @@ autoload -Uz compinit && compinit
 zinit cdreplay -q
 
 # Shell integrations
-eval "$(fzf --zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
