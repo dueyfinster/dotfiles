@@ -75,3 +75,6 @@ function_exists() {
 copy_rpms(){
   find . -name '*.rpm' -exec cp {} $1 \;
 }
+
+
+export PATH="$HOME/.local/bin:$PATH"
