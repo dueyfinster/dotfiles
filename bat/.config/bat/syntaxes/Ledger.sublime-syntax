@@ -1,0 +1,161 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Ledger
+file_extensions:
+  - ldg
+  - ledger
+  - ldgr
+  - journal
+scope: source.ledger
+
+# Beware !!!
+# Non-capturing group should begin with ?:
+# cf https://docs.python.org/3/library/re.html
+
+variables:
+  indent: '[ \t]+'
+  hard_sep: '[ {2}\t][ \t]*'
+
+  date: |-
+    (?x:
+      \d{4}[/-]\d{2}[/-]\d{2} |
+      \d{2}[/-]\d{2}[/-]\d{4}
+    )
+
+  account: '(?:[^;\#\%\|\*\n\t ]|(?<! ) )+[^;\#\%\|\*\n\t ]'
+  payee: '(?:[^;\#\%\|\*\n\t ]|(?<! ) )+[^;\#\%\|\*\n\t ]'
+
+  currency: '[$£¥€¢]'
+  currency_name: '(?:[a-zA-Z]+)'
+  currency_name_long: '(?:\"[^\"]+\")'
+
+  number: '-?\d+(?:,\d{3})*(?:\.\d{1,2})?'
+
+  comment_char: '(?:;|\#|\%|\||\*)'
+  comment: '{{comment_char}}.*'
+
+contexts:
+  main:
+
+    # Comment
+    - match: ^({{comment_char}}.*)$
+      captures:
+        1: comment.line
+
+    ## 1st line of entry
+    ##
+    - match: '^(?={{date}})'
+      push:
+
+        # Date with possibly auxiliary date.
+        - match: '({{date}})([=])?({{date}})?'
+          captures:
+            1: string.other.date
+            2: punctuation.separator
+            3: string.other.date
+
+        # Cleared entry
+        - match: '\s+\*\s+({{payee}})'
+          captures:
+            1: markup.italic.desc
+
+        # Pending entry
+        - match: '(\s+!\s+)({{payee}})'
+          captures:
+            1: variable.other
+            2: invalid
+
+        # Non-cleared entry
+        - match: '\s+({{payee}})'
+          captures:
+            1: invalid
+
+        - match: '\s*(;.*)'
+          captures:
+            1: comment.line
+
+        # End of line
+        - match: '$'
+          pop: true
+
+    ## Account lines
+    ##
+
+    - match: '^(?={{indent}}{{account}})'
+      push:
+
+        # Account name
+        - match: '^({{indent}}{{account}})'
+          captures:
+            1: constant.other
+
+        # Amount with style €10
+        - match: '{{hard_sep}}({{currency}}{{number}})'
+          captures:
+            1: variable.other.amount
+
+        # Amount with style 10 EUR
+        - match: '{{hard_sep}}({{number}} {{currency_name}})'
+          captures:
+            1: variable.other.amount
+
+        # Amount with style 10 "A currency with spaces"
+        - match: '{{hard_sep}}({{number}} {{currency_name_long}})'
+          captures:
+            1: variable.other.amount
+
+        # Multiplier
+        - match: '{{hard_sep}}({{number}})'
+          captures:
+            1: variable.other.multiplier
+
+        # Transaction note
+        - match: '(;.*)'
+          captures:
+            1: comment.line
+
+        # End of line
+        - match: '$'
+          pop: true
+
+    # Transaction notes
+    - match: '^{{indent}}({{comment_char}}.*)'
+      captures:
+            1: comment.line
+
+    ## Command directives
+    ##
+
+    # Account definition
+    - match: ^(account) ({{account}})\s*$
+      captures:
+        1: keyword.control
+        2: constant.other
+
+    # Payee definition
+    - match: ^(payee) ({{payee}})\s*$
+      captures:
+        1: keyword.control
+        2: markup.italic.desc
+
+    # Other definition
+    - match: ^(\w+) (.*)$
+      captures:
+        1: keyword.control
+        2: constant.other
+
+    ## Other
+    ##
+
+    # Periodic transaction
+    - match: ^(~)\s(.*?)$
+      captures:
+        1: punctuation.section.period
+        2: constant.other.expression
+
+    # Automatic transaction
+    - match: ^(=)\s(.*?)$
+      captures:
+        1: punctuation.section.automated
+        2: string.regexp.expression
