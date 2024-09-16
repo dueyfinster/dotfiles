@@ -74,6 +74,7 @@
     syntaxHighlighting.enable = true;
 
     initExtra = ''
+      export PATH="/nix/var/nix/profiles/default/bin/:/run/current-system/sw/bin/:$PATH"
       source <(kubectl completion zsh)
     '';
 
@@ -81,7 +82,9 @@
       cat = "bat";
       ls = "eza";
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
+      gs = "git status";
+      gp = "git push";
+      update = "sudo darwin-rebuild switch --flake ~/.dotfiles/nix/.config/nix";
     };
     history = {
       size = 10000;
