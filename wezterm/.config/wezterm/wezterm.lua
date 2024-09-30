@@ -7,7 +7,12 @@ local config = wezterm.config_builder()
 -- Pick a colour scheme. WezTerm ships with more than 1,000!
 -- Find them here: https://wezfurlong.org/wezterm/colorschemes/index.html
 config.color_scheme = 'rose-pine'
-
+config.colors = {
+  -- the foreground color of selected text
+  selection_fg = 'black',
+  -- the background color of selected text
+  selection_bg = '#fffacd',
+}
 
 -- Choose your favourite font, make sure it's installed on your machine
 config.font = wezterm.font({ family = 'JetBrainsMono Nerd Font' })
