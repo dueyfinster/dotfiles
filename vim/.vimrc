@@ -8,7 +8,7 @@ function! InitPack() abort
     call minpac#add('lifepillar/vim-solarized8') "Solarized colours
     call minpac#add('sheerun/vim-polyglot') "Language Support
     call minpac#add('tpope/vim-fugitive') "Git support
-    call minpac#add('SirVer/ultisnips') "Snippets 
+    call minpac#add('SirVer/ultisnips') "Snippets
     call minpac#add('mbbill/undotree') " Undo tree of changes
     " Fuzzy Find
     call minpac#add('ctrlpvim/ctrlp.vim')
@@ -58,7 +58,8 @@ set path=**
 set noswapfile "Don't use a swap file
 set hidden "Allow switching buffers without writing to disk
 set wildignore+=**/venv/**,*.pyv,*.pyo,__pycache__
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·,eol:¬
+
 set foldlevel=1
 set hlsearch " highlight search matches
 set incsearch " start incremental search
@@ -86,7 +87,7 @@ set softtabstop=2 "Number of spaces when pressing tab
 " Mappings {{{
 " Normal Mode Mappings
 "Switch to last used buffer, map to CTRL-E
-nmap <Leader>e :e#<CR> 
+nmap <Leader>e :e#<CR>
 "Go to next/prev buffer
 nmap <Leader>n :bnext<CR>
 nmap <Leader>p :bprev<CR>
@@ -122,7 +123,7 @@ map <Leader>gs :Git status<cr>
 
 function! ToggleGStatus()
     if buflisted(bufname('fugitive:///*/.git//$'))
-        execute ":bdelete" bufname('fugitive:///*/.git//$') 
+        execute ":bdelete" bufname('fugitive:///*/.git//$')
     else
         :Git
     endif
@@ -145,7 +146,7 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
         \| exe "normal! g`\"" | endif
     " resize windows equally on viewport change
-    autocmd VimResized * wincmd = 
+    autocmd VimResized * wincmd =
     " Source vimrc when changed
     autocmd! bufwritepost vimrc source %
 endif
