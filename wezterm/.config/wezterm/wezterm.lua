@@ -3,6 +3,9 @@ local wezterm = require 'wezterm'
 -- Creates a config object which we will be adding our config to
 local config = wezterm.config_builder()
 
+-- Workaround https://github.com/NixOS/nixpkgs/issues/336069
+config.front_end="WebGpu"
+
 -- (This is where our config will go)
 -- Pick a colour scheme. WezTerm ships with more than 1,000!
 -- Find them here: https://wezfurlong.org/wezterm/colorschemes/index.html
