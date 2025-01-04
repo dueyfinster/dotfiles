@@ -17,6 +17,11 @@ return {
         desc = "Find files in Project"
       },
       {
+        '<leader>pm',
+        function() builtin.git_status() end,
+        desc = "Find Git files modified in Project"
+      },
+      {
         '<leader>pg',
         function() builtin.git_files() end,
         desc = "Find Git files in Project"
