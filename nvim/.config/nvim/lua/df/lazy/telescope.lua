@@ -27,6 +27,16 @@ return {
         desc = "Find Git files in Project"
       },
       {
+        '<leader>ph',
+        function() builtin.git_bcommits() end,
+        desc = "Show Git current buffer history"
+      },
+      {
+        '<leader>pc',
+        function() builtin.git_bcommits() end,
+        desc = "Show Git commits in current folder"
+      },
+      {
         '<C-p>',
         function() builtin.git_files() end,
         desc = "Search Git files"
