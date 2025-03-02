@@ -5,6 +5,7 @@ local config = wezterm.config_builder()
 
 -- Workaround https://github.com/NixOS/nixpkgs/issues/336069
 config.front_end="WebGpu"
+config.enable_wayland = false
 
 -- (This is where our config will go)
 -- Pick a colour scheme. WezTerm ships with more than 1,000!
