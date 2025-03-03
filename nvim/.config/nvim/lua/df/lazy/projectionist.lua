@@ -3,7 +3,7 @@ return {
   dependencies = { "folke/which-key.nvim" },
   lazy = false,
   config = function()
-    require("which-key").register({ A = { name = "Alternate" } }, { prefix = "<leader>" })
+    require("which-key").add({ "<leader>A", group = "Alternate" })
   end,
   -- event = "BufRead",
   keys = {
