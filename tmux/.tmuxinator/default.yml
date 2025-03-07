@@ -1,7 +1,9 @@
 # /home/ngrogan/.tmuxinator/default.yml
 
-name: <%= File.basename(Dir.getwd).downcase %>
-root: <%= Dir.getwd %>
+<% root = File.expand_path(@settings["root"] || @args[0] || '.') %>
+<% name = File.basename(root) %>
+name: <%= name %>
+root: <%= root %>
 
 # Optional tmux socket
 # socket_name: foo
@@ -51,7 +53,7 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - vim
-        - guard
-  - server: bundle exec rails s
-  - logs: tail -f log/development.log
+        - nvim
+        - ls
+  # - server: bundle exec rails s
+  # - logs: tail -f log/development.log
