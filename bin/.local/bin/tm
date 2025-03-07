@@ -29,7 +29,8 @@ if ! tmux has-session -t=$selected_name 2> /dev/null; then
   if [[ -n $tmuxinator_project ]]; then
     tmuxinator start $selected_name
   else
-    tmux new-session -ds $selected_name -c $selected
+    tmuxinator start -n $selected_name -p "$HOME"/.tmuxinator/default.yml
+    #tmux new-session -ds $selected_name -c $selected
   fi
 fi
 
