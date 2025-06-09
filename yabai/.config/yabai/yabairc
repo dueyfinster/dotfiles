@@ -1,0 +1,15 @@
+# ~/.config/yabai/yabairc
+
+# layout
+yabai -m config layout                      bsp
+
+# window gaps
+yabai -m config top_padding                 0
+yabai -m config bottom_padding              0
+yabai -m config left_padding                0
+yabai -m config right_padding               1
+yabai -m config window_gap                  7
+
+# applications
+yabai -m rule --add app="^App Store$" manage=off
+yabai -m rule --add app="^Messages$" manage=off

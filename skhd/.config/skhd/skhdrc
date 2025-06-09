@@ -1,0 +1,28 @@
+# applications
+cmd - return : /Applications/kitty.app/Contents/MacOS/kitty
+cmd - d : /Applications/Firefox.app/Contents/MacOS/firefox
+
+# focus window
+cmd - h : yabai -m window --focus west
+cmd - j : yabai -m window --focus south
+cmd - l : yabai -m window --focus east
+cmd - k : yabai -m window --focus north
+
+# move window
+cmd + shift - h : yabai -m window --warp west
+cmd + shift - j : yabai -m window --warp south
+cmd + shift - l : yabai -m window --warp east
+cmd + shift - k : yabai -m window --warp north
+
+# resize window
+alt + shift - h : yabai -m window --resize left:-50:0; \
+                  yabai -m window --resize right:-50:0
+alt + shift - j : yabai -m window --resize bottom:0:50; \
+                  yabai -m window --resize top:0:50
+alt + shift - k : yabai -m window --resize top:0:-50; \
+                  yabai -m window --resize bottom:0:-50
+alt + shift - l : yabai -m window --resize right:50:0; \
+                  yabai -m window --resize left:50:0
+
+# fullscreen
+shift + cmd - f : yabai -m window --toggle native-fullscreen
