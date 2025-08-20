@@ -1,49 +1,50 @@
 [user]
-    name = Neil Grogan
-    email = neil@grogan.org
+  name = Neil Grogan
+  email = neil@grogan.org
 [alias]
-    a = add -A
-    c = commit -m
-    ca = commit --amend
-    co = checkout
-    d = diff
-    ds = diff --staged
-    f = fetch
-    l = log
-    lo = log --pretty=oneline
-    lol = log --graph --decorate --pretty=oneline --abbrev-commit
-    last = log -1 HEAD
-    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
-    reviewmaster = push origin HEAD:refs/for/master
-    r = rebase
-    s = status
-    p = push
-    pf = push --force
-    pl = pull
-    ctags = !.git/hooks/ctags
+  a = add -A
+  c = commit -m
+  ca = commit --amend
+  co = checkout
+  d = diff
+  ds = diff --staged
+  f = fetch
+  l = log
+  lo = log --pretty=oneline
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  last = log -1 HEAD
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
+  reviewmaster = push origin HEAD:refs/for/master
+  r = rebase
+  s = status
+  p = push
+  pf = push --force
+  pl = pull
+  ctags = !.git/hooks/ctags
 [push]
-    default = simple
+  default = simple
+	gpgsign = if-asked
 [pull]
-    rebase = true
+  rebase = true
 [status]
-    short = true
+  short = true
 [color]
-    ui = auto
+  ui = auto
 [grep]
-    patternType = perl
+  patternType = perl
 [credential]
-    helper = cache --timeout=3600
+  helper = cache --timeout=3600
 [init]
-    templatedir = ~/.config/git/template
+  templatedir = ~/.config/git/template
 [core]
-    excludesfile = ~/.config/git/ignore
+  excludesfile = ~/.config/git/ignore
 [url "git@github.com:"]
-    pushInsteadOf = git://github.com/
-    pushInsteadOf = https://github.com/
+  pushInsteadOf = git://github.com/
+  pushInsteadOf = https://github.com/
 [commit]
-    gpgsign = true
+  gpgsign = true
 [tag]
-    gpgSign = true
+  gpgSign = true
 [gpg]
-    format = openpgp                  # or "ssh" if you use SSH signing
+  format = openpgp                  # or "ssh" if you use SSH signing
 
