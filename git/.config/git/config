@@ -21,9 +21,6 @@
   pf = push --force
   pl = pull
   ctags = !.git/hooks/ctags
-[push]
-  default = simple
-	gpgsign = if-asked
 [pull]
   rebase = true
 [status]
