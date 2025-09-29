@@ -5,6 +5,8 @@
   a = add -A
   c = commit -m
   ca = commit --amend
+  cane = commit --amend --no-edit
+  caane = commit -a --amend --no-edit
   co = checkout
   d = diff
   ds = diff --staged
@@ -14,7 +16,11 @@
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   last = log -1 HEAD
   change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ $`echo $VAR` = \\\"$OLD\\\" ]]; then export $VAR=\\\"$NEW\\\"; fi\" $@; }; f "
+  # Start Gerrit
+  draft = push origin HEAD:refs/draft/master
   reviewmaster = push origin HEAD:refs/for/master
+  update-change = !git commit -a --amend --no-edit && git pull --rebase origin master && git push origin HEAD:refs/for/master
+  # End Gerrit
   r = rebase
   s = status
   p = push
