@@ -4,24 +4,6 @@
 # CTRL+F bound to find tmux session
 bindkey -s ^f "tm\n"
 
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
-[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-source "${ZINIT_HOME}/zinit.zsh"
-
-# Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
-
-zinit snippet OMZP::git
-zinit snippet OMZP::kubectl
-
-# Load pure theme
-zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
-zinit light sindresorhus/pure
-
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -59,7 +41,6 @@ fi
 # Load completions
 autoload -Uz compinit && compinit
 
-zinit cdreplay -q
-
 # Shell integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(starship init zsh)"
