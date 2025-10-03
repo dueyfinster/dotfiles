@@ -207,13 +207,25 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-shift-semicolon = 'mode service'
 alt-shift-enter = 'mode apps'
 
-alt-t = 'exec-and-forget open -a /Applications/Telegram.app'
-alt-a = 'exec-and-forget open -a /Applications/Arc.app'
+
+alt-b = 'exec-and-forget open -a /Applications/Safari.app'
+alt-c = 'exec-and-forget open -a /Applications/ChatGPT.app'
+alt-e = 'exec-and-forget open -a /Applications/Microsoft Teams.app'
 alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
-alt-g = 'exec-and-forget open -a /Applications/Ghostty.app'
-alt-s = 'exec-and-forget open -a /Applications/Safari.app'
+alt-t = 'exec-and-forget open -a /Applications/Ghostty.app'
+alt-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
+alt-w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
+
+# 'service' binding mode declaration. alt-shift-;
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
+
+[mode.apps.binding]
 alt-q = 'exec-and-forget open -a /System/Applications/QuickTime Player.app'
-alt-w = 'exec-and-forget open -a /Applications/WezTerm.app'
 alt-shift-m = [
     """exec-and-forget aerospace-scratchpad summon Spotify || \
                         aerospace-scratchpad move Spotify
@@ -229,18 +241,6 @@ alt-shift-c = [
                         aerospace-scratchpad move ChatGPT
     """
 ]
-
-
-# 'service' binding mode declaration.
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-[mode.service.binding]
-esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
-backspace = ['close-all-windows-but-current', 'mode main']
-
-[mode.apps.binding]
-alt-w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
 
 [workspace-to-monitor-force-assignment]
 10 = '^dell$'
