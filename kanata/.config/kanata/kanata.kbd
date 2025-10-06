@@ -1,18 +1,37 @@
-;; defsrc is still necessary
+;; vim: set ft=lisp
+
+;; global configuration options
 (defcfg
   process-unmapped-keys yes
+  log-layer-changes yes
+  linux-x11-repeat-delay-rate 300,50
+  ;;danger-enable-cmd yes
 )
 
-(defsrc
-  caps a s d f j k l ;
-)
+;; global variables
 (defvar
   tap-time 150
   hold-time 200
 )
 
+;; Only one defsrc is allowed.
+;;
+;; defsrc defines the keys that will be intercepted by kanata. The order of the
+;; keys matches with deflayer declarations and all deflayer declarations must
+;; have the same number of keys as defsrc. Any keys not listed in defsrc will
+;; be passed straight to the operating system.
+(defsrc
+  esc     f1      f2      f3      f4      f5      f6      f7      f8      f9      f10       f11     f12
+  grv      1       2       3       4       5       6       7       8       9        0        -       =       brdn
+  tab      q       w       e       r       t       y       u       i       o        p        [       ]       \
+  caps     a       s       d       f       g       h       j       k       l        ;        '       ret
+  lsft     z       x       c       v       b       n       m       ,       .        /        rsft
+  lctl     lmet    lalt                    spc                     ralt    rmet     rctl
+)
+
+
 (defalias
-  escctrl (tap-hold 100 100 esc lctl)
+  ;; Homerow mods
   a (multi f24 (tap-hold $tap-time $hold-time a lmet))
   s (multi f24 (tap-hold $tap-time $hold-time s lalt))
   d (multi f24 (tap-hold $tap-time $hold-time d lctl))
@@ -21,8 +40,65 @@
   k (multi f24 (tap-hold $tap-time $hold-time k rctl))
   l (multi f24 (tap-hold $tap-time $hold-time l ralt))
   ; (multi f24 (tap-hold $tap-time $hold-time ; rmet))
+
+  ;; switch layer aliases
+  qwr (layer-switch qwerty)
+  arr (layer-switch arrows)
+
+  ;; toggle layer aliases
+  lay (layer-toggle layers)
+  fn (layer-toggle function)
+
+  ;; tap-hold keys with letters for tap and layer change for hold
+  grl (tap-hold-release 200 200 grv @lay)
+
+
+  ;; Key combos
+  meh (multi lctl lsft lalt)
+  hyper (multi lmet @meh)
+
+  ;; tap for esc, hold for meh (lctl + lsft + lalt)
+  caps (tap-hold-release $tap-time $hold-time esc @meh)
+  tab (tap-hold-release $tap-time $hold-time tab @hyper)
 )
 
-(deflayer base
-  @escctrl @a @s @d @f @j @k @l @;
+
+;; The first layer defined is the layer that will be active by default when
+;; kanata starts up. This layer is the standard QWERTY layout except for the
+;; backtick/grave key (@grl) which is an alias for a tap-hold key.
+
+(deflayer qwerty
+  _       brdn    brup    🎛    apps    bldn    blup    prev     pp      next    mute    vold    volu
+  @grl          _       _     _      _       _       _       _       _       _       _       _       _      _
+  @tab          _       _     _      _       _       _       _       _       _       _       _       _      _
+  @caps   @a      @s    @d      @f       _       _       @j       @k       @l       @;       _       _
+  _          _       _     _      _       _       _       _       _       _       _       _
+  _          _       _                    _                      @fn       _       _
+)
+
+(deflayer function
+  _         f1      f2      f3    f4    f5    f6    f7    f8    f9    f10   f11   f12
+  @grl      _       _       _     _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _
+  _         _       _                   _                 _     _     _
+)
+
+(deflayer layers
+  _         _       _       _     _     _     _     _     _     _     _     _     _
+  _         lrld    @qwr    @arr  _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _     _
+  _         _       _       _     _     _     _     _     _     _     _     _
+  _         _       _                   _                 _     _     _
+)
+
+(deflayer arrows
+  _         _       _       _     _     _     _       _       _     _     _     _     _
+  @grl      _       _       _     _     _     _       _       _     _     _     _     _     _
+  _         _       _       _     _     _     _       _       _     _     _     _     _     _
+  _         _       _       _     _     _     left    down    up  rght    _     _     _
+  _         _       _       _     _     _     _       _       _     _     _     _
+  _         _       _                   _                     _     _     _
 )
