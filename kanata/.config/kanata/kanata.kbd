@@ -5,6 +5,8 @@
   process-unmapped-keys yes
   log-layer-changes yes
   linux-x11-repeat-delay-rate 300,50
+  linux-dev "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
+  macos-dev-names-include "Apple Internal Keyboard / Trackpad"
   ;;danger-enable-cmd yes
 )
 
