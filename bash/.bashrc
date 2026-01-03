@@ -13,8 +13,11 @@ export TERM="screen-256color"
 # Add binaries into the path
 export PATH="$HOME/.local/bin:$HOME/.tmuxifier/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-bind -x '"\C-p": vim $(fzf);'
-bind -x '"\C-f": tm;'
+if [[ $- == *i* ]]; then
+  # Bindings require an interactive readline session.
+  bind -x '"\C-p": vim $(fzf);'
+  bind -x '"\C-f": tm;'
+fi
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
