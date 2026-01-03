@@ -16,7 +16,7 @@ export TERM="screen-256color"
 export PATH="$HOME/.local/bin:$HOME/.tmuxifier/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 bind -x '"\C-p": vim $(fzf);'
-[ -f ~/.drone ] && source ~/.drone
+bind -x '"\C-f": tm;'
 
 # Add Dircolors
 if [ -x "$(command -v dircolors)" ]; then
