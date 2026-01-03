@@ -1,17 +1,16 @@
 source "$HOME/.config/bash/bash_prompt.sh"
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
-export HISTSIZE='32768';
-export HISTFILESIZE="${HISTSIZE}";
+export HISTSIZE='32768'
+export HISTFILESIZE="${HISTSIZE}"
 # Omit duplicates and commands that begin with a space from history.
-export HISTCONTROL='ignoreboth';
+export HISTCONTROL='ignoreboth'
 # Append to History
 shopt -s histappend
 # Run History append after each prompt - so history is shared between currently open shells
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 export TERM="screen-256color"
-
 
 # Add binaries into the path
 export PATH="$HOME/.local/bin:$HOME/.tmuxifier/bin:$PATH"
@@ -28,6 +27,14 @@ if [ -x "$(command -v direnv)" ]; then
   eval "$(direnv hook bash)"
 fi
 
+if [ -x "$(command -v starship)" ]; then
+  eval "$(starship init bash)"
+fi
+
+if [ -x "$(command -v zoxide)" ]; then
+  eval "$(zoxide init bash)"
+fi
+
 # Source all files in "completion"
 function completion() {
   local file
@@ -39,12 +46,11 @@ function completion() {
 completion
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
 
 source $HOME/.variables
 source $HOME/.functions
 source $HOME/.aliases
-
 
 # Source local config - if it exists
 if [[ -f "${HOME}/.bashrc.local" ]]; then
