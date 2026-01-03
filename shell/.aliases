@@ -2,6 +2,7 @@ alias h='history'
 alias j='jobs'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 alias c='clear'
+alias q='exit'
 
 command -v nvim >/dev/null 2>&1 && alias vi='nvim' && alias vim='nvim'
 command -v eza >/dev/null 2>&1 && alias ls='eza'
