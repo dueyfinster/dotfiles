@@ -1,5 +1,3 @@
-source "$HOME/.config/bash/bash_prompt.sh"
-
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768'
 export HISTFILESIZE="${HISTSIZE}"
@@ -29,6 +27,8 @@ fi
 
 if [ -x "$(command -v starship)" ]; then
   eval "$(starship init bash)"
+else
+  source "$HOME/.config/bash/bash_prompt.sh"
 fi
 
 if [ -x "$(command -v zoxide)" ]; then
