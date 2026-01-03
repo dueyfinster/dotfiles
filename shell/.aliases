@@ -1,3 +1,4 @@
+# vim: syntax=sh cc=80 tw=79 ts=4 sw=4 sts=4 et sr
 alias h='history'
 alias j='jobs'
 alias wotgobblemem='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
@@ -7,6 +8,7 @@ alias q='exit'
 command -v nvim >/dev/null 2>&1 && alias vi='nvim' && alias vim='nvim'
 command -v eza >/dev/null 2>&1 && alias ls='eza'
 command -v bat >/dev/null 2>&1 && alias cat='bat'
+command -v batcat >/dev/null 2>&1 && alias cat='batcat'
 
 # Get all git aliases and make them shell aliases {{{
 alias g='git'
