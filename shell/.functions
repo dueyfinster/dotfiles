@@ -58,6 +58,23 @@ ytdl() {
   curl -X POST --data "token=$TOKEN" --data "url=$1" https://hook.ballyda.com/hooks/yt-dl
 }
 
+# Make a dir and cd into it
+mkcd () {
+  \mkdir -p "$1"
+  cd "$1"
+}
+
+# Make a throwaway temporary dir
+tempe () {
+  cd "$(mktemp -d)"
+  chmod -R 0700 .
+  if [[ $# -eq 1 ]]; then
+    \mkdir -p "$1"
+    cd "$1"
+    chmod -R 0700 .
+  fi
+}
+
 
 # Create a data URL from a file
 function dataurl() {

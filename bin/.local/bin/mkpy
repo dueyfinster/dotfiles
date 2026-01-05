@@ -1,0 +1,23 @@
+
+#!/usr/bin/env bash
+set -e
+set -u
+set -o pipefail
+
+if [ ! $# -eq 1 ]; then
+  echo 'mkpy takes one argument' 1>&2
+  exit 1
+elif [ -e "$1" ]; then
+  echo "$1 already exists" 1>&2
+  exit 1
+fi
+
+echo '#!/usr/bin/env python3
+import sys
+
+' > "$1.py"
+
+chmod u+x "$1.py"
+
+"$EDITOR" "$1.py"
+
