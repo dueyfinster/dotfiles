@@ -6,3 +6,5 @@ tags
 .tmux/plugins
 .vim/pack/minpac/start
 stow/
+bin/.local/state
+bin/.local/share

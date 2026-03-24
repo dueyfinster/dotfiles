@@ -1,24 +1,29 @@
-#!/bin/bash
+#!/bin/sh
+input=$(cat)
+buf=$(printf "%s" "$input" | base64 | tr -d "\n")
 
-# Encodes and prints args using the OSC 52 ANSI escape sequence.
-# OSC 52 is clipboard control.
-
-set -eu
-# Get data either form stdin or from file
-buf=$(cat "$@")
-
-# Get buffer length
-buflen=$( printf %s "$buf" | wc -c )
-
-maxlen=74994
-# Warn if exceeds maxlen.
-if [ "$buflen" -gt "$maxlen" ]; then
-   printf "input is %d bytes too long" "$(( buflen - maxlen ))" >&2
+# OSC 52 via tmux client TTYs (works over SSH)
+if [ -n "$TMUX" ] || tmux list-clients >/dev/null 2>&1; then
+  for tty in $(tmux list-clients -F "#{client_tty}"); do
+    printf "\033]52;c;%s\a" "$buf" > "$tty"
+  done
 fi
 
-# Build up OSC 52 ANSI escape sequence
-esc="\033]52;c;$( printf %s "$buf" | head -c $maxlen | base64 | tr -d '\r\n' )\a"
-esc="\033Ptmux;\033$esc\033\\"
-pane_active_tty=$(tmux list-panes -F "#{pane_active} #{pane_tty}" |
-                      awk '$1=="1" { print $2 }')
-printf "$esc" > "$pane_active_tty"
+# Native clipboard as fallback
+case "$(uname -s)" in
+  Darwin)
+    printf "%s" "$input" | pbcopy 2>/dev/null
+    ;;
+  Linux)
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+      printf "%s" "$input" | wl-copy 2>/dev/null
+    elif [ -n "$DISPLAY" ]; then
+      printf "%s" "$input" | xclip -in -selection clipboard 2>/dev/null
+    fi
+    ;;
+  *) # WSL
+    if command -v clip.exe >/dev/null 2>&1; then
+      printf "%s" "$input" | clip.exe 2>/dev/null
+    fi
+    ;;
+esac
