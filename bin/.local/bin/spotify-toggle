@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+aerospace_bin=/opt/homebrew/bin/aerospace
+scratchpad_workspace=spotify-scratchpad
+spotify_bundle_id=com.spotify.client
+
+current_workspace="$($aerospace_bin list-workspaces --focused)"
+spotify_window_id="$($aerospace_bin list-windows --all \
+    --format '%{window-id} %{app-bundle-id}' \
+    | awk -v bundle_id="$spotify_bundle_id" '$2 == bundle_id { print $1; exit }')"
+
+if [[ -z "$spotify_window_id" ]]; then
+    open -a Spotify
+    for _ in {1..50}; do
+        spotify_window_id="$($aerospace_bin list-windows --all \
+            --format '%{window-id} %{app-bundle-id}' \
+            | awk -v bundle_id="$spotify_bundle_id" '$2 == bundle_id { print $1; exit }')"
+        [[ -n "$spotify_window_id" ]] && break
+        sleep 0.1
+    done
+fi
+
+[[ -n "$spotify_window_id" ]] || exit 1
+
+focused_window_id="$($aerospace_bin list-windows --focused --format '%{window-id}' 2>/dev/null || true)"
+spotify_workspace="$($aerospace_bin list-windows --all \
+    --format '%{window-id} %{workspace}' \
+    | awk -v window_id="$spotify_window_id" '$1 == window_id { print $2; exit }')"
+
+if [[ "$focused_window_id" == "$spotify_window_id" && "$spotify_workspace" != "$scratchpad_workspace" ]]; then
+    $aerospace_bin move-node-to-workspace --window-id "$spotify_window_id" "$scratchpad_workspace"
+else
+    $aerospace_bin move-node-to-workspace --window-id "$spotify_window_id" "$current_workspace"
+    $aerospace_bin focus --window-id "$spotify_window_id"
+    $aerospace_bin layout floating
+fi

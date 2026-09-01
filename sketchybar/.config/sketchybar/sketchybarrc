@@ -1,62 +1,118 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-source "$HOME/.config/sketchybar/colors.sh" # Loads all defined colors
-source "$HOME/.config/sketchybar/icons.sh" # Loads all defined icons
+# Sketchybar main configuration
+# Rose Pine theme, matching nvim & kitty
 
-ITEM_DIR="$HOME/.config/sketchybar/items" # Directory where the items are configured
-PLUGIN_DIR="$HOME/.config/sketchybar/plugins" # Directory where all the plugin scripts are stored
+# Resolve aerospace binary path (sketchybar often has minimal PATH)
+if [ -x "/opt/homebrew/bin/aerospace" ]; then
+  AEROSPACE="/opt/homebrew/bin/aerospace"
+elif [ -x "/usr/local/bin/aerospace" ]; then
+  AEROSPACE="/usr/local/bin/aerospace"
+elif command -v aerospace >/dev/null 2>&1; then
+  AEROSPACE="$(command -v aerospace)"
+else
+  echo "ERROR: aerospace not found" >&2
+  exit 1
+fi
 
-FONT="SF Pro" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
-SPACE_CLICK_SCRIPT="yabai -m space --focus \$SID 2>/dev/null" # The script that is run for clicking on space components
+# Bar appearance
+bar=(
+  position=top
+  height=32
+  color=0x00000000
+  padding_left=0
+  padding_right=0
+  margin=0
+  corner_radius=0
+  blur_radius=0
+)
+sketchybar --bar "${bar[@]}"
 
-PADDINGS=3 # All paddings use this value (icon, label, background)
+# Default item styling
+defaults=(
+  padding_left=4
+  padding_right=4
+  icon.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+  label.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+  icon.color=0xffe0def4
+  label.color=0xff6e6a86
+  background.color=0x00000000
+  background.corner_radius=4
+  background.padding_left=4
+  background.padding_right=4
+  icon.padding_left=4
+  icon.padding_right=4
+  icon.y_offset=1
+  label.padding_left=4
+  label.padding_right=4
+  label.y_offset=1
+)
+sketchybar --default "${defaults[@]}"
 
-POPUP_BORDER_WIDTH=2
-POPUP_CORNER_RADIUS=11
+# Register the custom event from AeroSpace
+sketchybar --add event aerospace_workspace_change
 
-SHADOW=on
+# Apple logo (opens System Settings)
+apple=(
+  icon=""
+  icon.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+  label.drawing=off
+  click_script="open x-apple.systempreferences:"
+)
+sketchybar --add item apple left --set apple "${apple[@]}"
 
-# Setting up the general bar appearance and default values
-sketchybar --bar     height=50                                         \
-                     color=$BAR_COLOR                                  \
-                     shadow=$SHADOW                                    \
-                     position=right                                     \
-                     sticky=on                                         \
-                     padding_right=18                                  \
-                     padding_left=18                                   \
-                     corner_radius=9                                   \
-                     y_offset=10                                       \
-                     margin=10                                         \
-                     blur_radius=20                                    \
-                                                                       \
-           --default updates=when_shown                                \
-                     icon.font="$FONT:Bold:16.0"                       \
-                     icon.color=$ICON_COLOR                            \
-                     icon.padding_left=$PADDINGS                       \
-                     icon.padding_right=$PADDINGS                      \
-                     label.font="$FONT:Semibold:20.0"                  \
-                     label.color=$LABEL_COLOR                          \
-                     label.padding_left=$PADDINGS                      \
-                     label.padding_right=$PADDINGS                     \
-                     background.padding_right=$PADDINGS                \
-                     background.padding_left=$PADDINGS                 \
-                     popup.background.border_width=2                   \
-                     popup.background.corner_radius=11                 \
-                     popup.background.border_color=$POPUP_BORDER_COLOR \
-                     popup.background.color=$POPUP_BACKGROUND_COLOR    \
-                     popup.background.shadow.drawing=$SHADOW
+# Aerospace workspaces (1-10) - using item type, not space type
+for sid in $(seq 1 10); do
+  label_width=24
+  [ "$sid" = "10" ] && label_width=36
 
-# Left
-source "$ITEM_DIR/apple.sh"
-source "$ITEM_DIR/spaces.sh"
+  space=(
+    label="$sid"
+    label.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+    label.color=0xff6e6a86
+    icon.drawing=off
+    label.width="$label_width"
+    padding_left=0          # override global 4
+    padding_right=0         # override global 4
+    background.padding_left=0   # override global 4
+    background.padding_right=0  # override global 4
+    icon.padding_left=0     # unnecessary but inherited
+    icon.padding_right=0    # unnecessary but inherited
+    click_script="$AEROSPACE workspace $sid"
+    script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+  )
+  sketchybar --add item space.$sid left \
+    --subscribe space.$sid aerospace_workspace_change \
+    --set space.$sid "${space[@]}"
+done
 
-# Center
-# source "$ITEM_DIR/spotify.sh"
+# Trigger initial highlight for the currently focused workspace
+FOCUSED_INIT=$("$AEROSPACE" list-workspaces --focused 2>/dev/null)
+sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$FOCUSED_INIT"
 
-# Right
-source "$ITEM_DIR/calendar.sh"
+# Clock (top right)
+clock=(
+  update_freq=10
+  script="$CONFIG_DIR/plugins/clock.sh"
+  label.color=0xffe0def4
+  label.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+)
+sketchybar --add item clock right --set clock "${clock[@]}"
 
-############## FINALIZING THE SETUP ##############
+# Battery (top right, after clock)
+battery=(
+  script="$CONFIG_DIR/plugins/battery.sh"
+  icon.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+  label.font="FantasqueSansM Nerd Font Mono:Regular:24.0"
+  padding_left=0
+  padding_right=0
+  update_freq=120
+  background.padding_left=0
+  background.padding_right=0
+)
+sketchybar --add item battery right \
+  --subscribe battery system_woke power_source_change \
+  --set battery "${battery[@]}"
+
+# Force initial updates so the clock appears immediately
 sketchybar --update
-
-echo "sketchybar configuation loaded.."
