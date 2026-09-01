@@ -39,7 +39,7 @@ if [[ -f "${HOME}/.zshrc.local" ]]; then
 fi
 
 # Load completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit -C
 
 # Shell integrations
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
