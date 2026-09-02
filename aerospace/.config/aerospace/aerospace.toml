@@ -48,6 +48,10 @@ on-window-detected = [
         run = 'layout floating',
     },
     {
+        if = 'test %{app-bundle-id} = com.mr-brightside.myParcel',
+        run = 'layout floating',
+    },
+    {
         if = 'test %{app-bundle-id} = com.apple.iphonesimulator',
         run = 'layout tiling',
     },
