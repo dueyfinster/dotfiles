@@ -1,0 +1,231 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Publish shared instructions and skills to each supported agent's global paths.
+# Existing files and links are never replaced unless they carry our marker or
+# point into this repository's canonical skills directory.
+
+script_path="${BASH_SOURCE[0]}"
+while [[ -L "$script_path" ]]; do
+  script_dir="$(cd "$(dirname "$script_path")" && pwd -P)"
+  link_target="$(readlink "$script_path")"
+  if [[ "$link_target" == /* ]]; then
+    script_path="$link_target"
+  else
+    script_path="$script_dir/$link_target"
+  fi
+done
+script_dir="$(cd "$(dirname "$script_path")" && pwd -P)"
+repo_dir="$(cd "$script_dir/../../.." && pwd)"
+agents_dir="$repo_dir/agents"
+shared_instructions="$agents_dir/shared/AGENTS.md"
+skills_dir="$agents_dir/skills"
+target_home="${AGENT_SHARE_TARGET_HOME:-$HOME}"
+command_name="${1:-sync}"
+marker='<!-- managed-by: dueyfinster/dotfiles agent-share -->'
+
+agents=(claude codex kiro)
+agent_overlays=(
+  "$agents_dir/overlays/claude.md"
+  "$agents_dir/overlays/codex.md"
+  "$agents_dir/overlays/kiro.md"
+)
+agent_outputs=(
+  "$target_home/.claude/CLAUDE.md"
+  "$target_home/.codex/AGENTS.md"
+  "$target_home/.kiro/steering/AGENTS.md"
+)
+agent_skills_roots=(
+  "$target_home/.claude/skills"
+  "$target_home/.codex/skills"
+  "$target_home/.kiro/skills"
+)
+
+die() {
+  echo "agent-share: $*" >&2
+  exit 1
+}
+
+render_instructions() {
+  local overlay="$1"
+  printf '%s\n\n' "$marker"
+  cat "$shared_instructions"
+  if [[ -s "$overlay" ]]; then
+    printf '\n'
+    cat "$overlay"
+  fi
+}
+
+instructions_managed_by_us() {
+  local output="$1" first_line
+  [[ -f "$output" && ! -L "$output" ]] || return 1
+  IFS= read -r first_line < "$output" || true
+  [[ "$first_line" == "$marker" ]]
+}
+
+skill_link_managed_by_us() {
+  local target="$1" link_target
+  [[ -L "$target" ]] || return 1
+  link_target="$(readlink "$target")"
+  [[ "$link_target" == "$skills_dir/"* ]]
+}
+
+sync_instructions() {
+  local index="$1" output overlay parent tmp
+  output="${agent_outputs[$index]}"
+  overlay="${agent_overlays[$index]}"
+  parent="$(dirname "$output")"
+  mkdir -p "$parent"
+  tmp="$(mktemp "$parent/.agent-share.XXXXXX")"
+  render_instructions "$overlay" > "$tmp"
+  chmod 0644 "$tmp"
+
+  if [[ -e "$output" || -L "$output" ]]; then
+    if ! instructions_managed_by_us "$output"; then
+      rm -f "$tmp"
+      echo "conflict: refusing to overwrite $output" >&2
+      return 1
+    fi
+    if cmp -s "$output" "$tmp"; then
+      rm -f "$tmp"
+      echo "ok:      $output"
+      return 0
+    fi
+  fi
+
+  mv -f "$tmp" "$output"
+  echo "updated: $output"
+}
+
+sync_skills_for_agent() {
+  local index="$1" root source name target failed=0
+  root="${agent_skills_roots[$index]}"
+  mkdir -p "$root"
+
+  for source in "$skills_dir"/*; do
+    [[ -d "$source" && -f "$source/SKILL.md" ]] || continue
+    name="$(basename "$source")"
+    target="$root/$name"
+
+    if [[ -e "$target" || -L "$target" ]]; then
+      if ! skill_link_managed_by_us "$target"; then
+        echo "conflict: refusing to replace $target" >&2
+        failed=1
+        continue
+      fi
+      if [[ "$(readlink "$target")" == "$source" ]]; then
+        continue
+      fi
+      rm -f "$target"
+    fi
+
+    ln -s "$source" "$target"
+    echo "linked:  $target"
+  done
+
+  # Remove only stale links previously created by this script. Never clean up
+  # unrelated broken links in a vendor's skills directory.
+  for target in "$root"/*; do
+    [[ -L "$target" ]] || continue
+    skill_link_managed_by_us "$target" || continue
+    [[ -e "$target" ]] && continue
+    rm -f "$target"
+    echo "removed: $target (stale managed link)"
+  done
+
+  return "$failed"
+}
+
+check_instructions() {
+  local index="$1" output overlay tmp
+  output="${agent_outputs[$index]}"
+  overlay="${agent_overlays[$index]}"
+
+  if ! instructions_managed_by_us "$output"; then
+    if [[ -e "$output" || -L "$output" ]]; then
+      echo "conflict: $output"
+    else
+      echo "missing:  $output"
+    fi
+    return 1
+  fi
+
+  tmp="$(mktemp "${TMPDIR:-/tmp}/agent-share.XXXXXX")"
+  render_instructions "$overlay" > "$tmp"
+  if cmp -s "$output" "$tmp"; then
+    echo "ok:       $output"
+    rm -f "$tmp"
+    return 0
+  fi
+
+  echo "outdated: $output"
+  rm -f "$tmp"
+  return 1
+}
+
+check_skills_for_agent() {
+  local index="$1" root source name target failed=0
+  root="${agent_skills_roots[$index]}"
+
+  for source in "$skills_dir"/*; do
+    [[ -d "$source" && -f "$source/SKILL.md" ]] || continue
+    name="$(basename "$source")"
+    target="$root/$name"
+    if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
+      echo "ok:       $target"
+    elif [[ -e "$target" || -L "$target" ]]; then
+      echo "conflict: $target"
+      failed=1
+    else
+      echo "missing:  $target"
+      failed=1
+    fi
+  done
+
+  [[ -d "$root" ]] || return "$failed"
+  for target in "$root"/*; do
+    [[ -L "$target" ]] || continue
+    skill_link_managed_by_us "$target" || continue
+    if [[ ! -e "$target" ]]; then
+      echo "stale:    $target"
+      failed=1
+    fi
+  done
+
+  return "$failed"
+}
+
+check_sources() {
+  [[ -f "$shared_instructions" ]] || die "missing source: $shared_instructions"
+  [[ -d "$skills_dir" ]] || die "missing source directory: $skills_dir"
+  local overlay
+  for overlay in "${agent_overlays[@]}"; do
+    [[ -f "$overlay" ]] || die "missing overlay: $overlay"
+  done
+}
+
+sync_all() {
+  local failed=0 index
+  check_sources
+  for index in "${!agents[@]}"; do
+    sync_instructions "$index" || failed=1
+    sync_skills_for_agent "$index" || failed=1
+  done
+  return "$failed"
+}
+
+check_all() {
+  local failed=0 index
+  check_sources
+  for index in "${!agents[@]}"; do
+    check_instructions "$index" || failed=1
+    check_skills_for_agent "$index" || failed=1
+  done
+  return "$failed"
+}
+
+case "$command_name" in
+  sync) sync_all ;;
+  check) check_all ;;
+  *) die "usage: agent-share [sync|check]" ;;
+esac
