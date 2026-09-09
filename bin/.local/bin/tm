@@ -1,41 +1,70 @@
 #!/usr/bin/env bash
-# A script to create or attach to a TMUX session based on the list of repository folders on disk. Will use Tmuxinator if a session name matches.
+# Pick a Git repository or running tmux session, using Tmuxinator for new workspaces.
+
+repo_root() {
+    local repo
+    repo=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || return 0
+    (cd -P -- "$repo" && pwd)
+}
+
+discover_repos() {
+    local root marker
+    for root in "$HOME/work" "$HOME/personal" "$HOME/projects"; do
+        [[ -d "$root" ]] || continue
+        repo_root "$root"
+        # .git can be a directory or a file (worktrees and submodules).
+        while IFS= read -r -d '' marker; do
+            marker=${marker%/}
+            repo_root "${marker%/.git}"
+        done < <(
+            if command -v fd >/dev/null 2>&1; then
+                fd --hidden --no-ignore --print0 '^\.git$' "$root" 2>/dev/null
+            else
+                find "$root" -name .git -prune -print0 2>/dev/null
+            fi
+        )
+    done
+    repo_root "$HOME/.dotfiles"
+}
+
+use_session() {
+    if [[ -n ${TMUX:-} ]]; then
+        tmux switch-client -t "=$1"
+    else
+        tmux attach-session -t "=$1"
+    fi
+}
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/work ~/personal ~/projects -mindepth 1 -maxdepth 1 -type d -exec echo {} \; 2>/dev/null | cat - <(echo "$HOME/.dotfiles") | fzf)
+    selected=$(
+        {
+            tmux list-sessions -F '[TMUX] #{session_name}' 2>/dev/null
+            discover_repos
+        } | sort -u | fzf
+    ) || exit 0
 fi
 
 if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmuxinator_project=$(tmuxinator list | grep $selected_name)
-  if [[ -n $tmuxinator_project ]]; then
-    tmuxinator start $selected_name
-  else
-    tmux new-session -s $selected_name -c $selected
-  fi
-  exit 0
+if [[ $selected == '[TMUX] '* ]]; then
+    use_session "${selected#'[TMUX] '}"
+    exit $?
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
-  tmuxinator_project=$(tmuxinator list | grep $selected_name)
-  if [[ -n $tmuxinator_project ]]; then
-    tmuxinator start $selected_name
-  else
-    tmuxinator start -n $selected_name -p "$HOME"/.tmuxinator/default.yml
-    #tmux new-session -ds $selected_name -c $selected
-  fi
+selected_name=$(basename -- "$selected" | tr . _)
+
+if tmux has-session -t "=$selected_name" 2>/dev/null; then
+    use_session "$selected_name"
+    exit $?
 fi
 
-if [[ -z $TMUX ]] && [[ ! -z $tmux_running ]]; then
-  tmux attach-session -t $selected_name
+# Tmuxinator handles attaching outside tmux and switching clients inside it.
+if tmuxinator list --newline | grep -Fx -- "$selected_name" >/dev/null; then
+    exec tmuxinator start "$selected_name"
 else
-  tmux switch-client -t $selected_name
+    exec tmuxinator start -n "$selected_name" -p "$HOME/.tmuxinator/default.yml" "$selected"
 fi
