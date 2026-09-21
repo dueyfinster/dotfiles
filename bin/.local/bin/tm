@@ -1,30 +1,63 @@
 #!/usr/bin/env bash
 # Pick a Git repository or running tmux session, using Tmuxinator for new workspaces.
+#
+# Designed to work as long as tmux and fzf are installed, while using faster /
+# richer tools automatically when they are available:
+#   - fd         -> fast repo discovery       (fallback: find)
+#   - fzf        -> fuzzy interactive picker   (required)
+#   - tmuxinator -> templated new workspaces   (fallback: plain tmux new-session)
+
+set -o pipefail
+
+# --- hard requirement -------------------------------------------------------
+if ! command -v tmux >/dev/null 2>&1; then
+    echo "tm: tmux is required but not installed." >&2
+    exit 1
+fi
 
 repo_root() {
-    local repo
-    repo=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || return 0
-    (cd -P -- "$repo" && pwd)
+    # Derive the repository root from a directory path, without spawning git.
+    # A repo is identified by a .git entry (directory for normal repos, file
+    # for worktrees/submodules).
+    [[ -e "$1/.git" ]] && printf '%s\n' "$1"
+}
+
+extra_dir() {
+    # Emit a directory as a selectable option even if it is not a git repo
+    # (e.g. a notes vault or a symlink to cloud storage). Follows symlinks.
+    [[ -d "$1" ]] && printf '%s\n' "$1"
 }
 
 discover_repos() {
-    local root marker
+    local root marker dir have_fd
+    command -v fd >/dev/null 2>&1 && have_fd=1 || have_fd=0
+
     for root in "$HOME/work" "$HOME/personal" "$HOME/projects"; do
         [[ -d "$root" ]] || continue
         repo_root "$root"
         # .git can be a directory or a file (worktrees and submodules).
         while IFS= read -r -d '' marker; do
             marker=${marker%/}
-            repo_root "${marker%/.git}"
+            dir=${marker%/.git}
+            [[ $dir == "$marker" ]] && continue  # marker wasn't a .git entry
+            printf '%s\n' "$dir"
         done < <(
-            if command -v fd >/dev/null 2>&1; then
+            if [[ $have_fd -eq 1 ]]; then
+                # Fast path: fd respects .gitignore and prunes at the repo root.
                 fd --hidden --prune --print0 '^\.git$' "$root" 2>/dev/null
             else
-                find "$root" -name .git -prune -print0 2>/dev/null
+                # Fallback: find. Prune common heavy dirs so it stays usable,
+                # and prune below each .git so we don't descend into repos.
+                find "$root" \
+                    \( -name node_modules -o -name .cache -o -name target \) -prune -o \
+                    -name .git -print0 -prune 2>/dev/null
             fi
         )
     done
     repo_root "$HOME/.dotfiles"
+    repo_root "$HOME/notes"
+    extra_dir "$HOME/work-notes"
+    return 0  # never fail: optional dirs above may legitimately be absent
 }
 
 use_session() {
@@ -35,6 +68,15 @@ use_session() {
     fi
 }
 
+# Interactive picker: requires fzf.
+pick() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo "tm: fzf is required for interactive selection but not installed." >&2
+        return 1
+    fi
+    fzf
+}
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
@@ -42,7 +84,7 @@ else
         {
             tmux list-sessions -F '[TMUX] #{session_name}' 2>/dev/null
             discover_repos
-        } | sort -u | fzf
+        } | sort -u | pick
     ) || exit 0
 fi
 
@@ -62,9 +104,16 @@ if tmux has-session -t "=$selected_name" 2>/dev/null; then
     exit $?
 fi
 
-# Tmuxinator handles attaching outside tmux and switching clients inside it.
-if tmuxinator list --newline | grep -Fx -- "$selected_name" >/dev/null; then
-    exec tmuxinator start "$selected_name"
+# Create the workspace: prefer tmuxinator (templated), fall back to plain tmux.
+if command -v tmuxinator >/dev/null 2>&1; then
+    # Tmuxinator handles attaching outside tmux and switching clients inside it.
+    if tmuxinator list --newline 2>/dev/null | grep -Fx -- "$selected_name" >/dev/null; then
+        exec tmuxinator start "$selected_name"
+    else
+        exec tmuxinator start -n "$selected_name" -p "$HOME/.tmuxinator/default.yml" "$selected"
+    fi
 else
-    exec tmuxinator start -n "$selected_name" -p "$HOME/.tmuxinator/default.yml" "$selected"
+    # Fallback: create a detached session rooted at the selection, then attach.
+    tmux new-session -d -s "$selected_name" -c "$selected" 2>/dev/null || true
+    use_session "$selected_name"
 fi
