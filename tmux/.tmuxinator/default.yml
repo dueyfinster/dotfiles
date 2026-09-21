@@ -2,6 +2,7 @@
 
 <% root = File.expand_path(@settings["root"] || @args[0] || '.') %>
 <% name = File.basename(root) %>
+<% ai_command = `hostname`.strip.start_with?('EMB-') ? 'kiro-cli chat' : 'codex' %>
 name: <%= name %>
 root: <%= root %>
 
@@ -47,13 +48,6 @@ root: <%= root %>
 # attach: false
 
 windows:
-  - editor:
-      layout: main-vertical
-      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
-      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
-      # synchronize: after
-      panes:
-        - nvim
-        - ls
-  # - server: bundle exec rails s
-  # - logs: tail -f log/development.log
+  - AI: <%= ai_command %>
+  - nvim:
+

@@ -18,7 +18,7 @@ discover_repos() {
             repo_root "${marker%/.git}"
         done < <(
             if command -v fd >/dev/null 2>&1; then
-                fd --hidden --no-ignore --print0 '^\.git$' "$root" 2>/dev/null
+                fd --hidden --prune --print0 '^\.git$' "$root" 2>/dev/null
             else
                 find "$root" -name .git -prune -print0 2>/dev/null
             fi
