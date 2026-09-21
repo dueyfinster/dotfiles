@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# tm-autostart — start a per-machine set of tmux sessions detached, at login.
+#
+# Invoked by a launchd LaunchAgent (macOS) or equivalent. Sessions are created
+# the same way `tm` creates new workspaces (tmuxinator with the default
+# profile, falling back to plain tmux), but always DETACHED because there is no
+# controlling terminal at login. Attach later via tm / ctrl+t.
+#
+# Idempotent: sessions that already exist are left untouched.
+#
+# To customise: edit the WORK_SESSIONS / PERSONAL_SESSIONS arrays below. Each
+# entry is a directory path; the session name is its basename (with "." -> "_").
+
+set -o pipefail
+
+# launchd/cron run with a minimal PATH; make our tools resolvable.
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+# --- session lists ----------------------------------------------------------
+# Sessions to start on WORK machines (hostname EMB-*).
+WORK_SESSIONS=(
+    "$HOME/.dotfiles"
+    "$HOME/notes"
+    "$HOME/personal/nvim"
+    "$HOME/work/rapp-healthcheck"
+    "$HOME/work-notes"
+)
+
+# Sessions to start on PERSONAL machines (everything else).
+PERSONAL_SESSIONS=(
+    "$HOME/.dotfiles"
+    "$HOME/notes"
+    "$HOME/personal/nvim"
+    "$HOME/personal/neilgrogan.com"
+)
+
+# --- pick the list for this machine ----------------------------------------
+case "$(hostname)" in
+    EMB-*) SESSIONS=("${WORK_SESSIONS[@]}") ;;
+    *)     SESSIONS=("${PERSONAL_SESSIONS[@]}") ;;
+esac
+
+command -v tmux >/dev/null 2>&1 || exit 0
+
+start_session() {
+    local dir=$1 name
+    [[ -d "$dir" ]] || return 0                      # skip missing dirs
+    name=$(basename -- "$dir" | tr . _)
+
+    # Already running? leave it alone (idempotent).
+    tmux has-session -t "=$name" 2>/dev/null && return 0
+
+    if command -v tmuxinator >/dev/null 2>&1; then
+        if tmuxinator list --newline 2>/dev/null | grep -Fx -- "$name" >/dev/null; then
+            tmuxinator start --no-attach "$name" >/dev/null 2>&1
+        else
+            tmuxinator start --no-attach -n "$name" \
+                -p "$HOME/.tmuxinator/default.yml" "$dir" >/dev/null 2>&1
+        fi
+    else
+        tmux new-session -d -s "$name" -c "$dir" >/dev/null 2>&1
+    fi
+}
+
+for dir in "${SESSIONS[@]}"; do
+    start_session "$dir"
+done
+
+exit 0
